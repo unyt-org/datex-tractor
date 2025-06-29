@@ -6,10 +6,11 @@ import datetime
 
 class TodoPath():
     # Definition of regexes
-    todo_call = re.compile(r"\btodo!\s*\(") 
-    todo_comment = re.compile(r"//\s*(TODO)\b", re.IGNORECASE)
-    fixme_comment = re.compile(r"//\s*(FIXME)\b", re.IGNORECASE) 
-    fn_pattern = re.compile(r"^\s*(pub\s+)?(async\s+)?(unsafe\s+)?fn\s+(\w+)\s*\(")
+    todo_comment = re.compile(r"//\s*(TODO)\b", re.IGNORECASE) # TODO
+    fixme_comment = re.compile(r"//\s*(FIXME)\b", re.IGNORECASE) # FIXME
+
+    todo_call = re.compile(r"\btodo!\s*\(") # todo!() makro and Rust function pattern
+    fn_pattern = re.compile(r"^\s*(pub\s+)?(async\s+)?(unsafe\s+)?fn\s+(\w+)\s*\(") 
 
     def __init__(self, path):
         self.path = path
@@ -22,6 +23,7 @@ class TodoPath():
         findings = []
         current_fn = None
         fn_line = None
+
         for i, line in enumerate(lines):
             fn_match = cls.fn_pattern.match(line)
 
@@ -72,23 +74,25 @@ class TodoContext(TodoPath):
 
     @classmethod
     def initialize_paths(cls, src_path):
-
         todo_paths = set()
+
         # Crawling through current work directory
         for root, _, files in os.walk(src_path):
-
             for file in files:
+
                 # Checking rust files
                 if file.endswith(".rs"):
-
                     path = os.path.join(root, file)
+
                     # Checking regexes via parent class 
                     findings = cls.scan_for_todos(path)
                     if findings:
                         tempTodoPath = TodoContext(path)
+
+                        # Memorize first findings
                         for f in findings:
-                            # Memorize first findings
                             tempTodoPath.first_findings.append(f)
+
                         todo_paths.add(tempTodoPath)
 
         # Separation of line numbers and descriptions of first findings
@@ -100,13 +104,13 @@ class TodoContext(TodoPath):
         # Exctract code blocks 
         for path in todo_paths:
             for i, line_number in enumerate(path.line_numbers):
+
                 # Circumvent naively indexing out of bounds
                 context_start = 0 if line_number - cls.upper_margin < 0 else line_number - cls.upper_margin
                 context_end = line_number + cls.lower_margin
 
                 with open(path.path) as f:
                     lines = f.readlines()
-                    
                     # Experimental margins
                     if path.fn_lines[i] and path.fn_lines[i] > context_start:
                         context_start = path.fn_lines[i]
@@ -164,18 +168,20 @@ class TodoContext(TodoPath):
             f.write("\n")
             f.write(f"Total lines of context: {lines_of_context:,d} (Count includes eventual duplicates).\n")
 
-        # Append to file
+        # Append a line to file
         with open(out_file, "a") as f:
             for i, path in enumerate(todo_paths):
                 f.write(" \n")
+                # Path becomes header 
                 f.write(f"## f{i:02n}:'" + str(path.path) + "'\n")
 
+                # Descriptions become listed paragraph
                 for x, y in zip(path.line_numbers, path.descriptions):
                     f.write(f"- {x:4n}: {y}\n")
 
             f.write("\n")
 
-# CLI/IO logics
+# CLI/IO logic
 def parse_args():
     """
     Parses CLI arguments
@@ -185,9 +191,11 @@ def parse_args():
     # Definition of CLI
     parser = argparse.ArgumentParser(description="Todo list generator.")
 
+    # Required CLA 
     parser.add_argument("--src", type=str, help="Path to source code.", required=True)
     parser.add_argument("--answers", type=str, help="Path to responses.", required=True)
 
+    # Optional CLA
     parser.add_argument("--mdl", type=str, help="Path to local LLM.")
     parser.add_argument("--sys", type=str, help="Path to txt file with sys prompt")
 
@@ -197,15 +205,15 @@ def parse_args():
     if not os.path.exists(args.src):
         sys.exit("Path to source must be existent.")
 
-    # Create path to answers
+    # Create path to answers if it does not already exist
     if not os.path.exists(args.answers):
         os.makedirs(args.answers)
         print(f"Created path to answers: {args.answers}")
 
-    # Set path to todo list output
+    # Set path to todo list output 
     report_path = os.path.join(args.answers, "todo_list.md")
 
-    # If no model path is given -> write a report
+    # If no model path is given -> write a report and return 0
     if not args.mdl:
         print(f"Path to repo:    {args.src}")
         print(f"Path to answers: {args.answers}")
