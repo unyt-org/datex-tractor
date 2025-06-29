@@ -15,3 +15,6 @@ class Prompt():
         for line in self.chat:
             prompt += line
         return prompt
+
+if __name__ == "__main__":
+    print("This file contains the Prompt class definition for todo-extractor.")
