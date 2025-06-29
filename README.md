@@ -1,4 +1,4 @@
-# Todo exctractor
+# Todo extractor
 ---
 Sketch of a CLI tool for creation of todo lists from source code and optionally generation of LLM commenting on those todos.
 
@@ -95,7 +95,7 @@ and stores it at `path_to_answers`.
 
 #### Prototype testing (success)
 *Naive testruns on full source code of datex-core source code on GPU-less Laptop*
-- Naively maximised context (aimed at high detailed)
+- Naively maximised context (aimed at high detail)
   - 1,200 max tokens
   - 75 lines as upper and lower margins
   - Highly detailed answers (seemingly)
