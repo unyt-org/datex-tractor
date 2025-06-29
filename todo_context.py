@@ -174,6 +174,7 @@ class TodoContext(TodoPath):
 
             f.write("\n")
 
+# CLI/IO logics
 def parse_args():
     """
     Parses CLI arguments
@@ -226,18 +227,18 @@ def parse_args():
         with open(args.sys) as f:
             instruction = f.read().strip()
 
-    # Print info
-    print(f"Path to repo:    {args.src}")
-    print(f"Path to answers: {args.answers}")
-    print(f"Path to model:   {args.mdl}")
-    print(f"Path to prompt:   {args.sys}")
+        #DEBUG 
+        # print(f"Path to repo:    {args.src}")
+        # print(f"Path to answers: {args.answers}")
+        # print(f"Path to model:   {args.mdl}")
+        # print(f"Path to prompt:   {args.sys}")
 
-    # Create todo_paths
-    todo_paths = list(TodoContext.initialize_paths(args.src))
-    todo_paths.sort(key=lambda x: x.path)
-    model_path = args.mdl
+        # Create todo_paths
+        todo_paths = list(TodoContext.initialize_paths(args.src))
+        todo_paths.sort(key=lambda x: x.path)
+        model_path = args.mdl
 
-    return (todo_paths, args.answers, model_path, instruction)
+        return (todo_paths, args.answers, model_path, instruction)
 
 if __name__ == "__main__":
     print("This file contains cli parser func and class definitions for todo-extractor.")

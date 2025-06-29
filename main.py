@@ -10,6 +10,9 @@ def main():
     # Parse CLI
     if parse_args():
         todo_paths, answers_path, model_path, instruction = parse_args()
+        print(f"Answers: {answers_path}")
+        print(f"Model: {model_path}")
+        print(f"Instruction: {instruction}")
     # If return was 0 -> exit script
     else:
         sys.exit("Successful end of script.")
@@ -51,7 +54,7 @@ def main():
 
             print("\nWriting file with answer...")
             file_name = f"f{i:02n}l{todo_path.line_numbers[j]:04n}.md"
-            file_path = os.path.join(args.answers, file_name)
+            file_path = os.path.join(answers_path, file_name)
 
             with open(file_path, "w") as f:
                 f.write(f"'{todo_path.path}'\n")
