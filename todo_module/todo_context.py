@@ -153,6 +153,10 @@ class TodoContext(TodoPath):
 
                 lines_of_context += code_block[1] - code_block[0]
 
+        # If nothing to do abort
+        if total_count == 0:
+            sys.exit("Didn't find anything todo, sorry.")
+
         # Overwrite with Header
         with open(out_file, "w") as f:
             print(f"Found: {len(todo_paths)} files with todo markings.")
