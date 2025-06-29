@@ -1,19 +1,25 @@
 import os
 import sys
-# Third party import 
-from llama_cpp import Llama 
 
 from todo_module import parse_args, TodoContext, Prompt
 
 def main():
-    # Parse CLI
     if parse_args():
+        # Extract parsed and naively validated CLA
         todo_paths, answers_path, model_path, instruction = parse_args()
+
+        # Try to import third party dependencies
+        try:
+            from llama_cpp import Llama 
+        except ModuleNotFoundError:
+            sys.exit("PyPI package llama_cpp required.")
+
+        # Print out info about paths to answers, model and system config
         print(f"Answers: {answers_path}")
         print(f"Model: {model_path}")
         print(f"Instruction: {instruction}")
 
-    # If return was 0 -> exit script
+    # If return was 0 report was written -> exit script
     else:
         sys.exit("Successful end of script.")
 
