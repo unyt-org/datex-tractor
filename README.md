@@ -42,8 +42,6 @@ The default configuration is adjusted to one specific usecase - the datex-core s
 
 If ran across different code bases it is possible of crashing the script by exceeding context length - this happens if the code base is too dense (or the initial systemprompt is too long). Naively this can be addressed with the adjustment of upper and lower margins of where the block of code is cut out of the file in question. On the other hand, if ran across less dense code bases those margins can be increased to prompt with more context (but what context length is useful or not will depend on the model...).
 
-Primarily 
----
 ### Prerequisites from PyPI
 ---
 ```bash
