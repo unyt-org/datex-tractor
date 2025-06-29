@@ -2,8 +2,6 @@
 ---
 Sketch of a CLI tool for creation of todo lists from source code and optionally generation of LLM commenting on those todos.
 
-Created to get up to speed in foreign codebases development process.
-
 ## Usage
 ---
 Call for help...
@@ -21,7 +19,8 @@ Creates a todo list at `path_to_answers/todo_list.md`.
 
 ### Generate advice regarding todos
 ---
-*Note*: Requires dependencies.
+*Note*: Requires dependencies. The given setup and configuration are meant to run a (small) LLM via CPU (usually *much* slower than via GPU).
+
 ```bash
 python main.py --src path_to_repo --answers path_to_answers --mdl path_to_model --sys path_to_system_prompt
 ```
@@ -35,7 +34,7 @@ Generates **a file** named `fxxlxxxx.md` **for each** todo - containing:
 and stores it in `path_to_answers`.
 
 *Developer comment*: 
-Very naive integration and configuration. 
+Very naive integration and configuration - created to get up to speed in a foreign codebase as well as it's current development process.
 
 Hyperparameters, length of context and generated amount of output tokens will highly vary depending on the code base. 
 
