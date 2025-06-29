@@ -54,8 +54,8 @@ class TodoPath():
         return findings
 
 class TodoContext(TodoPath):
-    upper_margin = 75
-    lower_margin = 75
+    upper_margin = 10
+    lower_margin = 10
 
     def __init__(self, path):
         super().__init__(path)
@@ -107,7 +107,8 @@ class TodoContext(TodoPath):
                 with open(path.path) as f:
                     lines = f.readlines()
                     
-                    if path.fn_lines[i] and path.fn_lines[i] < context_start:
+                    # Experimental margins
+                    if path.fn_lines[i] and path.fn_lines[i] > context_start:
                         context_start = path.fn_lines[i]
 
                     # Try to apply upper margin or fall back to line where todo was detected
@@ -152,17 +153,16 @@ class TodoContext(TodoPath):
         with open(out_file, "w") as f:
             print(f"Found: {len(todo_paths)} files with todo markings.")
             f.write("# Todo check...\n")
-            f.write(f"...found: {len(todo_paths)} files to do.\n")
+            f.write(f"- {len(todo_paths)} files to do.\n")
+            f.write(f"- {total_count / len(todo_paths):.2f} average tdexp/f (todo expression per file).\n")
+            f.write(f"- {total_count} todo expressions in total.\n")
+            f.write(f"  - {todo_call_count} todo!()'s.\n")
+            f.write(f"  - {todo_comment_count} TODO's.\n")
+            f.write(f"  - {fixme_comment_count} FIXME's.\n")
+            f.write("\n")
             f.write(f"Date: {datetime.datetime.now().date()}.\n")
             f.write("\n")
-
-            f.write(f"These files contain: {total_count} todo expressions.\n")
-            f.write(f"- {todo_call_count} todo!()'s.\n")
-            f.write(f"- {todo_comment_count} TODO's.\n")
-            f.write(f"- {fixme_comment_count} FIXME's.\n")
-            f.write("\n")
-
-            f.write(f"Total lines of context: {lines_of_context:,d} (Count includes duplication).\n")
+            f.write(f"Total lines of context: {lines_of_context:,d} (Count includes eventual duplicates).\n")
 
         # Append to file
         with open(out_file, "a") as f:

@@ -35,7 +35,8 @@ def main():
 
     for i, todo_path in enumerate(todo_paths):
         for j, code_block in enumerate(todo_path.code_blocks):
-            user_input = "```rust\n...\n" + "".join(code_block[2]) + "\n...\n```"
+            user_quest = "Can you please explain to me what needs doing to finish this block of code properly?\n"
+            user_input = user_quest + "```rust\n...\n" + "".join(code_block[2]) + "\n...\n```"
             print("\nRequest:\n")
             print(user_input)
 
@@ -48,10 +49,10 @@ def main():
             print("\nGenerating answer...\n")
             output = llm(
                 prompt,
-                max_tokens=1_200, # roughly: max_tokens/4 = max_words for response
+                max_tokens=512, # roughly: max_tokens/4 = max_words for response
                 temperature=0.4, # bound between 1: Highly creative; 0: on point
-                top_p=0.9, # top tokens: perspective from percentage
-                top_k=60, # top tokens: perspective from total
+                top_p=0.92, # top tokens: perspective from percentage
+                top_k=50, # top tokens: perspective from total
                 repeat_penalty=1.1, # Penalty on repition of tokens
                 stop=["<|user|>", "<|system|>"],
              )
