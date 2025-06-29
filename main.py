@@ -36,7 +36,7 @@ class TodoPath():
             if cls.todo_call.search(line):
                 findings.append({
                     "line_number": line_number,
-                    "description": f"*todo!()* in *function*: {current_fn}" if current_fn else "no function?",
+                    "description": f"*todo!()* in *function*: '{current_fn}'" if current_fn else "no function?",
                     "fn_line": fn_line,
                     })
             elif cls.todo_comment.search(line):
@@ -170,7 +170,7 @@ class TodoContext(TodoPath):
         with open(out_file, "a") as f:
             for i, path in enumerate(todo_paths):
                 f.write(" \n")
-                f.write(f"## f{i:02n}:" + str(path.path) + "\n")
+                f.write(f"## f{i:02n}:'" + str(path.path) + "'\n")
 
                 for x, y in zip(path.line_numbers, path.descriptions):
                     f.write(f"- {x:4n}: {y}\n")
@@ -281,9 +281,9 @@ def main():
                 file_path = os.path.join(args.answers, file_name)
 
                 with open(file_path, "w") as f:
-                    f.write(f"{todo_path.path}\n")
-                    f.write(f"{todo_path.line_numbers[j]}\n")
-                    f.write(f"{todo_path.descriptions[j]}\n")
+                    f.write(f"'{todo_path.path}'\n")
+                    f.write(f"'{todo_path.line_numbers[j]}'\n")
+                    f.write(f"'{todo_path.descriptions[j]}'\n")
 
                     f.write("Answer:\n")
                     f.write("```plaintext\n" + text_output + "\n```\n")
