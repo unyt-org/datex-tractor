@@ -80,8 +80,8 @@ class TodoContext(TodoPath):
         for root, _, files in os.walk(src_path):
             for file in files:
 
-                # Checking rust files
-                if file.endswith(".rs"):
+                # Checking rust or python files - latter for demo purpose
+                if file.endswith(".rs"): #  or file.endswith(".py")
                     path = os.path.join(root, file)
 
                     # Checking regexes via parent class 
