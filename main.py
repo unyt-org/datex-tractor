@@ -3,8 +3,7 @@ import sys
 # Third party import 
 from llama_cpp import Llama 
 
-from todo_context import TodoContext, parse_args
-from prompt import Prompt
+from todo_module import parse_args, TodoContext, Prompt
 
 def main():
     # Parse CLI
@@ -13,6 +12,7 @@ def main():
         print(f"Answers: {answers_path}")
         print(f"Model: {model_path}")
         print(f"Instruction: {instruction}")
+
     # If return was 0 -> exit script
     else:
         sys.exit("Successful end of script.")
