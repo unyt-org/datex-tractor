@@ -108,3 +108,35 @@ and stores it at `path_to_answers`.
     - Reduced max tokens to 512
   - Cut execution time (from 8h to 3h on test)
   - Feasable for weekly commented snapshot (success)
+
+## Developer Comment
+How to create issues - is having to find problems to solve a problem? 
+
+An incomprehensible guide - just for a change - i mean, who wants more issues… 
+
+First milestone
+- Crawl the repo, read in files filtered by name extensions.
+- Check file with regex for todo’s.
+- Keep track of files path and line containing todo.
+- Extract block of code around every todo.
+
+Second milestone
+
+Prompt your locally running AI code assistant (alternative for unpaid Intern) to:
+- Analyse unfinished code.
+- Elaborate assumptions derived by implications.
+- If possible suggest a plan to complete unfinished code. 
+
+Third milestone
+- Don’t unpack and don’t index into it, neither you go through getters - just typecast every codeblock including metadata to a str and pass it to the model.
+- generate 100+ complaints about weirdly formatted code and store them as tickets for later.
+
+Three “don’t’s”
+- Don’t solve any problems - that would kill the vibe.
+- Don’t try to make it useful on first try - otherwise future you will grow bored again.
+- Don’t unpack code objects - just stringify.
+
+Three “todo’s”
+- Unfinished code doesn’t want to be finished - it just wants to be acknowledged.
+- Point your LLM into the shadows - let it hallucinate clarity into chaos.
+- It’s not perfect - nothing ever is.
