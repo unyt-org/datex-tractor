@@ -53,7 +53,7 @@ def main():
                 temperature=0.4, # bound between 1: Highly creative; 0: on point
                 top_p=0.92, # top tokens: perspective from percentage
                 top_k=50, # top tokens: perspective from total
-                repeat_penalty=1.1, # Penalty on repition of tokens
+                repeat_penalty=1.1, # Penalty on repetition of a token
                 stop=["<|user|>", "<|system|>"],
              )
             text_output = output["choices"][0]["text"]
