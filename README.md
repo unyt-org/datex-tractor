@@ -94,7 +94,7 @@ and stores it at `path_to_answers`.
   - Save AI comments to storage (naive)
 
 #### Prototype testing (success)
-*Naive testruns on full source code of datex-core source code on GPU-less Laptop*
+*Naive testruns on full datex-core source code on GPU-less Laptop*
 - Naively maximised context (aimed at high detail)
   - 1,200 max tokens
   - 75 lines as upper and lower margins
