@@ -3,7 +3,7 @@ import os
 import json
 import urllib.request
 
-from todo_context import TodoContext
+from todo_module import TodoContext
 
 # Check existing issues
 def find_existing_issue(repo, title, headers):
