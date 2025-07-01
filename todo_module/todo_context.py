@@ -185,6 +185,65 @@ class TodoContext(TodoPath):
 
             f.write("\n")
 
+    # For github action
+    @staticmethod
+    def get_report_string(src_path):
+        todo_paths = list(TodoContext.initialize_paths(src_path))
+        todo_paths.sort(key=lambda x: x.path)
+        
+        # Set counters
+        total_count = 0
+        lines_of_context = 0
+
+        todo_call_count = 0
+        todo_comment_count = 0
+        fixme_comment_count = 0
+
+        # Count
+        for path in todo_paths:
+            for i, code_block in enumerate(path.code_blocks):
+                total_count += 1 
+                if path.descriptions[i].startswith("*todo!()*"):
+                    todo_call_count += 1
+                elif path.descriptions[i].startswith("*TODO*"):
+                    todo_comment_count += 1
+                elif path.descriptions[i].startswith("*FIXME*"):
+                    fixme_comment_count += 1
+
+                lines_of_context += code_block[1] - code_block[0]
+
+        # If nothing to do abort
+        if total_count == 0:
+            sys.exit("Didn't find anything todo, sorry.")
+
+        # Overwrite with Header
+        desc = ""
+        print(f"Found: {len(todo_paths)} files with todo markings.")
+        desc += "# Todo check...\n"
+        desc += f"- {len(todo_paths)} files to do in {target_name}.\n"
+        desc += f"- {total_count} todo expressions in total.\n"
+        desc += f"  - {todo_call_count} todo!()'s.\n"
+        desc += f"  - {todo_comment_count} TODO's.\n"
+        desc += f"  - {fixme_comment_count} FIXME's.\n"
+        desc += f"- {total_count / len(todo_paths):.2f} average tdexp/f (todo expression per file).\n"
+        desc += "\n"
+        desc += f"Total lines of context: {lines_of_context:,d} (Count includes eventual duplicates).\n"
+
+        # Append lines 
+        for i, path in enumerate(todo_paths):
+            desc += " \n"
+            # Path becomes header 
+            desc += "### '" + str(path.path).removeprefix("target-repo/") + "'\n"
+
+            # Descriptions become listed paragraph
+            for x, y in zip(path.line_numbers, path.descriptions):
+                desc += f"- {x:4n}: {y}\n"
+
+        desc += "\n"
+        desc += f"Date: {datetime.datetime.now().date()}.\n"
+
+        return desc
+
 # CLI/IO logic
 def parse_args():
     """

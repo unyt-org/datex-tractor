@@ -1,0 +1,33 @@
+name: Extract rust from datex-core
+
+on:
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: 3.11
+
+      - name: Checkout target repo
+        uses: actions/checkout@v4 
+        with: 
+          repository: unyt-org/datex-core
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: target-repo
+          ref: feat/values
+      
+      - name: run script
+        run: python mini_main.py target-repo datex-core/feat/values
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
