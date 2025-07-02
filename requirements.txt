@@ -1,2 +1,0 @@
-torch
-llama-cpp-python

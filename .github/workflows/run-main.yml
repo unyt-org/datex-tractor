@@ -28,6 +28,6 @@ jobs:
           ref: feat/values
       
       - name: run script
-        run: python mini_main.py target-repo datex-core/feat/values
+        run: python main.py target-repo datex-core/feat/values
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
