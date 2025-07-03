@@ -25,9 +25,9 @@ jobs:
           repository: unyt-org/datex-core
           token: ${{ secrets.GITHUB_TOKEN }}
           path: target-repo
-          ref: feat/values
+          ref: feat/ref
       
       - name: run script
-        run: python main.py target-repo datex-core/feat/values
+        run: python main.py target-repo datex-core/feat/ref
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
