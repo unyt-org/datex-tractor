@@ -129,9 +129,9 @@ class TodoContext(TodoPath):
         return todo_paths
 
     # For github action
-    @staticmethod
-    def get_report_string(src_path, target_name):
-        todo_paths = list(TodoContext.initialize_paths(src_path))
+    @classmethod
+    def get_report_string(cls, src_path, target_name):
+        todo_paths = list(cls.initialize_paths(src_path))
         todo_paths.sort(key=lambda x: x.path)
         
         # Set counters
