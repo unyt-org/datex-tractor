@@ -1,33 +1,24 @@
-name: Extract rust from datex-core
+name: run-main.py
 
 on:
-  workflow_dispatch:
+  push:
 
 permissions:
-  issues: write
   contents: read
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout this repo
+      - name: Checkout own repo
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with: 
-          python-version: 3.11
-
-      - name: Checkout target repo
-        uses: actions/checkout@v4 
-        with: 
-          repository: unyt-org/datex-core
-          token: ${{ secrets.GITHUB_TOKEN }}
-          path: target-repo
-          ref: feat/ref
-      
+          python-version: 3.13
+     
       - name: run script
-        run: python main.py target-repo datex-core/feat/ref
+        run: python main.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
