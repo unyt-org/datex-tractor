@@ -20,3 +20,5 @@ jobs:
  
       - name: Run todo_script.sh
         run: bash .github/workflows/todo-extractor/todo_script.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
