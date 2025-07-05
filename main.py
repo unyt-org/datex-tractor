@@ -21,9 +21,9 @@ def get_todo_list_desc():
     desc += f"- {total_count} expressions matched.\n\n"
 
     for todo_path in todo_paths:
-        desc += f"## '{todo_path.path}'\n\n"
+        desc += f"## '{todo_path.path}'\n"
         for line_number, line in zip(todo_path.line_numbers, todo_path.matched_lines):
-            desc += f"  {line_number}: '{line}'\n\n"
+            desc += f"- {line_number}: '{line}'\n"
 
     desc += "\n"
     return desc
