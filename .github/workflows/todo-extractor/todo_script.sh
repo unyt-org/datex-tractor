@@ -19,7 +19,7 @@ pip install numpy
 pip list
 
 echo "Running main"
-python main.py
+python .github/workflows/todo-extractor/main.py
 
 if [[ "$?" != 0 ]]; then
 	echo "main.py execution failed."
