@@ -1,4 +1,4 @@
-name: run-main.py
+name: run-main-inside-todo-script
 
 on:
   push:
@@ -17,8 +17,8 @@ jobs:
         uses: actions/setup-python@v5
         with: 
           python-version: 3.13
-     
-      - name: Run main.py 
-        run: python main.py
+ 
+      - name: Run todo_script.sh
+        run: bash todo_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
