@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+echo "Entry point of todo extraction"
 
 if [[ "$#" != 0 ]]; then
 	echo "No CLA please."
@@ -7,8 +8,14 @@ if [[ "$#" != 0 ]]; then
 fi
 
 echo "Quick check..."
+lscpu
+free -h 
+df -h
+
+echo "Python check..."
 python --version
 pip install --upgrade pip
+pip install numpy
 pip list
 
 echo "Running main"
