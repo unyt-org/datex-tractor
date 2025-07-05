@@ -1,7 +1,7 @@
 import os
 import sys
 import json
-import urllib
+import urllib.request
 
 from todo_context import TodoContext
 
