@@ -1,3 +1,4 @@
+import os
 import sys
 from todo_context import TodoContext
 
@@ -28,7 +29,7 @@ def get_todo_list_desc():
     desc += "\n"
     return desc
 
-def main():
+def readme_sentinel():
     todo_list_string = get_todo_list_desc()
     if todo_list_string == 1:
         print("Creation of todo list failed")
@@ -65,6 +66,74 @@ def main():
         f.write("".join([str(line) for line in lines]))
 
     return 0
+
+# Check existing issues
+def find_existing_issue(repo, title, headers):
+    try:
+        url = f"https://api.github.com/repos/{repo}/issues?state=open&per_page=100"
+        req = urllib.request.Request(url, headers=headers)
+
+        with urllib.request.urlopen(req) as resp:
+            issues = json.load(resp)
+
+        for issue in issues:
+            if issue.get("title") == title:
+                return issue.get("number")
+
+    except Exception as e:
+        print("Failed to check existing issues:", e)
+
+    return None
+
+def create_todo_list_issue():
+    # Get env info (self targeting)
+    token = os.environ["GITHUB_TOKEN"]
+    repo = os.environ["GITHUB_REPOSITORY"]  # where the issue should be reported to
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json",
+        "User-Agent": "todo-bot"
+    }
+
+    # Create payload
+    title = "Todos"
+    body = get_todo_list_desc()
+    payload = json.dumps({"title": title, "body": body}).encode("utf-8")
+
+    issue_number = find_existing_issue(repo, title, headers)
+
+    # Post or patch
+    # Change to target repo for production
+    if issue_number:
+        print(f"Updating existing issue #{issue_number}")
+
+        url = f"https://api.github.com/repos/{repo}/issues/{issue_number}"
+        method = "PATCH"
+    else:
+        print("Creating new issue")
+        url = f"https://api.github.com/repos/{repo}/issues"
+        method = "POST"
+
+    req = urllib.request.Request(url, data=payload, headers=headers, method=method)
+
+    try:
+        with urllib.request.urlopen(req) as resp:
+            print(f"Issue {'updated' if issue_number else 'created'}:", resp.status)
+            print(resp.read().decode("utf-8"))
+
+    except urllib.error.HTTPError as e:
+        print("HTTP Error:", e.code)
+        print("Response:", e.read().decode("utf-8"))
+        return 1
+    else:
+        return 0
+
+def main():
+    print(get_todo_list_desc())
+    print(f"readme_sentinel exit code: {readme_sentinel()}")
+    print(create_todo_list_issue())
 
 if __name__ == "__main__":
     main()

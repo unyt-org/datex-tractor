@@ -3,9 +3,9 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) # // TODO: fix grouping 
-    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME fix grouping
-    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") # todo!("fix grouping")
+    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) # // TODO: FIXME
+    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME: TODO
+    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") # todo!("TODO FIXME")
 
 
     def __init__(self, path):
