@@ -9,8 +9,8 @@ Early sketch of a tool for automatic creation of todo lists from source code via
 - 3 expressions matched.
 
 ## './.github/workflows/todo-extractor/todo_context.py'
-- 5: '// TODO: fix grouping '
-- 6: '// FIXME fix grouping'
-- 7: 'todo!("fix grouping")'
+- 5: '// TODO: FIXME'
+- 6: '// FIXME: TODO'
+- 7: 'todo!("TODO FIXME")'
 
--4045
+-4044
