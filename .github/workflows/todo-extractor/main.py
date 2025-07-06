@@ -148,9 +148,15 @@ def main():
     issues = get_issues(repo, token)
     for issue in issues:
         print(issue)
+        if issue["title"] == "Todos":
+            print(f"Change state of todo list issue #{issue["number"]}")
+            if issue["state"] == "open":
+                close_issue(repo, token, issue["number"])
+            elif issue["state"] == "closed":
+                reopen_issue(repo, token, issue["number"])
 
     # reopen_issue(repo, token, 1)
-    close_issue(repo, token, 1)
+    # close_issue(repo, token, 1)
 
 if __name__ == "__main__":
     main()
