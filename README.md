@@ -9,10 +9,10 @@ Early sketch of a tool for automatic creation of todo lists from source code via
 - 4 expressions matched.
 
 ## './.github/workflows/todo-extractor/main.py'
-- 39: 'todo!("Add more inline comments.")'
+- 47: 'todo!("Consider writing docs...")'
 ## './.github/workflows/todo-extractor/todo_context.py'
 - 5: '// TODO: FIXME'
 - 6: '// FIXME: TODO'
 - 7: 'todo!("TODO FIXME")'
 
--4041
+-4040
