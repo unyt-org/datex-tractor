@@ -140,7 +140,12 @@ def legacy_main():
     print(create_todo_list_issue())
 
 def main():
-    print(get_todo_list_desc())
+    desc = get_todo_list_desc()
+    if desc == 1:
+        print("Exit on error, found nothing to do")
+        sys.exit()
+    else:
+        print(desc)
 
     token = os.environ["GITHUB_TOKEN"]
     repo = os.environ["GITHUB_REPOSITORY"]
@@ -149,12 +154,15 @@ def main():
     for issue in issues:
         print(issue)
         if issue["title"] == "Todos":
-            print(f"Change state of todo list issue #{issue["number"]}")
             if issue["state"] == "open":
-                close_issue(repo, token, issue["number"])
-            elif issue["state"] == "closed":
-                reopen_issue(repo, token, issue["number"])
+                print(f"Update todo list issue #{issue["number"]}")
+                update_issue(repo, token, issue["number"], fields={"body": desc})
 
+            elif issue["state"] == "closed":
+                print(f"Reopen and update todo list issue #{issue["number"]}")
+                update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
+
+    # todo!("Add more inline comments.")
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
 
