@@ -5,6 +5,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   run-script:
@@ -19,6 +20,6 @@ jobs:
           python-version: 3.13
  
       - name: Run todo_script.sh
-        run: bash todo_script.sh
+        run: bash .github/workflows/todo-extractor/todo_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

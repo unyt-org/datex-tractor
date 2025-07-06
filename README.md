@@ -5,12 +5,14 @@ Early sketch of a tool for automatic creation of todo lists from source code via
 
 # Todo-section
 ---
-- 1 files to do.
-- 3 expressions matched.
+- 2 files to do.
+- 4 expressions matched.
 
-## './todo_context.py'
-- 5: '// TODO: fix grouping '
-- 6: '// FIXME fix grouping'
-- 7: 'todo!("fix grouping")'
+## './.github/workflows/todo-extractor/main.py'
+- 48: 'todo!("Consider writing docs...")'
+## './.github/workflows/todo-extractor/todo_context.py'
+- 5: '// TODO: FIXME'
+- 6: '// FIXME: TODO'
+- 7: 'todo!("TODO FIXME")'
 
--4049
+-4039
