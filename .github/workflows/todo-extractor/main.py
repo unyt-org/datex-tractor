@@ -142,7 +142,10 @@ def legacy_main():
 def main():
     print(get_todo_list_desc())
 
-    issues = get_issues()
+    token = os.environ["GITHUB_TOKEN"]
+    repo = os.environ["GITHUB_REPOSITORY"]
+
+    issues = get_issues(repo, token)
     for issue in issues:
         print(issue)
 
