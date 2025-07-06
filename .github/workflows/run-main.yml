@@ -1,0 +1,25 @@
+name: run-main-inside-todo-script
+
+on:
+  push:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout own repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: 3.13
+ 
+      - name: Run todo_script.sh
+        run: bash todo_script.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
