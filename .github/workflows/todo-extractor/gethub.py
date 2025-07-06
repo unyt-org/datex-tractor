@@ -22,7 +22,7 @@ def _make_request(url, method="GET", token=None, data=None):
         return json.loads(resp.read().decode())
 
 def get_issues(repo, token):
-    url = f"{API_URL}/repos/{repo}issues?state=all"
+    url = f"{API_URL}/repos/{repo}/issues?state=all"
     raw_issues = _make_request(url, token=token)
     issues = []
     for issue in raw_issues:
@@ -36,7 +36,7 @@ def get_issues(repo, token):
     return issues
 
 def create_issue(repo, token, title, body=""):
-    url = f"{API_URL}/repos/{repo}issues"
+    url = f"{API_URL}/repos/{repo}/issues"
     data = {"title": title, "body": body}
     return _make_request(url, method="POST", token=token, data=data)
     
@@ -44,7 +44,7 @@ def update_issue(repo, token, number, fields):
     """
     Example fields: {"title":"New title", "body": "Updated body"}
     """
-    url = f"{API_URL}/repos/{repo}issues/{number}"
+    url = f"{API_URL}/repos/{repo}/issues/{number}"
     return _make_request(url, method="PATCH", token=token, data=fields)
 
 def close_issue(repo, token, number):
