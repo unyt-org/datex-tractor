@@ -4,7 +4,7 @@ import json
 import urllib.request
 
 from todo_context import TodoContext
-from gethub import get_issues, close_issue, reopen_issue
+from gethub import get_issues, close_issue, reopen_issue, update_issue
 
 def get_todo_list_desc():
     src_path = "."
