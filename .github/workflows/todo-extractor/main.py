@@ -75,24 +75,6 @@ def readme_sentinel():
 
     return 0
 
-# Check existing issues
-def find_existing_issue(repo, title, headers):
-    try:
-        url = f"https://api.github.com/repos/{repo}/issues?state=open&per_page=100"
-        req = urllib.request.Request(url, headers=headers)
-
-        with urllib.request.urlopen(req) as resp:
-            issues = json.load(resp)
-
-        for issue in issues:
-            if issue.get("title") == title:
-                return issue.get("number")
-
-    except Exception as e:
-        print("Failed to check existing issues:", e)
-
-    return None
-
 def main():
     # If nothing to do just exit
     desc = get_todo_list_desc()
