@@ -13,6 +13,7 @@ def main():
         print("Exit on error, found nothing to do")
         sys.exit()
     else:
+        desc = "# Todo check...\n" + desc
         print(desc)
 
     # Update readme
