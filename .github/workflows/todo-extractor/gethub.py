@@ -8,13 +8,13 @@ def _make_request(url, method="GET", token=None, data=None):
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
-        # "Content-Type": "application/json",
+        "Content-Type": "application/json",
         "User-Agent": "todo-bot"
     }
 
     if data is not None:
         data = json.dumps(data).encode("utf-8")
-        headers["Content-Type"] = "application/json"
+        # headers["Content-Type"] = "application/json"
 
     req = urllib.request.Request(url, method=method, headers=headers, data=data)
 
