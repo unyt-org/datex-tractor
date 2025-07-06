@@ -4,7 +4,7 @@ import json
 import urllib.request
 
 from todo_context import TodoContext
-from gethub import get_issues
+from gethub import get_issues, close_issue, reopen_issue
 
 def get_todo_list_desc():
     src_path = "."
@@ -148,6 +148,8 @@ def main():
     issues = get_issues(repo, token)
     for issue in issues:
         print(issue)
+
+    reopen_issue(repo, token, 1)
 
 if __name__ == "__main__":
     main()
