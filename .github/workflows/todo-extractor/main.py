@@ -149,7 +149,8 @@ def main():
     for issue in issues:
         print(issue)
 
-    reopen_issue(repo, token, 1)
+    # reopen_issue(repo, token, 1)
+    close_issue(repo, token, 1)
 
 if __name__ == "__main__":
     main()
