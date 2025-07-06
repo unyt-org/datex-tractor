@@ -26,18 +26,26 @@ def main():
     issues = get_issues(repo, token)
 
     # Filter by title, check state, set to open, and update either way
+    found_todos = False
     for issue in issues:
         print(issue)
+        
         if issue["title"] == "Todos":
+            found_todos = True
             if issue["state"] == "open":
                 print(f"Update todo list issue #{issue["number"]}")
+                
                 update_issue(repo, token, issue["number"], fields={"body": desc})
 
             elif issue["state"] == "closed":
                 print(f"Reopen and update todo list issue #{issue["number"]}")
+                
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
 
-    # todo!("Add more inline comments.")
+    if found_todos == False: 
+        print(f"Creating new Todos issue.")
+        create_issue(repo, token, title="Todos", body=desc)
+    # todo!("Consider writing docs...")
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
 
