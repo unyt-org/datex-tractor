@@ -52,7 +52,7 @@ class TodoContext():
             for file in files:
 
                 # Checking python files 
-                if file.endswith(".py"): 
+                if file.endswith(".py") or file.endswith(".rs"): 
                     path = os.path.join(root, file)
 
                     # Checking regexes 
@@ -119,7 +119,7 @@ class TodoContext():
             last_line = int(lines[-1].strip()) + 1
         except Exception:
             print("Can't find number in last line of readme.")
-            return 1
+            last_line = int(-4057)
 
         # Match sentinel index
         todo_sentinel_start = "# Todo-section"
@@ -144,5 +144,3 @@ class TodoContext():
             f.write("".join([str(line) for line in lines]))
 
         return 0
-
-
