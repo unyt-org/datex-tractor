@@ -4,6 +4,7 @@ import json
 import urllib.request
 
 from todo_context import TodoContext
+from gethub import get_issues
 
 def get_todo_list_desc():
     src_path = "."
@@ -133,10 +134,17 @@ def create_todo_list_issue():
     else:
         return 0
 
-def main():
+def legacy_main():
     print(get_todo_list_desc())
     print(f"readme_sentinel exit code: {readme_sentinel()}")
     print(create_todo_list_issue())
+
+def main():
+    print(get_todo_list_desc())
+
+    issues = get_issues()
+    for issue in issues:
+        print(issue)
 
 if __name__ == "__main__":
     main()
