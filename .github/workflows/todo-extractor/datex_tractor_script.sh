@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo "Start of datex-tractor..."
+echo "Datex-tractor Start."
 
 if [[ "$#" != 0 ]]; then
 	echo "No CLA please."
@@ -33,3 +33,4 @@ else
 	git push
 fi
 
+echo "Datex-tractor End."
