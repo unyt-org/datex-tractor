@@ -17,6 +17,7 @@ jobs:
 
       - name: Run analytics script
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TARGET_PAT: ${{ secrets.GH_TARGET_PAT }}
           TARGET_REPO_OWNER: unyt-org
           TARGET_REPO_NAME: datex-core
