@@ -1,5 +1,5 @@
 # Datex-tractor
-Early sketch of a tool for automatic creation of todo lists from source code via github actions. 
+Early sketch of a tool for automatic creation of a todo list from source code and transform it into an issue. Optionally it also automates updating a Todo-section in the end of your readme.
 
 ## Features
 - Crawls from root to leaf through your repo
