@@ -3,8 +3,8 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"(?:#|//)\s*(?:TODO)(.*)", re.IGNORECASE) # TODO 
-    fixme_comment = re.compile(r"(?:#|//)\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME
+    todo_comment = re.compile(r"(?:#|//)\s*(?:TODO)(.*)", re.IGNORECASE)
+    fixme_comment = re.compile(r"(?:#|//)\s*(?:FIXME)(.*)", re.IGNORECASE)
     todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") 
 
 
