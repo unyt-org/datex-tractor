@@ -1,13 +1,7 @@
 # Todo extractor
----
 Early sketch of a tool for automatic creation of todo lists from source code via github actions. 
 
-## Usage
----
-Create and change into the `/.github/workflows/` directory of your projects root first, then clone the repo. 
-
 ### Workflows.yml
----
 Create a file like `run-main.yml` and paste the following contents to it
 ```yml
 name: run-main-inside-todo-script
@@ -38,7 +32,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
-
 # Todo-section
 ---
 - 2 files to do.

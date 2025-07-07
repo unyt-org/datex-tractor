@@ -27,9 +27,9 @@ if git diff --cached --quiet; then
 	echo "No changes to commit."
 	exit 0
 else
-	echo "Commit"
+	echo "Commit readme."
 	git commit -m "auto update readme"
-	echo "push"
+	echo "Push to origin."
 	git push
 fi
 
