@@ -14,6 +14,8 @@ name: run-main-inside-todo-script
 
 on:
   push:
+    branches:
+      - 'main'
 
 permissions:
   contents: write
