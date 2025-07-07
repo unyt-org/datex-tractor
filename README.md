@@ -81,8 +81,8 @@ otherwise the bot might append a default.
 
 # Datex-tractor
 ---
-- 4 files to do.
-- 8 expressions matched.
+- 3 files to do.
+- 5 expressions matched.
 
 ## './.github/workflows/todo-extractor/datex_tractor.py'
 - 46: 'todo!("Consider writing docs...")'
@@ -91,10 +91,6 @@ otherwise the bot might append a default.
 - 6: '// FIXME: corner cases'
 - 7: 'todo!("improve ux and write docs")'
 ## './datex_tractor.py'
-- 47: 'todo!("Consider writing docs...")'
-## './datex_tractor/todo_context.py'
-- 5: '// TODO: update readme'
-- 6: '// FIXME: corner cases'
-- 7: 'todo!("improve ux and write docs")'
+- 47: 'todo!("Delete this testing comment.")'
 
--4025
+-4024
