@@ -4,19 +4,20 @@ Early sketch of a tool for automatic creation of todo lists from source code via
 ### Workflows.yml
 Create a file like `run-main.yml` and paste the following contents to it
 ```yml
-name: run-main-inside-todo-script
+name: datex-tractor
 
 on:
   push:
     branches:
       - 'main'
+      - 'v/**'
 
 permissions:
   contents: write
   issues: write
 
 jobs:
-  run-script:
+  Datex-tractor:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout own repo
@@ -27,8 +28,8 @@ jobs:
         with: 
           python-version: 3.13
  
-      - name: Run todo_script.sh
-        run: bash .github/workflows/todo-extractor/todo_script.sh
+      - name: Run datex_tractor_script.sh
+        run: bash .github/workflows/todo-extractor/datex_tractor_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
