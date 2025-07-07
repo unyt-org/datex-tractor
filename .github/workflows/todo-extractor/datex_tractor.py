@@ -8,7 +8,7 @@ def main():
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_list_desc()
     if desc != 1:
-        desc = "# Todo check...\n" + desc
+        desc = "# Checking todos...\n" + desc
 
     print(desc)
 
@@ -56,4 +56,4 @@ def test_main():
     print(TodoContext.get_todo_list_desc())
 
 if __name__ == "__main__":
-    main()
+    test_main()

@@ -3,8 +3,8 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) 
-    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) 
+    todo_comment = re.compile(r"(?:#|//)\s*(?:TODO)(.*)", re.IGNORECASE) # TODO 
+    fixme_comment = re.compile(r"(?:#|//)\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME
     todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") 
 
 
@@ -46,6 +46,7 @@ class TodoContext():
 
     @classmethod
     def initialize_paths(cls, src_path):
+        extensions = [".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]
         todo_paths = set()
 
         # Crawling through current work directory
@@ -53,7 +54,7 @@ class TodoContext():
             for file in files:
 
                 # Checking python files 
-                if file.endswith(".py") or file.endswith(".rs"): 
+                if any([file.endswith(ext) for ext in extensions]): 
                     path = os.path.join(root, file)
 
                     # Checking regexes 
