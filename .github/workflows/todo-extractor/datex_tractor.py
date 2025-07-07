@@ -5,14 +5,12 @@ from datex_tractor import TodoContext
 from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
 
 def main():
-    # If nothing to do just exit
+    # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_list_desc()
-    if desc == 1:
-        print("Exit - found nothing to do")
-        sys.exit()
-    else:
+    if desc != 1:
         desc = "# Todo check...\n" + desc
-        print(desc)
+
+    print(desc)
 
     # Update readme
     print(f"readme_sentinel exit code: {TodoContext.readme_sentinel()}")
@@ -26,10 +24,13 @@ def main():
 
     # Filter by title, check state, set to open, and update either way
     found_todos = False
+    todos_id = None
     for issue in issues:
 
         if issue["title"] == "Todos":
             found_todos = True
+            todos_id = issue["number"]
+
             if issue["state"] == "open":
                 print(f"Update todo list issue #{issue["number"]}")
                 
@@ -40,11 +41,14 @@ def main():
                 
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
 
+    if found_todos == True and desc == 1:
+        # Closing todo list if nothing to do
+        close_issue(repo, token, todos_id)
+
     if found_todos == False: 
         print(f"Creating new Todos issue.")
         create_issue(repo, token, title="Todos", body=desc)
 
-    # todo!("Consider writing docs...")
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
 

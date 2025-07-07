@@ -5,6 +5,7 @@ on:
     branches:
       - 'main'
       - 'v/**'
+      - 'dev'
 
 permissions:
   contents: write

@@ -3,9 +3,9 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) # // TODO: update readme
-    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME: corner cases
-    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") # todo!("improve ux and write docs")
+    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) 
+    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) 
+    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") 
 
 
     def __init__(self, path):
@@ -106,8 +106,8 @@ class TodoContext():
     def readme_sentinel(cls):
         todo_list_string = cls.get_todo_list_desc()
         if todo_list_string == 1:
-            print("Creation of todo list failed")
-            return 1
+            print("Creation of todo list failed, found nothing to do.")
+            todo_list_string = "Found nothing to do.\n"
 
         lines = []
         with open("README.md", mode="r", encoding="utf-8") as f:
