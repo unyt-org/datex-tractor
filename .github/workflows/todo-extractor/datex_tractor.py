@@ -8,7 +8,7 @@ def main():
     # If nothing to do just exit
     desc = TodoContext.get_todo_list_desc()
     if desc == 1:
-        print("Exit on error, found nothing to do")
+        print("Exit - found nothing to do")
         sys.exit()
     else:
         desc = "# Todo check...\n" + desc
@@ -44,6 +44,7 @@ def main():
     if found_todos == False: 
         print(f"Creating new Todos issue.")
         create_issue(repo, token, title="Todos", body=desc)
+
     # todo!("Consider writing docs...")
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)

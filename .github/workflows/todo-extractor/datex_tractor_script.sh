@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-echo "Entry point of todo extraction"
+echo "Start of datex-tractor..."
 
 if [[ "$#" != 0 ]]; then
 	echo "No CLA please."
@@ -10,7 +10,7 @@ echo "Python check..."
 python --version
 pip list
 
-echo "Running main"
+echo "Running datex_tractor.py..."
 python .github/workflows/todo-extractor/datex_tractor.py
 
 if [[ "$?" != 0 ]]; then
