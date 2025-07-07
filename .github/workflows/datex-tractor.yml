@@ -11,7 +11,7 @@ permissions:
   issues: write
 
 jobs:
-  Run-datex-tractor-script:
+  Datex-tractor:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout own repo
@@ -22,7 +22,7 @@ jobs:
         with: 
           python-version: 3.13
  
-      - name: Run todo_script.sh
+      - name: Run datex_tractor_script.sh
         run: bash .github/workflows/todo-extractor/datex_tractor_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
