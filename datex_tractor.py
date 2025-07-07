@@ -45,12 +45,7 @@ def main():
         print(f"Creating new Todos issue.")
         create_issue(repo, token, title="Todos", body=desc)
 
-    # todo!("Consider writing docs...")
-    # reopen_issue(repo, token, 1)
-    # close_issue(repo, token, 1)
-
-def test_main():
-    print(TodoContext.get_todo_list_desc())
+    # todo!("Delete this testing comment.")
 
 if __name__ == "__main__":
     main()
