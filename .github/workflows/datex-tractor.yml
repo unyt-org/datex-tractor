@@ -1,28 +1,30 @@
-name: datex-tractor
+name: Fetch analytics
 
 on:
   push:
-    branches:
-      - 'main'
-      - 'v/**'
-
-permissions:
-  contents: write
-  issues: write
 
 jobs:
-  Datex-tractor:
+  fetch-data:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout own repo
+      - name: Checkout this repo
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
-        with: 
-          python-version: 3.13
- 
-      - name: Run datex_tractor_script.sh
-        run: bash .github/workflows/todo-extractor/datex_tractor_script.sh
+        with:
+          python-version: '3.13'
+
+      - name: Run analytics script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TARGET_PAT: ${{ secrets.GH_TARGET_PAT }}
+          TARGET_REPO_OWNER: unyt-org
+          TARGET_REPO_NAME: datex-core
+        run: |
+          python .github/workflows/todo-extractor/main.py
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-data
+          path: workflow_data.csv
