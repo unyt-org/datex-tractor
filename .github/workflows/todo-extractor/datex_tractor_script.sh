@@ -11,10 +11,10 @@ python --version
 pip list
 
 echo "Running main"
-python .github/workflows/todo-extractor/main.py
+python .github/workflows/todo-extractor/datex_tractor.py
 
 if [[ "$?" != 0 ]]; then
-	echo "main.py execution failed."
+	echo "datex_tractor.py execution failed."
 	exit 1
 fi
 

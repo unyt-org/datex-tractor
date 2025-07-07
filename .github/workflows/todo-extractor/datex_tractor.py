@@ -1,8 +1,8 @@
 import os
 import sys
 
-from todo_context import TodoContext
-from gethub import get_issues, close_issue, reopen_issue, update_issue, create_issue
+from datex_tractor import TodoContext
+from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
 
 def main():
     # If nothing to do just exit
@@ -47,6 +47,9 @@ def main():
     # todo!("Consider writing docs...")
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
+
+def test_main():
+    print(TodoContext.get_todo_list_desc())
 
 if __name__ == "__main__":
     main()
