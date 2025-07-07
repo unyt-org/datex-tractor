@@ -3,9 +3,9 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) # // TODO: FIXME
-    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME: TODO
-    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") # todo!("TODO FIXME")
+    todo_comment = re.compile(r"//\s*(?:TODO)(.*)", re.IGNORECASE) # // TODO: update readme
+    fixme_comment = re.compile(r"//\s*(?:FIXME)(.*)", re.IGNORECASE) # // FIXME: corner cases
+    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") # todo!("improve ux and write docs")
 
 
     def __init__(self, path):
@@ -73,7 +73,6 @@ class TodoContext():
             path.matched_lines += [x["extracted_comment"] for x in path.first_findings]
 
         return todo_paths
-
 
     @classmethod
     def get_todo_list_desc(cls):
