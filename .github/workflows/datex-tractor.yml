@@ -1,7 +1,9 @@
 name: Fetch analytics
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - 'sketch/analytics'
 
 jobs:
   fetch-data:
