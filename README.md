@@ -41,8 +41,8 @@ jobs:
 ## './.github/workflows/todo-extractor/datex_tractor.py'
 - 46: 'todo!("Consider writing docs...")'
 ## './.github/workflows/todo-extractor/datex_tractor/todo_context.py'
-- 5: '// TODO: FIXME'
-- 6: '// FIXME: TODO'
-- 7: 'todo!("TODO FIXME")'
+- 5: '// TODO: update readme'
+- 6: '// FIXME: corner cases'
+- 7: 'todo!("improve ux and write docs")'
 
--4030
+-4029
