@@ -18,9 +18,10 @@ git clone -b v/0.0.1 https://github.com/unyt-org/todo-extractor
 ```
 
 ### Preperation
-Delete the `.git` directory of this project like
+Delete the `.git` and `.github` directory of this project like
 ```bash
 rm -fr todo-extractor/.git/
+rm -fr todo-extractor/.github/
 ```
 otherwise your github project will prevent this workflow from happening.
 
