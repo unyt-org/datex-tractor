@@ -52,8 +52,5 @@ def main():
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
 
-def test_main():
-    print(TodoContext.get_todo_list_desc())
-
 if __name__ == "__main__":
-    test_main()
+    main()
