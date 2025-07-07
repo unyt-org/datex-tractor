@@ -27,8 +27,7 @@ def main():
     # Filter by title, check state, set to open, and update either way
     found_todos = False
     for issue in issues:
-        print(issue)
-        
+
         if issue["title"] == "Todos":
             found_todos = True
             if issue["state"] == "open":
