@@ -31,12 +31,12 @@ def main():
             found_todos = True
             todos_id = issue["number"]
 
-            if issue["state"] == "open":
+            if issue["state"] == "open" and desc != 1:
                 print(f"Update todo list issue #{issue["number"]}")
                 
                 update_issue(repo, token, issue["number"], fields={"body": desc})
 
-            elif issue["state"] == "closed":
+            elif issue["state"] == "closed" and desc != 1:
                 print(f"Reopen and update todo list issue #{issue["number"]}")
                 
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
