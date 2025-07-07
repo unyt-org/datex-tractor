@@ -1,8 +1,34 @@
 # Datex-tractor
 Early sketch of a tool for automatic creation of todo lists from source code via github actions. 
 
-### Workflows.yml
-Create a file like `run-main.yml` and paste the following contents to it
+## Features
+- Crawls from root to leaf through your repo
+- Matches todo comments left in source code
+- Automatically creates an issue containing a todo list
+  - Optionally: Updates a '# Todo-section' at the tail of your readme
+
+## Integration
+Per default git and github prevent accidental implementation of others projects into an own one - thus a few steps have to be gone through with to integrate this workflow into your project.
+
+### Placement 
+Setup a `.github/workflows/` directory in the root of your project - if you haven't one yet - change directory and clone this repository into it like 
+```bash
+cd .github/workflows
+git clone -b v/0.0.1 https://github.com/unyt-org/todo-extractor
+```
+
+### Preperation
+Delete the `.git` directory of this project like
+```bash
+rm -fr todo-extractor/.git/
+```
+otherwise your github project will prevent this workflow from happening.
+
+### Configuration
+For this workflow to be registered you will have to create a configuration file
+
+#### 'datex-tractor.yml'
+Create a file like `datex-tractor.yml` and paste the following contents into it
 ```yml
 name: datex-tractor
 
@@ -10,7 +36,7 @@ on:
   push:
     branches:
       - 'main'
-      - 'v/**'
+      - 'v/**' # Triggers on branches like 'v/x.x.x'
 
 permissions:
   contents: write
@@ -33,6 +59,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+### Readme Sentinel
+*Careful - experimental feature - this activates automatic edits of your readme.*
+
+
+The 'Todo-section' below is managed automatically. To set it up you have to append following header to your readme (make sure it is at the end, because the bot will delete everything beneath it whenever an update is triggered) like this
+
+```md
+# Todo-section
+---
+```
+or with a number of your choosing like
+```md
+# Todo-section
+---
+256
+```
+otherwise the bot might append a default.
+
 # Todo-section
 ---
 - 2 files to do.
