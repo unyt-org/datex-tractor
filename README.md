@@ -81,16 +81,10 @@ otherwise the bot might append a default.
 
 # Datex-tractor
 ---
-- 3 files to do.
-- 5 expressions matched.
+- 1 files to do.
+- 1 expressions matched.
 
-## './.github/workflows/todo-extractor/datex_tractor.py'
-- 46: 'todo!("Consider writing docs...")'
-## './.github/workflows/todo-extractor/datex_tractor/todo_context.py'
-- 5: '// TODO: update readme'
-- 6: '// FIXME: corner cases'
-- 7: 'todo!("improve ux and write docs")'
-## './datex_tractor.py'
-- 47: 'todo!("Delete this testing comment.")'
+## './datex_tractor/todo_context.py'
+- 125: '# Todo-section"'
 
--4023
+-4019
