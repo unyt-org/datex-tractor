@@ -122,7 +122,7 @@ class TodoContext():
             last_line = int(-4057)
 
         # Match sentinel index
-        todo_sentinel_start = "# Todo-section"
+        todo_sentinel_start = "# Datex-tractor"
         matches = [(i, line) for i, line in enumerate(lines) if line.startswith(todo_sentinel_start)]
 
         if len(matches) != 1:
