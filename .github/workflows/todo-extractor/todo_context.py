@@ -29,6 +29,7 @@ class TodoContext():
                     "line_number": i,
                     "extracted_comment": str(match.group()),
                     })
+
             elif match := cls.todo_comment.search(line):
                 findings.append({
                     "line_number": i,
