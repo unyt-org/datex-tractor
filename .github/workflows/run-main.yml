@@ -1,7 +1,7 @@
 name: run-main-inside-todo-script
 
 on:
-  workflow_dispatch:
+  push:
 
 permissions:
   contents: write
