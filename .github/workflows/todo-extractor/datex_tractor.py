@@ -6,7 +6,7 @@ from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, c
 
 def main():
     # Returns int(1) if nothing to do
-    desc = TodoContext.get_todo_list_desc()
+    desc = TodoContext.get_todo_listed_issues()
     if desc != 1:
         desc = "# Checking todos...\n" + desc
 

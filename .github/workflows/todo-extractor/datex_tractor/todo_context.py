@@ -3,9 +3,15 @@ import os
 
 class TodoContext():
     # Definition of regexes
-    todo_comment = re.compile(r"(?:#|//)\s*(?:TODO)(.*)", re.IGNORECASE)
-    fixme_comment = re.compile(r"(?:#|//)\s*(?:FIXME)(.*)", re.IGNORECASE)
-    todo_makro = re.compile(r"\b(?:todo!)\s*\((.*)") 
+    todo_comment = re.compile(
+        r"(?:#|//)\s*(TODO)(?:\s+#(?P<number>\d+))?\s*(?P<comment>.*)?", 
+        re.IGNORECASE
+    )
+    fixme_comment = re.compile(
+        r"(?:#|//)\s*(FIXME)(?:\s+#(?P<number>\d+))?\s*(?P<comment>.*)?",
+        re.IGNORECASE
+    )
+    todo_makro = re.compile(r'\b(todo!)\("?#?(?P<number>\d+)?"?:?(?P<comment>.*)\)') 
 
 
     def __init__(self, path):
@@ -16,8 +22,13 @@ class TodoContext():
         self.line_numbers = []
         self.matched_lines = []
 
+        self.lines = []
+        self.issue_numbers = []
+        self.author_comments = []
+
     @classmethod
     def scan_for_todos(cls, filepath):
+        """Sketch"""
         with open(filepath, errors="ignore") as f:
             lines = f.readlines()
 
@@ -27,19 +38,19 @@ class TodoContext():
             if match := cls.todo_makro.search(line):
                 findings.append({
                     "line_number": i,
-                    "extracted_comment": str(match.group()),
+                    "extracted_match": str(match.group()),
                     })
 
             elif match := cls.todo_comment.search(line):
                 findings.append({
                     "line_number": i,
-                    "extracted_comment": str(match.group()),
+                    "extracted_match": str(match.group()),
                 })
 
             elif match := cls.fixme_comment.search(line):
                 findings.append({
                     "line_number": i,
-                    "extracted_comment": str(match.group()),
+                    "extracted_match": str(match.group()),
                 })
 
         return findings
@@ -58,7 +69,7 @@ class TodoContext():
                     path = os.path.join(root, file)
 
                     # Checking regexes 
-                    findings = cls.scan_for_todos(path)
+                    findings = cls.scan_for_issues(path)
                     if findings:
                         tempTodoPath = TodoContext(path)
 
@@ -71,12 +82,16 @@ class TodoContext():
         # Separation of line numbers and descriptions of first findings
         for path in todo_paths:
             path.line_numbers += [x["line_number"] for x in path.first_findings]
-            path.matched_lines += [x["extracted_comment"] for x in path.first_findings]
+            path.matched_lines += [x["extracted_match"] for x in path.first_findings]
+            path.lines += [x["line"] for x in path.first_findings]
+            path.issue_numbers += [x["issue_number"] for x in path.first_findings]
+            path.author_comments += [x["comment"] for x in path.first_findings]
 
         return todo_paths
 
     @classmethod
     def get_todo_list_desc(cls):
+        """Sketch"""
         src_path = "."
         todo_paths = list(cls.initialize_paths(src_path))
         todo_paths.sort(key=lambda x: x.path)
@@ -105,7 +120,7 @@ class TodoContext():
 
     @classmethod
     def readme_sentinel(cls):
-        todo_list_string = cls.get_todo_list_desc()
+        todo_list_string = cls.get_todo_listed_issues()
         if todo_list_string == 1:
             print("Creation of todo list failed, found nothing to do.")
             todo_list_string = "Found nothing to do.\n"
@@ -145,3 +160,124 @@ class TodoContext():
             f.write("".join([str(line) for line in lines]))
 
         return 0
+
+    @classmethod
+    def scan_for_issues(cls, filepath):
+        # Start of counter
+        issue_counter = 11
+
+        with open(filepath, errors="ignore") as f:
+            lines = f.readlines()
+
+        findings = []
+        for i, line in enumerate(lines):
+
+            # todo!()
+            # todo!("#4057")
+            # todo!("Consider writing docs...")
+            # todo!("#4057 Consider writing docs..")
+            if match := cls.todo_makro.search(line):
+                if not match.group("number"):
+                    
+                    # Place default description if uncommented
+                    if not match.group("comment"):
+                        new_comment = "Undescribed by author."
+                        counter_string = f'"#{issue_counter} {new_comment}")'
+                    else:
+                        counter_string = f'"{issue_counter} {match.group("comment")})'
+
+                    start, end = match.span()
+                    new_line = line[:match.start(1) + 6] + counter_string
+
+                    issue_counter += 1
+
+                findings.append({
+                    "line_number": i,
+                    "extracted_match": str(match.group()).rstrip("\n"),
+                    "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
+                    "issue_number": match.group("number") if match.group("number") else issue_counter- 1,
+                    "comment": match.group("comment").rstrip('"') if match.group("comment") else new_comment
+                })
+
+            # TODO
+            # TODO #4057
+            # TODO Refactor some day, maybe...
+            # TODO #4057 Refactor some day, maybe...
+            elif match := cls.todo_comment.search(line):
+
+                # Place issues number if not there
+                if not match.group("number"):
+                    start, end = match.span()
+                    new_line = line[:match.start(1) + 4] + f" #{issue_counter}" + line[match.start(1) + 4:]
+                    new_line = new_line.rstrip("\n")
+                    issue_counter += 1
+                
+                # Place default description if uncommented
+                if not match.group("comment"):
+                    new_comment = "Undescribed by author."
+
+
+                findings.append({
+                    "line_number": i,
+                    "extracted_match": str(match.group()).rstrip("\n"),
+                    "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
+                    "issue_number": match.group("number").lstrip("#") if match.group("number") else issue_counter- 1,
+                    "comment": match.group("comment") if match.group("comment") else new_comment
+                })
+
+            # FIXME 
+            # FIXME #4057
+            # FIXME Fix the code above - if you have the time...
+            # FIXME #4057 Fix the code above - if you have the time...
+            elif match := cls.fixme_comment.search(line):
+                # Place issues number if not there
+                if not match.group("number"):
+                    start, end = match.span()
+                    new_line = line[:match.start(1) + 5] + f" #{issue_counter}" + line[match.start(1) + 5:]
+                    new_line = new_line.rstrip("\n")
+                    issue_counter += 1
+                
+                # Place default description if uncommented
+                if not match.group("comment"):
+                    new_comment = "Undescribed by author."
+
+
+                findings.append({
+                    "line_number": i,
+                    "extracted_match": str(match.group()).rstrip("\n"),
+                    "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
+                    "issue_number": match.group("number") if match.group("number") else issue_counter- 1,
+                    "comment": match.group("comment") if match.group("comment") else new_comment
+                })
+
+        return findings
+
+    @classmethod
+    def get_todo_listed_issues(cls):
+        src_path = "."
+        todo_paths = list(cls.initialize_paths(src_path))
+        todo_paths.sort(key=lambda x: x.path)
+
+        if len(todo_paths) == 0:
+            print("Bot did not find anything to do")
+            return 1
+
+        total_count = sum([
+            1
+            for todo_path in todo_paths
+            for line_number in todo_path.line_numbers
+            ])
+
+        # Create descrtiption
+        desc = f"- {len(todo_paths)} files to do.\n"
+        desc += f"- {total_count} expressions matched.\n\n"
+
+        for todo_path in todo_paths:
+            desc += f"## '{todo_path.path}'\n"
+            for i, line_number in enumerate(todo_path.line_numbers):
+                desc += f"- {line_number}: '{todo_path.author_comments[i]}'\n"
+                desc += f"  - Issue ID: #{todo_path.issue_numbers[i]}\n"
+                desc += f"  - Exact line: '{todo_path.lines[i].strip()}'\n"
+
+        desc += "\n"
+        return desc
