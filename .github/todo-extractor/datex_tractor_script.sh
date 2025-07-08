@@ -11,7 +11,7 @@ python --version
 pip list
 
 echo "Running datex_tractor.py..."
-python .github/workflows/todo-extractor/datex_tractor.py
+python .github/todo-extractor/datex_tractor.py
 
 if [[ "$?" != 0 ]]; then
 	echo "datex_tractor.py execution failed."
