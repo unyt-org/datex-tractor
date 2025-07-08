@@ -4,54 +4,6 @@ import sys
 from datex_tractor import TodoContext
 from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
 
-def legacy_main():
-    # Returns int(1) if nothing to do
-    desc = TodoContext.get_todo_listed_issues()
-    if desc != 1:
-        desc = "# Checking todos...\n" + desc
-
-    print(desc)
-
-    # Update readme
-    print(f"readme_sentinel exit code: {TodoContext.readme_sentinel()}")
-
-    # Get auth
-    token = os.environ["GITHUB_TOKEN"]
-    repo = os.environ["GITHUB_REPOSITORY"]
-
-    # Get issues
-    issues = get_issues(repo, token)
-
-    # Filter by title, check state, set to open, and update either way
-    found_todos = False
-    todos_id = None
-    for issue in issues:
-
-        if issue["title"] == "Todos":
-            found_todos = True
-            todos_id = issue["number"]
-
-            if issue["state"] == "open" and desc != 1:
-                print(f"Update todo list issue #{issue["number"]}")
-                
-                update_issue(repo, token, issue["number"], fields={"body": desc})
-
-            elif issue["state"] == "closed" and desc != 1:
-                print(f"Reopen and update todo list issue #{issue["number"]}")
-                
-                update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
-
-    if found_todos == True and desc == 1:
-        # Closing todo list if nothing to do
-        close_issue(repo, token, todos_id)
-
-    if found_todos == False: 
-        print(f"Creating new Todos issue.")
-        create_issue(repo, token, title="Todos", body=desc)
-
-    # reopen_issue(repo, token, 1)
-    # close_issue(repo, token, 1)
-
 def main():
     # Get issues
     token = os.environ["GITHUB_TOKEN"]
@@ -83,18 +35,23 @@ def main():
         for i, line_number in enumerate(path.line_numbers):
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
                 print("Update issue: ", path.issue_numbers[i])
+                filename = path.path
+                try:
+                    _, filename = path.path.rsplit("/")
+                except Exception:
+                    pass
+
+                title = f"{line_number}: {filename}"
+                body = f"- {path.matched_lines[i]}\n- {path.author_comments[i]}\n",
                 update_issue(
                     repo, 
                     token, 
                     path.issue_numbers[i], 
-                    {
-                        "title": f"{line_number}: {path.path}",
-                        "body": f"{path.matched_lines[i]}",
-                    }
+                    {"title": title, "body": body},
                 )
             else:
                 print("Create issue: ", path.issue_numbers[i])
-                create_issue(repo, token, f"{line_number}: {path.path}", f"{path.matched_lines[i]}")
+                create_issue(repo, token, title, body)
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues()
@@ -104,6 +61,34 @@ def main():
 
     # Update readme
     print(f"readme_sentinel exit code: {TodoContext.readme_sentinel()}")
+
+    # Create todo list issue
+    # Filter by title, check state, set to open, and update either way
+    found_todos = False
+    todos_id = None
+    for issue in issues:
+
+        if issue["title"] == "Todos":
+            found_todos = True
+            todos_id = issue["number"]
+
+            if issue["state"] == "open" and desc != 1:
+                print(f"Update todo list issue #{issue["number"]}")
+                
+                update_issue(repo, token, issue["number"], fields={"body": desc})
+
+            elif issue["state"] == "closed" and desc != 1:
+                print(f"Reopen and update todo list issue #{issue["number"]}")
+                
+                update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
+
+    if found_todos == True and desc == 1:
+        # Closing todo list if nothing to do
+        close_issue(repo, token, todos_id)
+
+    if found_todos == False: 
+        print(f"Creating new todo list issue.")
+        create_issue(repo, token, title="Todos", body=desc)
 
 if __name__ == "__main__":
     main()
