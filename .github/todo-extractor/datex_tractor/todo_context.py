@@ -171,10 +171,10 @@ class TodoContext():
         new_comment = "Undescribed by author."
         for i, line in enumerate(lines):
 
-            # todo!("#33 Undescribed by author.")
-            # todo!("#1")
-            # todo!("34 Consider writing docs...")
-            # todo!("#3 Consider writing docs..")
+            # todo!()
+            # todo!("")
+            # todo!("Consider writing docs...")
+            # todo!("Consider writing docs..")
             if match := cls.todo_makro.search(line):
                 if not match.group("number"):
                     
@@ -197,10 +197,10 @@ class TodoContext():
                     "comment": match.group("comment").rstrip('"') if match.group("comment") else new_comment
                 })
 
-            # TODO #35
-            # TODO #5
-            # TODO #36 Refactor some day, maybe...
-            # TODO #7 Refactor some day, maybe...
+            # TODO
+            # TODO
+            # TODO Refactor some day, maybe...
+            # TODO Refactor some day, maybe...
             elif match := cls.todo_comment.search(line):
 
                 # Place issues number if not there
@@ -218,10 +218,10 @@ class TodoContext():
                     "comment": match.group("comment") if match.group("comment") else new_comment
                 })
 
-            # FIXME #37 
-            # FIXME #11
-            # FIXME #38 Fix the code above - if you have the time...
-            # FIXME #13 Fix the code above - if you have the time...
+            # FIXME 
+            # FIXME
+            # FIXME Fix the code above - if you have the time...
+            # FIXME Fix the code above - if you have the time...
             elif match := cls.fixme_comment.search(line):
                 # Place issues number if not there
                 if not match.group("number"):
