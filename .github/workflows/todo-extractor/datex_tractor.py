@@ -53,20 +53,15 @@ def legacy_main():
     # close_issue(repo, token, 1)
 
 def main():
-    # Generate dummy issues for dev
-    issues = [{
-        "number": i,
-        "state": "open" if i % 2 == 0 else "closed",
-        "title": i,
-        "body": i,
-    } for i in range(10)]
-
-    for issue in issues:
-        print(issue["number"])
+    # Get issues
+    token = os.environ["GITHUB_TOKEN"]
+    repo = os.environ["GITHUB_REPOSITORY"]
+    issues = get_issues(repo, token)
 
     # Setting start point for new indices
     max_issue_idx = max([issue["number"] for issue in issues])
     max_issue_idx += 1
+
 
     # Get paths 
     todo_paths = TodoContext.initialize_paths(".", max_issue_idx)
@@ -79,18 +74,36 @@ def main():
 
         for i, new_line in enumerate(path.lines):
             lines[path.line_numbers[i]] = new_line if new_line.endswith("\n") else new_line + "\n"
-        
-        print(lines)
 
-        with open("test.py", "w") as f:
+        with open(path.path, "w") as f:
             f.write("".join([line for line in lines]))
 
+    # Create or Update issues
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
                 print("Update issue: ", path.issue_numbers[i])
+                update_issue(
+                    repo, 
+                    token, 
+                    path.issue_numbers[i], 
+                    {
+                        "title": f"{line_number}: {path.path}",
+                        "body": f"{path.matched_lines[i]}",
+                    }
+                )
             else:
                 print("Create issue: ", path.issue_numbers[i])
+                create_issue(repo, token, f"{line_number}: {path.path}", f"{path.matched_lines[i]}")
+
+    # Returns int(1) if nothing to do
+    desc = TodoContext.get_todo_listed_issues()
+    if desc != 1:
+        desc = "# Checking todos...\n" + desc
+    print(desc)
+
+    # Update readme
+    print(f"readme_sentinel exit code: {TodoContext.readme_sentinel()}")
 
 if __name__ == "__main__":
     main()
