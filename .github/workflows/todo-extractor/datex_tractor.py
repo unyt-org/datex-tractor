@@ -4,7 +4,7 @@ import sys
 from datex_tractor import TodoContext
 from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
 
-def main():
+def legacy_main():
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues()
     if desc != 1:
@@ -51,6 +51,46 @@ def main():
 
     # reopen_issue(repo, token, 1)
     # close_issue(repo, token, 1)
+
+def main():
+    # Generate dummy issues for dev
+    issues = [{
+        "number": i,
+        "state": "open" if i % 2 == 0 else "closed",
+        "title": i,
+        "body": i,
+    } for i in range(10)]
+
+    for issue in issues:
+        print(issue["number"])
+
+    # Setting start point for new indices
+    max_issue_idx = max([issue["number"] for issue in issues])
+    max_issue_idx += 1
+
+    # Get paths 
+    todo_paths = TodoContext.initialize_paths(".", max_issue_idx)
+
+    # Insert issue numbers
+    for path in todo_paths:
+        with open(path.path) as f:
+            reader = f.readlines()
+            lines = [line for line in reader]
+
+        for i, new_line in enumerate(path.lines):
+            lines[path.line_numbers[i]] = new_line
+        
+        print(lines)
+
+        with open("test.py", "w") as f:
+            f.write("".join([line for line in lines]))
+
+    for path in todo_paths:
+        for i, line_number in enumerate(path.line_numbers):
+            if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
+                print("Update issue: ", path.issue_numbers[i])
+            else:
+                print("Create issue: ", path.issue_numbers[i])
 
 if __name__ == "__main__":
     main()

@@ -56,7 +56,7 @@ class TodoContext():
         return findings
 
     @classmethod
-    def initialize_paths(cls, src_path):
+    def initialize_paths(cls, src_path, issue_counter=11):
         extensions = [".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]
         todo_paths = set()
 
@@ -69,7 +69,7 @@ class TodoContext():
                     path = os.path.join(root, file)
 
                     # Checking regexes 
-                    findings = cls.scan_for_issues(path)
+                    findings = cls.scan_for_issues(path, issue_counter)
                     if findings:
                         tempTodoPath = TodoContext(path)
 
@@ -162,9 +162,7 @@ class TodoContext():
         return 0
 
     @classmethod
-    def scan_for_issues(cls, filepath):
-        # Start of counter
-        issue_counter = 11
+    def scan_for_issues(cls, filepath, issue_counter=11):
 
         with open(filepath, errors="ignore") as f:
             lines = f.readlines()
@@ -173,9 +171,9 @@ class TodoContext():
         for i, line in enumerate(lines):
 
             # todo!()
-            # todo!("#4057")
+            # todo!("#1")
             # todo!("Consider writing docs...")
-            # todo!("#4057 Consider writing docs..")
+            # todo!("#3 Consider writing docs..")
             if match := cls.todo_makro.search(line):
                 if not match.group("number"):
                     
@@ -200,9 +198,9 @@ class TodoContext():
                 })
 
             # TODO
-            # TODO #4057
+            # TODO #5
             # TODO Refactor some day, maybe...
-            # TODO #4057 Refactor some day, maybe...
+            # TODO #7 Refactor some day, maybe...
             elif match := cls.todo_comment.search(line):
 
                 # Place issues number if not there
@@ -226,9 +224,9 @@ class TodoContext():
                 })
 
             # FIXME 
-            # FIXME #4057
+            # FIXME #11
             # FIXME Fix the code above - if you have the time...
-            # FIXME #4057 Fix the code above - if you have the time...
+            # FIXME #13 Fix the code above - if you have the time...
             elif match := cls.fixme_comment.search(line):
                 # Place issues number if not there
                 if not match.group("number"):
