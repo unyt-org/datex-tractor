@@ -182,7 +182,7 @@ class TodoContext():
                     if not match.group("comment"):
                         counter_string = f'"#{issue_counter} {new_comment}")'
                     else:
-                        counter_string = f'"{issue_counter} {match.group("comment")})'
+                        counter_string = f'"#{issue_counter} {match.group("comment")})'
 
                     start, end = match.span()
                     new_line = line[:match.start(1) + 6] + counter_string
