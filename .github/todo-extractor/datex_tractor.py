@@ -33,14 +33,10 @@ def main():
     # Create or Update issues
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
-            filename = path.path
-            try:
-                _, filename = path.path.rsplit("/")
-            except Exception:
-                pass
 
-            title = f"{line_number}: {filename}"
+            title = f"{line_number}: {path.path}"
             body = f"- {path.matched_lines[i]}\n- {path.author_comments[i]}\n",
+
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
                 print("Update issue: ", path.issue_numbers[i])
 
