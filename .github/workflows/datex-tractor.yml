@@ -17,8 +17,6 @@ jobs:
     steps:
       - name: Checkout own repo
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -29,3 +27,4 @@ jobs:
         run: bash .github/workflows/todo-extractor/datex_tractor_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}
