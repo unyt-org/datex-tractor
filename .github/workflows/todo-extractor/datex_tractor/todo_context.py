@@ -168,6 +168,7 @@ class TodoContext():
             lines = f.readlines()
 
         findings = []
+        new_comment = "Undescribed by author."
         for i, line in enumerate(lines):
 
             # todo!()
@@ -179,7 +180,6 @@ class TodoContext():
                     
                     # Place default description if uncommented
                     if not match.group("comment"):
-                        new_comment = "Undescribed by author."
                         counter_string = f'"#{issue_counter} {new_comment}")'
                     else:
                         counter_string = f'"{issue_counter} {match.group("comment")})'
@@ -209,11 +209,6 @@ class TodoContext():
                     new_line = line[:match.start(1) + 4] + f" #{issue_counter}" + line[match.start(1) + 4:]
                     new_line = new_line.rstrip("\n")
                     issue_counter += 1
-                
-                # Place default description if uncommented
-                if not match.group("comment"):
-                    new_comment = "Undescribed by author."
-
 
                 findings.append({
                     "line_number": i,
@@ -235,11 +230,6 @@ class TodoContext():
                     new_line = new_line.rstrip("\n")
                     issue_counter += 1
                 
-                # Place default description if uncommented
-                if not match.group("comment"):
-                    new_comment = "Undescribed by author."
-
-
                 findings.append({
                     "line_number": i,
                     "extracted_match": str(match.group()).rstrip("\n"),

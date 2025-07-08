@@ -21,14 +21,14 @@ fi
 git config --global user.name "github-actions"
 git config --global user.email "github-actions@github.com"
 
-git add README.md
+git add .
 
 if git diff --cached --quiet; then
 	echo "No changes to commit."
 	exit 0
 else
-	echo "Commit readme."
-	git commit -m "auto update readme"
+	echo "Commit changes."
+	git commit -m "insert issues and auto update readme"
 	echo "Push to origin."
 	git push
 fi

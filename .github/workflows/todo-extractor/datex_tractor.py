@@ -78,7 +78,7 @@ def main():
             lines = [line for line in reader]
 
         for i, new_line in enumerate(path.lines):
-            lines[path.line_numbers[i]] = new_line
+            lines[path.line_numbers[i]] = new_line if new_line.endswith("\n") else new_line + "\n"
         
         print(lines)
 
