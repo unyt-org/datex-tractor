@@ -81,10 +81,5 @@ otherwise the bot might append a default.
 
 # Datex-tractor
 ---
-- 1 files to do.
-- 1 expressions matched.
-
-## './datex_tractor/todo_context.py'
-- 125: '# Todo-section"'
-
--4018
+Found nothing to do.
+-4017
