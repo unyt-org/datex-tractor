@@ -83,6 +83,7 @@ def main():
         for i, line_number in enumerate(path.line_numbers):
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
                 print("Update issue: ", path.issue_numbers[i])
+                """
                 update_issue(
                     repo, 
                     token, 
@@ -92,9 +93,12 @@ def main():
                         "body": f"{path.matched_lines[i]}",
                     }
                 )
+                """
             else:
                 print("Create issue: ", path.issue_numbers[i])
+                """
                 create_issue(repo, token, f"{line_number}: {path.path}", f"{path.matched_lines[i]}")
+                """
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues()

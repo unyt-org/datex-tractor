@@ -27,4 +27,3 @@ jobs:
         run: bash .github/workflows/todo-extractor/datex_tractor_script.sh
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          token: ${{ secrets.PAT_TOKEN }}
