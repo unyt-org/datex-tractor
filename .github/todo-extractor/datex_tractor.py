@@ -47,7 +47,7 @@ def main():
                 )
             else:
                 print("Create issue: ", path.issue_numbers[i])
-                create_issue(repo, token, f"{line_number}: {path.path}", f"{path.matched_lines[i]}")
+                create_issue(repo, token, f"{line_number}: {path.path}", f"- {path.matched_lines[i]}\n- {path.author_comments[i]}")
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues()
