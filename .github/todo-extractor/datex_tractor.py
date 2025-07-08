@@ -34,6 +34,7 @@ def main():
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
+
                 print("Update issue: ", path.issue_numbers[i])
                 update_issue(
                     repo, 
@@ -41,7 +42,7 @@ def main():
                     path.issue_numbers[i], 
                     {
                         "title": f"{line_number}: {path.path}",
-                        "body": f"{path.matched_lines[i]}",
+                        "body": f"- {path.matched_lines[i]}\n- {path.author_comments[i]}",
                     }
                 )
             else:
