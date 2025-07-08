@@ -28,7 +28,7 @@ class TodoContext():
 
     @classmethod
     def scan_for_todos(cls, filepath):
-        """Sketch"""
+        """Minimalistic Sketch"""
         with open(filepath, errors="ignore") as f:
             lines = f.readlines()
 
@@ -91,7 +91,7 @@ class TodoContext():
 
     @classmethod
     def get_todo_list_desc(cls):
-        """Sketch"""
+        """Minimalistic sketch"""
         src_path = "."
         todo_paths = list(cls.initialize_paths(src_path))
         todo_paths.sort(key=lambda x: x.path)
@@ -277,7 +277,8 @@ class TodoContext():
             for i, line_number in enumerate(todo_path.line_numbers):
                 desc += f"- {line_number}: '{todo_path.author_comments[i]}'\n"
                 desc += f"  - Issue ID: #{todo_path.issue_numbers[i]}\n"
-                desc += f"  - Exact line: '{todo_path.lines[i].strip()}'\n"
+                # Debug
+                # desc += f"  - Edited line: '{todo_path.lines[i].strip()}'\n"
 
         desc += "\n"
         return desc
