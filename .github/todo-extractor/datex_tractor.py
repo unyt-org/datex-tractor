@@ -80,7 +80,8 @@ def main():
                 lines = issue["body"].splitlines()
                 issues_in_list = [line.removeprefix("  - Issue ID: #") for line in lines if line.startswith("  - Issue ID: #")]
 
-                for id in lines_in_list:
+                for id in issues_in_list:
+                    print(id)
                     close_issue(repo, token, int(id))
 
             # If closed list and something to do reopen by updating
