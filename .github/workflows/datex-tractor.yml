@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - 'main'
-      - 'v/**'
+      - 'v/*'
       - 'dev'
 
 permissions:
@@ -17,6 +17,23 @@ jobs:
     steps:
       - name: Checkout own repo
         uses: actions/checkout@v4
+
+      - name: Check if is latest version
+        run:
+          echo "Fetching version branches..."
+          all_branches=$(git ls-remote --heads origin "v/*" | cut -d/ -f3- | sort -V)
+          latest=$(exho "$all_branches" | tail -n1)
+          current="${GITHUB_REF#refs/heads/}"
+
+          echo "Current; $current"
+          echo "Latest; $latest"
+
+          if [ "$current" != "$latest" ]; then
+            echo "Not latest, abort."
+            exit 0
+          fi
+
+          echo "On latest, continue"
 
       - name: Set up Python
         uses: actions/setup-python@v5
