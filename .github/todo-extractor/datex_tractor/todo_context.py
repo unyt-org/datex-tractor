@@ -134,7 +134,7 @@ class TodoContext():
         try:
             last_line = int(lines[-1].strip()) + 1
         except Exception:
-            print("Can't find number in last line of readme.")
+            print("Can't find number in last line of readme, using default.")
             last_line = int(-4057)
 
         # Match sentinel index
