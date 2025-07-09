@@ -25,8 +25,8 @@ jobs:
           latest=$(exho "$all_branches" | tail -n1)
           current="${GITHUB_REF#refs/heads/}"
 
-          echo "Current; $current"
-          echo "Latest; $latest"
+          echo "Current: $current"
+          echo "Latest: $latest"
 
           if [ "$current" != "$latest" ]; then
             echo "Not latest, abort."
