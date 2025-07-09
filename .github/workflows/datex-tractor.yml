@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'v/*'
+      - 'dev'
 
 permissions:
   contents: write
