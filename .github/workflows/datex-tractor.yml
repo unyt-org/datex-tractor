@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Check if is latest version
-        run:
+        run: |
           echo "Fetching version branches..."
           all_branches=$(git ls-remote --heads origin "v/*" | cut -d/ -f3- | sort -V)
           latest=$(exho "$all_branches" | tail -n1)
