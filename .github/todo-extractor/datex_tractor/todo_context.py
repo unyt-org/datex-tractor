@@ -196,7 +196,7 @@ class TodoContext():
                     "comment": match.group("comment").rstrip('"') if match.group("comment") else new_comment
                 })
 
-            # TODO #87 with a comment...
+            # TODO #87 with an updated comment...
             elif match := cls.todo_comment.search(line):
 
                 # Place issues number if not there
