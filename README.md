@@ -11,9 +11,9 @@ Creating issues for testing.
 ## './.github/todo-extractor/datex_tractor/todo_context.py'
 - 173: ' Undescribed by author.'
   - Issue ID: #86
-- 198: 'with an other updated comment...'
+- 198: 'with an unspoken comment...'
   - Issue ID: #87
-- 216: 'if you have the time and nothing to do.'
+- 216: 'some day, if you have the time and nothing to do.'
   - Issue ID: #88
 
--3995
+-3994
