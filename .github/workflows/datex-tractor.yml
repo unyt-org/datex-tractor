@@ -27,7 +27,7 @@ jobs:
 
           if [ "$current" != "$latest" ]; then
             echo "Not latest, abort."
-            exit 1
+            exit 0
           fi
 
           echo "On latest, continue"
