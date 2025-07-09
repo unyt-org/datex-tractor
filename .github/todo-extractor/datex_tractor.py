@@ -43,6 +43,7 @@ def main():
                     {
                         "title": f"{line_number}: {path.path}",
                         "body": f"- {path.matched_lines[i].removeprefix("#")}\n- {path.author_comments[i]}",
+                        "state": "open",
                     }
                 )
             else:
