@@ -69,11 +69,21 @@ def main():
             found_todos = True
             todos_id = issue["number"]
 
+            # If open list and something to do
             if issue["state"] == "open" and desc != 1:
                 print(f"Update todo list issue #{issue["number"]}")
                 
                 update_issue(repo, token, issue["number"], fields={"body": desc})
 
+            # If open list but nothing to do close existing listed issues
+            elif issue["state"] == "open" and desc == 1:
+                lines = issue["body"].splitlines()
+                issues_in_list = [line.removeprefix("  - Issue ID: #") for line in lines if line.startswith("  - Issue ID: #")]
+
+                for id in lines_in_list:
+                    close_issue(repo, token, int(id))
+
+            # If closed list and something to do reopen by updating
             elif issue["state"] == "closed" and desc != 1:
                 print(f"Reopen and update todo list issue #{issue["number"]}")
                 
