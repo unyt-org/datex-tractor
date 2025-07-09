@@ -126,9 +126,13 @@ class TodoContext():
             todo_list_string = "Found nothing to do.\n"
 
         lines = []
-        with open("README.md", mode="r", encoding="utf-8") as f:
-            reader = f.readlines()
-            lines = [line for line in reader]
+        try:
+            with open("README.md", mode="r", encoding="utf-8") as f:
+                reader = f.readlines()
+                lines = [line for line in reader]
+        except Exception:
+            print("File named 'README.md' not found in root directory.")
+            return 1
         
         # Remember last line and increment it a priori
         try:
