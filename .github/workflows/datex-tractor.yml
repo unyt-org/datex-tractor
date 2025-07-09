@@ -22,7 +22,7 @@ jobs:
         run: |
           echo "Fetching version branches..."
           all_branches=$(git ls-remote --heads origin "v/*" | cut -d/ -f3- | sort -V)
-          latest=$(exho "$all_branches" | tail -n1)
+          latest=$(echo "$all_branches" | tail -n1)
           current="${GITHUB_REF#refs/heads/}"
 
           if [ "$current" != "$latest" ]; then
