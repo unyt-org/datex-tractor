@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 from datex_tractor import TodoContext
 from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
@@ -11,8 +12,11 @@ def main():
     issues = get_issues(repo, token)
 
     # Setting start point for new indices
-    max_issue_idx = max([issue["number"] for issue in issues])
-    max_issue_idx += 1
+    try:
+        max_issue_idx = max([issue["number"] for issue in issues])
+        max_issue_idx += 1
+    except ValueError:
+        max_issue_idx = 1
 
 
     # Get paths 
@@ -32,7 +36,9 @@ def main():
 
     # Create or Update issues
     for path in todo_paths:
+        time.sleep(10)
         for i, line_number in enumerate(path.line_numbers):
+            time.sleep(3)
             if int(path.issue_numbers[i]) in [issue["number"] for issue in issues]:
 
                 print("Update issue: ", path.issue_numbers[i])
@@ -42,13 +48,13 @@ def main():
                     path.issue_numbers[i], 
                     {
                         "title": f"{line_number}: {path.path}",
-                        "body": f"- {path.matched_lines[i].removeprefix("#")}\n- {path.author_comments[i]}",
+                        "body": f"- {path.matched_lines[i].removeprefix('#')}\n- {path.author_comments[i]}",
                         "state": "open",
                     }
                 )
             else:
                 print("Create issue: ", path.issue_numbers[i])
-                create_issue(repo, token, f"{line_number}: {path.path}", f"- {path.matched_lines[i].removeprefix("#")}\n- {path.author_comments[i]}")
+                create_issue(repo, token, f"{line_number}: {path.path}", f"- {path.matched_lines[i].removeprefix('#')}\n- {path.author_comments[i]}")
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues()
@@ -92,7 +98,7 @@ def main():
         # Closing todo list if nothing to do
         close_issue(repo, token, todos_id)
 
-    if found_todos == False: 
+    if not found_todos or found_todos == False: 
         print(f"Creating new todo list issue.")
         create_issue(repo, token, title="Todos", body=desc)
 

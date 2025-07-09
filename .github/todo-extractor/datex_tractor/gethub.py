@@ -18,8 +18,11 @@ def _make_request(url, method="GET", token=None, data=None):
 
     req = urllib.request.Request(url, method=method, headers=headers, data=data)
 
-    with urllib.request.urlopen(req) as resp:
-        return json.loads(resp.read().decode())
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode())
+    except urllib.error.HTTPError as e:
+        print("Error response body:", e.read().decode())
 
 def get_issues(repo, token):
     url = f"{API_URL}/repos/{repo}/issues?state=all"
