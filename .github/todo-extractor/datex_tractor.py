@@ -72,7 +72,6 @@ def main():
             # If open list and something to do
             if issue["state"] == "open" and desc != 1:
                 print(f"Update todo list issue #{issue["number"]}")
-                
                 update_issue(repo, token, issue["number"], fields={"body": desc})
 
             # If open list but nothing to do close existing listed issues
@@ -81,13 +80,12 @@ def main():
                 issues_in_list = [line.removeprefix("  - Issue ID: #") for line in lines if line.startswith("  - Issue ID: #")]
 
                 for id in issues_in_list:
-                    print(id)
+                    print(f"Closing issue with ID: {id}")
                     close_issue(repo, token, int(id))
 
             # If closed list and something to do reopen by updating
             elif issue["state"] == "closed" and desc != 1:
                 print(f"Reopen and update todo list issue #{issue["number"]}")
-                
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
 
     if found_todos == True and desc == 1:
