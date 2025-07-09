@@ -63,7 +63,7 @@ jobs:
 ```
 ### Third Step
 ---
-If you have replaced the `v` with a branch name you're tracking (i like 'v' for semver, hence the default) you will have to replace the variable in the `.github/todo-tractor/check_latest.sh` as well. Otherwise that's all.
+If you have replaced the `v` with a branch name you're tracking - *i like 'v' for semver, hence the default* - you will have to replace the variable in the `.github/todo-tractor/check_latest.sh` as well. Otherwise that's all.
 
 # Datex-tractor
 ---
