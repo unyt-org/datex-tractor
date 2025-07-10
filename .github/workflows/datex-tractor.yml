@@ -1,30 +1,27 @@
-name: datex-tractor
+name: "Datex-tractor"
+description: "Automated issues"
+inputs:
+  github_token:
+    required: true
+    description: "GitHub token"
 
-on:
-  push:
-    branches:
-      - 'v/*'
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v4
 
-permissions:
-  contents: write
-  issues: write
+    - name: Check if is latest version
+      run: bash "${{ github.action_path }}/check_latest.sh"
 
-jobs:
-  Datex-tractor:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout own repo
-        uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with: 
+        python-version: 3.13
 
-      - name: Check if is latest version
-        run: bash .github/todo-extractor/check_latest.sh
+    - name: Run datex_tractor_script.sh
+      run: bash "${{ github.action_path }}/datex_tractor_script.sh"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with: 
-          python-version: 3.13
- 
-      - name: Run datex_tractor_script.sh
-        run: bash .github/todo-extractor/datex_tractor_script.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

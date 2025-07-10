@@ -1,5 +1,6 @@
 import json
 import urllib.request
+import time
 
 API_URL = "https://api.github.com"
 
@@ -24,18 +25,26 @@ def _make_request(url, method="GET", token=None, data=None):
     except urllib.error.HTTPError as e:
         print("Error response body:", e.read().decode())
 
-def get_issues(repo, token):
-    url = f"{API_URL}/repos/{repo}/issues?state=all"
-    raw_issues = _make_request(url, token=token)
+def get_issues(repo, token, per_page=100):
     issues = []
-    for issue in raw_issues:
-        if "pull_request" not in issue: # Exclude PR's?
-            issues.append({
-                "number": issue["number"],
-                "state": issue["state"],
-                "title": issue["title"],
-                "body": issue["body"],
-            })
+    page = 1
+
+    while True:
+        url = f"{API_URL}/repos/{repo}/issues?state=all&per_page={per_page}&page={page}"
+        time.sleep(3)
+        raw_issues = _make_request(url, token=token)
+        if not raw_issues:
+            break
+
+        for issue in raw_issues:
+            if "pull_request" not in issue: # Exclude PR's?
+                issues.append({
+                    "number": issue["number"],
+                    "state": issue["state"],
+                    "title": issue["title"],
+                    "body": issue["body"],
+                })
+        page += 1
     return issues
 
 def create_issue(repo, token, title, body=""):

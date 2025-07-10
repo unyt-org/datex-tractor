@@ -10,11 +10,11 @@ echo "Python check..."
 python --version
 pip list
 
-echo "Running datex_tractor.py..."
-python .github/todo-extractor/datex_tractor.py
+echo "Running jector.py..."
+python "${GITHUB_ACTION_PATH}/datex_jector.py"
 
 if [[ "$?" != 0 ]]; then
-	echo "datex_tractor.py execution failed."
+	echo "datex_jector.py execution failed."
 	exit 1
 fi
 
@@ -32,5 +32,11 @@ else
 	echo "Push to origin."
 	git push
 fi
+
+LAST_COMMIT=$(git rev-parse HEAD)
+echo "Commit: $LAST_COMMIT"
+
+echo "Run tractor.py..."
+python "${GITHUB_ACTION_PATH}/datex_tractor.py" $LAST_COMMIT
 
 echo "Datex-tractor End."

@@ -69,7 +69,7 @@ class TodoContext():
                     path = os.path.join(root, file)
 
                     # Checking regexes 
-                    findings = cls.scan_for_issues(path, issue_counter)
+                    findings, issue_counter = cls.scan_for_issues(path, issue_counter)
                     if findings:
                         tempTodoPath = TodoContext(path)
 
@@ -90,37 +90,8 @@ class TodoContext():
         return todo_paths
 
     @classmethod
-    def get_todo_list_desc(cls):
-        """Minimalistic sketch"""
-        src_path = "."
-        todo_paths = list(cls.initialize_paths(src_path))
-        todo_paths.sort(key=lambda x: x.path)
-
-        if len(todo_paths) == 0:
-            print("Bot did not find anything to do")
-            return 1
-
-        total_count = sum([
-            1
-            for todo_path in todo_paths
-            for line_number in todo_path.line_numbers
-            ])
-
-        # Create descrtiption
-        desc = f"- {len(todo_paths)} files to do.\n"
-        desc += f"- {total_count} expressions matched.\n\n"
-
-        for todo_path in todo_paths:
-            desc += f"## '{todo_path.path}'\n"
-            for line_number, line in zip(todo_path.line_numbers, todo_path.matched_lines):
-                desc += f"- {line_number}: '{line}'\n"
-
-        desc += "\n"
-        return desc
-
-    @classmethod
-    def readme_sentinel(cls):
-        todo_list_string = cls.get_todo_listed_issues()
+    def readme_sentinel(cls, issue_counter=11):
+        todo_list_string = cls.get_todo_listed_issues(issue_counter)
         if todo_list_string == 1:
             print("Creation of todo list failed, found nothing to do.")
             todo_list_string = "Found nothing to do.\n"
@@ -188,7 +159,6 @@ class TodoContext():
                     new_line = line[:match.start(1) + 6] + counter_string
                     new_line += match.group("tail") if match.group("tail") else ""
 
-
                     issue_counter += 1
 
                 findings.append({
@@ -232,12 +202,12 @@ class TodoContext():
                     "comment": match.group("comment") if match.group("comment") else new_comment
                 })
 
-        return findings
+        return findings, issue_counter
 
     @classmethod
-    def get_todo_listed_issues(cls):
+    def get_todo_listed_issues(cls, issue_counter=11):
         src_path = "."
-        todo_paths = list(cls.initialize_paths(src_path))
+        todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)
 
         if len(todo_paths) == 0:
@@ -255,10 +225,10 @@ class TodoContext():
         desc += f"- {total_count} expressions matched.\n\n"
 
         for todo_path in todo_paths:
-            desc += f"## '{todo_path.path}'\n"
+            desc += f"## '{todo_path.path.removeprefix("./")}'\n"
             for i, line_number in enumerate(todo_path.line_numbers):
-                desc += f"- {line_number}: '{todo_path.author_comments[i]}'\n"
-                desc += f"  - Issue ID: #{todo_path.issue_numbers[i]}\n"
+                desc += f"- Id: #{todo_path.issue_numbers[i]}\n"
+                # desc += f"- {line_number}: '{todo_path.author_comments[i]}'\n"
                 # Debug
                 # desc += f"  - Edited line: '{todo_path.lines[i].strip()}'\n"
 
