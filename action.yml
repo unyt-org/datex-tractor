@@ -10,6 +10,7 @@ runs:
   steps:
     - name: Check if is latest version
       run: bash "${{ github.action_path }}/check_latest.sh"
+      shell: bash
 
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -18,7 +19,8 @@ runs:
 
     - name: Run datex_tractor_script.sh
       run: bash "${{ github.action_path }}/datex_tractor_script.sh"
+      shell: bash
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ inputs.github_token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
 

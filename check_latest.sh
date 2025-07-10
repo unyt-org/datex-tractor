@@ -1,13 +1,13 @@
 #!/bin/bash
 
-echo "Fetching version branches..."
+echo "Fetching version branches (v/*)..."
 all_branches=$(git ls-remote --heads origin "v/*" | cut -d/ -f3- | sort -V)
 
 latest=$(echo "$all_branches" | tail -n1)
 current="${GITHUB_REF#refs/heads/}"
 
 if [ "$current" != "$latest" ]; then
-	echo "Not latest, abort."
+	echo "Not on latest branch, abort."
 	exit 1
 fi
 
