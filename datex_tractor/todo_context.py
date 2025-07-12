@@ -127,7 +127,7 @@ class TodoContext():
         lines = lines[:header_line + 2]
         lines.append(todo_list_string)
 
-        # Append incremted remembered last line
+        # Append incremented remembered last line
         lines.append(str(last_line))
 
         # Overwrite old sentinel

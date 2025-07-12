@@ -16,12 +16,11 @@ def main():
     print("Fetching issues...")
     issues = get_issues(repo, token)
 
-    # Setting start point for new indices
-    try:
+    if len(issues) > 0:
         issue_counter = max([issue["number"] for issue in issues])
         issue_counter += 1
-    except ValueError:
-        issue_counter = 1
+    else:
+        issue_counter = 2
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues(issue_counter)
@@ -85,13 +84,13 @@ def main():
                     path.issue_numbers[i], 
                     {
                         "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                        "body": f"- [Link]({link})\n - '{path.author_comments[i]}'\n",
+                        "body": f"- {link}\n - '{path.author_comments[i]}'\n",
                         "state": "open",
                     }
                 )
             else:
                 print(f"Create issue: {path.issue_numbers[i]}")
-                create_issue(repo, token, f"[TODO] '{path.path.removeprefix("./")}'", f"- [Link]({link})\n - {path.author_comments[i]}\n")
+                create_issue(repo, token, f"[TODO] '{path.path.removeprefix("./")}'", f"- {link}\n - {path.author_comments[i]}\n")
 
     print("Done updating issues.")
 

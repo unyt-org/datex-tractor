@@ -11,12 +11,12 @@ def main():
     print("Fetching issues...")
     issues = get_issues(repo, token)
 
-    # Setting start point for new indices
-    try:
+    if len(issues) > 0:
         issue_counter = max([issue["number"] for issue in issues])
         issue_counter += 1
-    except ValueError:
-        issue_counter = 1
+    else:
+        # If no issues yet, leave first one for todo-list-issue
+        issue_counter = 2
 
     # Get paths 
     todo_paths = TodoContext.initialize_paths(".", issue_counter)
