@@ -94,7 +94,31 @@ def main():
                 print(f"Create placeholder issue: {path.issue_numbers[i]}")
                 create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
-    print("Done with issues.")
+    print("Done with issues, replacing placeholders...")
+    time.sleep(10)
+    made_issues = get_issues(repo, token)
+    new_issues = [issue for issue in made_issues if issue not in issues]
+
+    for path in todo_paths:
+        time.sleep(6)
+        for i, line_number in enumerate(path.line_numbers):
+            time.sleep(1)
+            link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
+
+            if int(path.issue_numbers[i]) in [int(issue["number"]) for issue in new_issues]:
+                print(f"Update issue: {path.issue_numbers[i]}")
+                update_issue(
+                    repo, 
+                    token, 
+                    path.issue_numbers[i], 
+                    {
+                        "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                        "body": f"- {link}\n",
+                        "state": "open",
+                    }
+                )
+
+    print("Done replacing placeholders")
 
 if __name__ == "__main__":
     main()
