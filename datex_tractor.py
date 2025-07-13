@@ -75,7 +75,7 @@ def main():
         time.sleep(6)
         for i, line_number in enumerate(path.line_numbers):
             time.sleep(2)
-            link = f"{base_url}/{path.path.removeprefix("./")}#{line_number}"
+            link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number}"
 
             if int(path.issue_numbers[i]) in [int(issue["number"]) for issue in issues]:
                 print(f"Update issue: {path.issue_numbers[i]}")
