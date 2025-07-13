@@ -27,7 +27,7 @@ def main():
     if desc != 1:
         desc = "# Checking todos...\n" + desc
 
-    todo_paths = TodoContext.initialize_paths(".", issue_counter)
+    todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
     print("Trying to manipulate todo-list issue...")

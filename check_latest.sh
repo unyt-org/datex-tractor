@@ -1,7 +1,7 @@
 #!/bin/bash
 
-echo "Fetching version branches (v/*)..."
-all_branches=$(git ls-remote --heads origin "v/*" | cut -d/ -f3- | sort -V)
+echo "Fetching version branches (release/*)..."
+all_branches=$(git ls-remote --heads origin "release/*" | cut -d/ -f3- | sort -V)
 
 latest=$(echo "$all_branches" | tail -n1)
 current="${GITHUB_REF#refs/heads/}"

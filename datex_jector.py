@@ -19,7 +19,7 @@ def main():
         issue_counter = 2
 
     # Get paths 
-    todo_paths = TodoContext.initialize_paths(".", issue_counter)
+    todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
     # Update readme if applicable
