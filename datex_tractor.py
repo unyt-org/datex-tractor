@@ -75,8 +75,8 @@ def main():
     for path in todo_paths:
         time.sleep(6)
         for i, line_number in enumerate(path.line_numbers):
-            time.sleep(2)
-            link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number}"
+            time.sleep(1)
+            link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
             if int(path.issue_numbers[i]) in [int(issue["number"]) for issue in issues]:
                 print(f"Update issue: {path.issue_numbers[i]}")
@@ -86,15 +86,15 @@ def main():
                     path.issue_numbers[i], 
                     {
                         "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                        "body": f"- {link}\n - '{path.author_comments[i]}'\n",
+                        "body": f"- {link}\n",
                         "state": "open",
                     }
                 )
             else:
-                print(f"Create issue: {path.issue_numbers[i]}")
-                create_issue(repo, token, f"[TODO] '{path.path.removeprefix("./")}'", f"- {link}\n - {path.author_comments[i]}\n")
+                print(f"Create placeholder issue: {path.issue_numbers[i]}")
+                create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
-    print("Done updating issues.")
+    print("Done with issues.")
 
 if __name__ == "__main__":
     main()
