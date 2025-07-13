@@ -69,6 +69,7 @@ def main():
 
 
     print("Starting creating and updating issues.")
+    todo_paths.sort(key=lambda x: min(x.issue_numbers))
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
     # Create or Update issues
     for path in todo_paths:
