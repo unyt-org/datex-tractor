@@ -31,6 +31,8 @@ else
 	git commit -m "insert issues and auto update readme"
 	echo "Push to origin."
 	git push
+	echo "Pulling pushed changes"
+	git pull
 fi
 
 LAST_COMMIT=$(git rev-parse HEAD)
