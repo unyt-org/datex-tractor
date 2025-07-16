@@ -31,7 +31,7 @@ def get_issues(repo, token, per_page=100):
 
     while True:
         url = f"{API_URL}/repos/{repo}/issues?state=all&per_page={per_page}&page={page}"
-        time.sleep(3)
+        time.sleep(2)
         raw_issues = _make_request(url, token=token)
         if not raw_issues:
             break

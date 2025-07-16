@@ -71,42 +71,29 @@ def main():
     print("Starting creating and updating issues.")
     todo_paths.sort(key=lambda x: min(x.issue_numbers))
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
+    issue_numbers = [int(issue["number"]) for issue in issues]
     # Create or Update issues
     for path in todo_paths:
-        time.sleep(6)
         for i, line_number in enumerate(path.line_numbers):
-            time.sleep(1)
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
-            if int(path.issue_numbers[i]) in [int(issue["number"]) for issue in issues]:
-                print(f"Update issue: {path.issue_numbers[i]}")
-                update_issue(
-                    repo, 
-                    token, 
-                    path.issue_numbers[i], 
-                    {
-                        "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                        "body": f"- {link}\n",
-                        "state": "open",
-                    }
-                )
-            else:
+            if int(path.issue_numbers[i]) not in issue_numbers:
                 print(f"Create placeholder issue: {path.issue_numbers[i]}")
+                time.sleep(1)
                 create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
     print("Done with issues, replacing placeholders...")
-    time.sleep(10)
     made_issues = get_issues(repo, token)
-    new_issues = [issue for issue in made_issues if issue not in issues]
+    new_issues = [int(issue["number"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
+    all_issue_numbers = issue_numbers + new_issues
 
     for path in todo_paths:
-        time.sleep(6)
         for i, line_number in enumerate(path.line_numbers):
-            time.sleep(1)
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
-            if int(path.issue_numbers[i]) in [int(issue["number"]) for issue in new_issues]:
+            if int(path.issue_numbers[i]) in all_issue_numbers:
                 print(f"Update issue: {path.issue_numbers[i]}")
+                time.sleep(1)
                 update_issue(
                     repo, 
                     token, 
