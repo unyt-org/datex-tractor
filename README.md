@@ -28,7 +28,7 @@
 
 ## Configuration
 ---
-Supported semvers are 'v/x.x.x.' and 'release/x.x.x'.
+Supported semver is 'v/x.x.x.'.
 
 ### For 'v/x.x.x' use
 ---
@@ -53,33 +53,6 @@ jobs:
 
       - name: Run datex_tractor
         uses: unyt-org/todo-extractor@v0.0.2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-```
-
-### For 'release/x.x.x' use
----
-```yml
-name: datex-tractor
-
-on:
-  push:
-    branches:
-      - 'release/*'
-
-permissions:
-  contents: write
-  issues: write
-
-jobs:
-  Datex-tractor:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout own repo
-        uses: actions/checkout@v4
-
-      - name: Run datex_tractor
-        uses: unyt-org/todo-extractor@r0.0.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
