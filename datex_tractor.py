@@ -87,12 +87,21 @@ def main():
     new_issues = [int(issue["number"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
     all_issue_numbers = issue_numbers + new_issues
 
+    todo_ids = [int(issue["number"]) for issue in made_issues if "todo" in issue["labels"]]
+
+
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
             if int(path.issue_numbers[i]) in all_issue_numbers:
+
                 print(f"Update issue: {path.issue_numbers[i]}")
+                try:
+                    todo_ids.remove(path.issue_numbers[i])
+                except ValueError:
+                    pass
+
                 time.sleep(1)
                 update_issue(
                     repo, 
@@ -102,10 +111,28 @@ def main():
                         "title": f"[TODO] '{path.path.removeprefix("./")}'",
                         "body": f"- {link}\n",
                         "state": "open",
+                        "labels": ["todo"],
                     }
                 )
 
     print("Done replacing placeholders")
+
+    if len(todo_ids) <= 0:
+        print("No outdated todos")
+    else:
+        for disappeared_todo in todo_ids:
+            print(f"Label issue {disappeared_todo} as disappeared-todo")
+            time.sleep(1)
+            update_issue(
+                repo,
+                token,
+                disappeared_todo,
+                {
+                    "labels": ["disappeared-todo"],
+                }
+            )
+
+    print("Done labeling disappeared todos")
 
 if __name__ == "__main__":
     main()

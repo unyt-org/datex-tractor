@@ -43,13 +43,18 @@ def get_issues(repo, token, per_page=100):
                     "state": issue["state"],
                     "title": issue["title"],
                     "body": issue["body"],
+                    "labels": [label["name"] for label in issue["labels"]],
                 })
         page += 1
     return issues
 
 def create_issue(repo, token, title, body=""):
     url = f"{API_URL}/repos/{repo}/issues"
-    data = {"title": title, "body": body}
+    data = {
+        "title": title, 
+        "body": body, 
+        "labels": ["placeholder"],
+    }
     return _make_request(url, method="POST", token=token, data=data)
     
 def update_issue(repo, token, number, fields):

@@ -26,6 +26,10 @@
 - It actually edits code in the repo and commits, reviewing the pull request is highly recommended
 - If the Todo's are already numbered on the initial run mapping goes wild
 
+## Developer comment
+---
+- Labels are "placeholder", "todo" and "disappeared-todo"
+
 ## Configuration
 ---
 Supported semver is 'v/x.x.x.'.
