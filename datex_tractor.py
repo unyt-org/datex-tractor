@@ -98,7 +98,7 @@ def main():
 
                 print(f"Update issue: {path.issue_numbers[i]}")
                 try:
-                    todo_ids.remove(path.issue_numbers[i])
+                    todo_ids.remove(int(path.issue_numbers[i]))
                 except ValueError:
                     pass
 
