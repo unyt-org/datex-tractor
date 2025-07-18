@@ -68,7 +68,6 @@ def main():
         create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
     # Create issues
-    todo_paths.sort(key=lambda x: min([int(y) for y in x.issue_numbers]))
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
     issue_numbers = [int(issue["number"]) for issue in issues]
 
@@ -81,6 +80,7 @@ def main():
                 create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
     # Checking issues after creation
+    time.sleep(1)
     made_issues = get_issues(repo, token)
 
     # Preprocssing before updating
