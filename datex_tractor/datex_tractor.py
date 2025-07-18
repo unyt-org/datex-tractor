@@ -2,20 +2,21 @@ import os
 import sys
 import time
 
-from datex_tractor import TodoContext
-from datex_tractor import get_issues, close_issue, reopen_issue, update_issue, create_issue
+from datex_tractor_module import TodoContext
+from datex_tractor_module import get_issues, close_issue, reopen_issue, update_issue, create_issue
 
 def main():
-    if len(sys.argv) > 1:
-        print("Commit hash")
-        print(sys.argv[1])
+    if len(sys.argv) != 2:
+        sys.exit("Unresolved commit hash - only one CLA allowed")
 
     # Get issues
     token = os.environ["GITHUB_TOKEN"]
     repo = os.environ["GITHUB_REPOSITORY"]
+
     print("Fetching issues...")
     issues = get_issues(repo, token)
 
+    # Set initial index for enumerating issues in source code
     if len(issues) > 0:
         issue_counter = max([issue["number"] for issue in issues])
         issue_counter += 1
@@ -30,19 +31,18 @@ def main():
     todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
-    print("Trying to manipulate todo-list issue...")
-
-    # Logic for todo-list
-    # Filter by title, check state, set to open, and update either way
+    # Logic for todos list Filter by title, check state, set to open, and update either way
     found_todos = False
     todos_id = None
+
     for issue in issues:
 
+        # Check todo list by title
         if issue["title"] == "Todos":
             found_todos = True
             todos_id = issue["number"]
 
-            # If open list and something to do
+            # If open list and something to do update
             if issue["state"] == "open" and desc != 1:
                 update_issue(repo, token, issue["number"], fields={"body": desc})
 
@@ -60,49 +60,49 @@ def main():
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
 
     if found_todos == True and desc == 1:
-        print("Found todo list but nothing to do, closing list.")
         # Closing todo list if nothing to do
         close_issue(repo, token, todos_id)
 
     if not found_todos or found_todos == False: 
-        print(f"Creating new todo list issue.")
+        # Creating new todo-list issue
         create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
-
-    print("Starting creating and updating issues.")
-    todo_paths.sort(key=lambda x: min(x.issue_numbers))
+    # Create or Update issues
+    todo_paths.sort(key=lambda x: min([int(y) for y in x.issue_numbers]))
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
     issue_numbers = [int(issue["number"]) for issue in issues]
-    # Create or Update issues
+
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
-            link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
             if int(path.issue_numbers[i]) not in issue_numbers:
                 print(f"Create placeholder issue: {path.issue_numbers[i]}")
                 time.sleep(1)
                 create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
-    print("Done with issues, replacing placeholders...")
+    # Checking issues after creation
     made_issues = get_issues(repo, token)
+
+    # Preprocssing before updating
+    todo_ids = [int(issue["number"]) for issue in made_issues if "todo" in issue["labels"]]
     new_issues = [int(issue["number"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
     all_issue_numbers = issue_numbers + new_issues
-
-    todo_ids = [int(issue["number"]) for issue in made_issues if "todo" in issue["labels"]]
 
 
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
+            # Set permalink to specific commit, filepath and line number 
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
             if int(path.issue_numbers[i]) in all_issue_numbers:
+                # print(f"Update issue: {path.issue_numbers[i]}")
 
-                print(f"Update issue: {path.issue_numbers[i]}")
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
                 except ValueError:
                     pass
 
+                # Update anyways, in case pathing or line number have changed
                 time.sleep(1)
                 update_issue(
                     repo, 
@@ -116,13 +116,13 @@ def main():
                     }
                 )
 
-    print("Done replacing placeholders")
-
+    # After all paths are updated, check back if any todos remain not updated
+    # Conclude not updated todo-issues have been removed from source code
     if len(todo_ids) <= 0:
         print("No outdated todos")
     else:
         for disappeared_todo in todo_ids:
-            print(f"Label issue {disappeared_todo} as disappeared-todo")
+            # print(f"Label issue {disappeared_todo} as disappeared-todo")
             time.sleep(1)
             update_issue(
                 repo,
@@ -134,6 +134,7 @@ def main():
             )
 
     print("Done labeling disappeared todos")
+    return 0
 
 if __name__ == "__main__":
     main()

@@ -11,7 +11,7 @@ python --version
 pip list
 
 echo "Running jector.py..."
-python "${GITHUB_ACTION_PATH}/datex_jector.py"
+python "${GITHUB_ACTION_PATH}/datex_tractor/datex_jector.py"
 
 if [[ "$?" != 0 ]]; then
 	echo "datex_jector.py execution failed."
@@ -37,6 +37,6 @@ LAST_COMMIT=$(git rev-parse HEAD)
 echo "Commit: $LAST_COMMIT"
 
 echo "Run tractor.py..."
-python "${GITHUB_ACTION_PATH}/datex_tractor.py" $LAST_COMMIT
+python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT
 
 echo "Datex-tractor End."
