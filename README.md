@@ -103,7 +103,6 @@ jobs:
 ## Developer comment
 ---
 - Prototype of github-action-workflow for todo-extraction from repositories source code (following called `bot`)
-- Supports branch with semver v/x.x.x.
 
 In order to work the target repository requires to have
 - `README.md` file in the project root directory
