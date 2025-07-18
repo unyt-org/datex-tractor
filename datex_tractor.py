@@ -52,6 +52,7 @@ def main():
                 issues_in_list = [line.removeprefix("- Id: #") for line in lines if line.startswith("- Id: #")]
 
                 for id in issues_in_list:
+                    time.sleep(1)
                     close_issue(repo, token, int(id))
 
             # If closed list and something to do reopen by updating
@@ -65,7 +66,7 @@ def main():
 
     if not found_todos or found_todos == False: 
         print(f"Creating new todo list issue.")
-        create_issue(repo, token, title="Todos", body=desc)
+        create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
 
     print("Starting creating and updating issues.")

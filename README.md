@@ -29,7 +29,12 @@
 ## Developer comment
 ---
 - Labels are `placeholder`, `todo` and `disappeared-todo`
-- They need to be setup manually (via the issues web interface of your github repository)
+  - and `documentation` is used for the `Todos` list issue
+
+They can and need to be setup manually (via the issues web interface of your github repository) which is available at
+```
+https://github.com/your-org-name/your-repo-name/labels
+```
 
 ## Configuration
 ---
