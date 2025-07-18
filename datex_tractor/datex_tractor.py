@@ -67,7 +67,7 @@ def main():
         # Creating new todo-list issue
         create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
-    # Create or Update issues
+    # Create issues
     todo_paths.sort(key=lambda x: min([int(y) for y in x.issue_numbers]))
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
     issue_numbers = [int(issue["number"]) for issue in issues]
@@ -76,7 +76,7 @@ def main():
         for i, line_number in enumerate(path.line_numbers):
 
             if int(path.issue_numbers[i]) not in issue_numbers:
-                print(f"Create placeholder issue: {path.issue_numbers[i]}")
+                # print(f"Create placeholder issue: {path.issue_numbers[i]}")
                 time.sleep(1)
                 create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
 
