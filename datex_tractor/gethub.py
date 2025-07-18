@@ -48,12 +48,12 @@ def get_issues(repo, token, per_page=100):
         page += 1
     return issues
 
-def create_issue(repo, token, title, body=""):
+def create_issue(repo, token, title, body="", labels=["placeholder"]):
     url = f"{API_URL}/repos/{repo}/issues"
     data = {
         "title": title, 
         "body": body, 
-        "labels": ["placeholder"],
+        "labels": labels,
     }
     return _make_request(url, method="POST", token=token, data=data)
     
