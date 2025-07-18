@@ -14,7 +14,7 @@ Github action workflow for extraction of things todo from source code and turnin
     - Injects the corresponding issue ID into the codebase
 - If nothing to do is found in the code base
   - The todo-list-issue get's closed, as well as all issues mentioned in it
-- In order to work properly the last header of your projects README.md needs to be `# Datex-traxtor`
+- In order to work properly the last header of your projects README.md needs to be `# Datex-tractor`
   - This way the bot can increment a number, to make sure it has something to commit, even if nothing to do was found
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
@@ -40,8 +40,6 @@ https://github.com/your-org-name/your-repo-name/labels
 ---
 Supported semver is 'release/x.x.x.'.
 
-### For 'v/x.x.x' use
----
 ```yml
 name: datex-tractor
 
