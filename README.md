@@ -12,7 +12,7 @@
     - Injects the corresponding issue ID into the codebase
 - If nothing to do is found in the code base
   - The todo-list-issue get's closed, as well as all issues mentioned in it
-- In order to work properly the last header of your project needs to be `# Datex-traxtor`
+- In order to work properly the last header of your projects README.md needs to be `# Datex-traxtor`
   - This way the bot can increment a number, to make sure it has something to commit, even if nothing to do was found
 
 ## What it does not?
@@ -28,7 +28,8 @@
 
 ## Developer comment
 ---
-- Labels are "placeholder", "todo" and "disappeared-todo"
+- Labels are `placeholder`, `todo` and `disappeared-todo`
+- They need to be setup manually (via the issues web interface of your github repository)
 
 ## Configuration
 ---
@@ -56,7 +57,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/todo-extractor@v0.0.2
+        uses: unyt-org/todo-extractor@v0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
