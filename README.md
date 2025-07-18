@@ -38,7 +38,7 @@ https://github.com/your-org-name/your-repo-name/labels
 
 ## Configuration
 ---
-Supported semver is 'v/x.x.x.'.
+Supported semver is 'release/x.x.x.'.
 
 ### For 'v/x.x.x' use
 ---
@@ -62,7 +62,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/todo-extractor@v0.0.1
+        uses: unyt-org/todo-extractor@r0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
