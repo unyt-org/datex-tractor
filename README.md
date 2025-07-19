@@ -266,12 +266,12 @@ If it finds multiple unresolved TODOs in a block, it leaves comments like:
 - Don't comment TODOs without a date - that way, no one knows how long the shame has been festering.
 
 ### Three new "todo's"
-- Turn TODOs into fantasy - they're not bugs, they're paradoxical elven artefacts - you can simply google "7f 45 4c 46" if you don't believe elf magic is a real thing…
-- Feed your LLM a thousand TODOs - let it write a novel called "Abandoned futures & broken promises" - or write it yourself.
+- Turn TODOs into fantasy - they're not bugs, they're paradoxical elven artefacts - try searching for "7f 45 4c 46" if you don't believe elf magic is a real thing…
+- Feed your LLM a thousand TODOs - let it write a novel called "Abandoned futures & broken promises" - or did you already?.
 - When in doubt, just add another TODO - creates the illusion of progress without burdening your soul.
 
 ### Final milestone
-- Rebrand your project as a conceptual art piece.
+- Rebrand your project as conceptual art.
 - Push to prod.
 - Go outside.
 
