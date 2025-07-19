@@ -9,11 +9,14 @@ def main():
     if len(sys.argv) != 2:
         sys.exit("Unresolved commit hash - only one CLA allowed")
 
-    # Get issues
-    token = os.environ["GITHUB_TOKEN"]
-    repo = os.environ["GITHUB_REPOSITORY"]
+    # Get auth
+    try:
+        token = os.environ["GITHUB_TOKEN"]
+        repo = os.environ["GITHUB_REPOSITORY"]
+    except Exception:
+        sys.exit("Unresolved environment variables for repo and token")
 
-    print("Fetching issues...")
+    # print("Fetching issues...")
     issues = get_issues(repo, token)
 
     # Set initial index for enumerating issues in source code
@@ -119,7 +122,8 @@ def main():
     # After all paths are updated, check back if any todos remain not updated
     # Conclude not updated todo-issues have been removed from source code
     if len(todo_ids) <= 0:
-        print("No outdated todos")
+        # print("No outdated todos")
+        return 0
     else:
         for disappeared_todo in todo_ids:
             # print(f"Label issue {disappeared_todo} as disappeared-todo")
@@ -133,7 +137,7 @@ def main():
                 }
             )
 
-    print("Done labeling disappeared todos")
+    # print("Done labeling disappeared todos")
     return 0
 
 if __name__ == "__main__":

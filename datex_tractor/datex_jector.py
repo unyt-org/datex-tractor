@@ -1,8 +1,7 @@
 import os
 import time
 
-from datex_tractor_module import TodoContext
-from datex_tractor_module import get_issues
+from datex_tractor_module import TodoContext, get_issues
 
 def main():
     # Get issues
@@ -24,9 +23,13 @@ def main():
 
     # Update readme if applicable
     print(f"Readme_sentinel exit code: {TodoContext.readme_sentinel(issue_counter)}")
+    if TodoContext.readme_sentinel(issue_counter) != 0:
+        print("README.md either not found, or missing the '# Datex-tractor' header")
+        # Prevent on running on repositories without the Datex-tractor-header readme files
+        return 1
 
     print("Editing files...")
-    # Insert issue numbers
+    # Insert issue numbers into source code
     for path in todo_paths:
         with open(path.path) as f:
             reader = f.readlines()
@@ -37,6 +40,8 @@ def main():
 
         with open(path.path, "w") as f:
             f.write("".join([line for line in lines]))
+
+    return 0
 
 if __name__ == "__main__":
     main()

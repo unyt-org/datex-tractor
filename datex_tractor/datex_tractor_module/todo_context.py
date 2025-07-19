@@ -134,7 +134,7 @@ class TodoContext():
         todo_paths.sort(key=lambda x: x.path)
 
         if len(todo_paths) == 0:
-            print("Bot did not find anything to do")
+            # print("Bot did not find anything to do")
             return 1
 
         total_count = sum([
@@ -162,7 +162,7 @@ class TodoContext():
     def readme_sentinel(cls, issue_counter: int):
         todo_list_string = cls.get_todo_listed_issues(issue_counter)
         if todo_list_string == 1:
-            print("Creation of todo list failed, found nothing to do.")
+            # print("Creation of todo list failed, found nothing to do.")
             todo_list_string = "Found nothing to do.\n"
 
         lines = []
@@ -171,14 +171,14 @@ class TodoContext():
                 reader = f.readlines()
                 lines = [line for line in reader]
         except Exception:
-            print("File named 'README.md' not found in root directory.")
+            # print("File named 'README.md' not found in root directory.")
             return 1
         
         # Remember last line and increment it a priori
         try:
             last_line = int(lines[-1].strip()) + 1
         except Exception:
-            print("Can't find number in last line of readme, using default.")
+            # print("Can't find number in last line of readme, using default.")
             last_line = int(-4057)
 
         # Match sentinel index
@@ -186,7 +186,7 @@ class TodoContext():
         matches = [(i, line) for i, line in enumerate(lines) if line.startswith(todo_sentinel_start)]
 
         if len(matches) != 1:
-            print("Clear resolution of sentinel header failed")
+            # print("Clear resolution of sentinel header failed")
             return 1
 
         # Unpack index
