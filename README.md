@@ -1,8 +1,8 @@
 # Todo-extractor
 ---
-*Early alpha, things might break*
-
 Github action workflow for extraction of things todo from source code and turning every one of them into an issue.
+
+*Early alpha, things might break*
 
 # Quickstart
 ---
@@ -126,7 +126,7 @@ After acquiring the information
  
 *Note*: This is by design, so the bot has something to commit - even if no changes of the "todos" in the source code have occurred - in turn this allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git.
 
-## Syncronise with server
+## Synchronise with server
 ---
 - Creates an Issue with a todo-list titled "Todos" with relative links
   - Creates for each todo in the repo an issue
@@ -142,7 +142,7 @@ Per default the bot is set to send at peak one request per second
 - While the bot is running it may happen the issues page of your github repository not being available 
 - Wrong mapping might occur if issues are handed in while the bot is creating the placeholder issues
  
-## Labels
+## Issue Labels
 ---
 By design the bot updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
@@ -152,6 +152,10 @@ By design the bot updates the permalink of the issued todo upon every of it's ru
 
 *Note*: The labels are hard coded, their colors are not
 - renaming them prevents the bot from functioning correctly 
+
+# License
+---
+Currently MIT License.
 
 # Developer Notes
 ---
