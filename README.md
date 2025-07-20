@@ -88,7 +88,7 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
 https://github.com/your-org-name/your-repo-name/labels
 ```
 > [!NOTE]
-> Check the [recovery-section](#recovery) in case this workflow did something it shouldn't
+> Check the [recovery](#recovery)-section in case this workflow did something it shouldn't
 
 ## What this workflow does not?
 ---
