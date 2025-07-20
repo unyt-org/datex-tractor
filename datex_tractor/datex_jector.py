@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 
 from datex_tractor_module import TodoContext, get_issues
@@ -63,6 +64,8 @@ def finish_project():
         # print("Failed to remove issue ID's")
         return 1
 
-
 if __name__ == "__main__":
-    main()
+    if len(sys.argv) < 2:
+        main()
+    elif len(sys.argv) == 2:
+        finish_project()
