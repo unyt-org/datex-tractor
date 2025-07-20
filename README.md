@@ -12,7 +12,7 @@ Github action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
-Supported semver are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration
+Supported semver are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration - be sure you have covered the necessary [requirements](#requirements).
 
 ### For 'v/x.x.x' use
 ---
@@ -70,11 +70,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-## What this workflow does?
+## What it does?
 ---
 Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
 - Scans for `TODO` and `FIXME` inline-comments
-  - Scans also lines with `todo!()`
+  - Scans also lines with `todo!()` 
 - Creates an Issue with a todo-list titled `Todos` 
 - Creates individual issues with a permalink to the correlated file, line and commit
     - Writes the corresponding issue ID into the inline comment
@@ -90,7 +90,7 @@ https://github.com/your-org-name/your-repo-name/labels
 > [!NOTE]
 > Check the [recovery](#recovery)-section in case this workflow did something it shouldn't
 
-## What this workflow does not?
+## What it doesn't?
 ---
 If an already mentioned todo-comment is removed from code it does not close the corresponding issue
 - Instead it changes its label to `disappeared-todo`
@@ -156,7 +156,7 @@ After acquiring the information
 > [!NOTE]
 > This is by design, so the bot has something to commit - even if no changes of the "todos" in the source code have occurred - in turn this allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git.
 
-## Synchronise with server
+## Synchronise 
 ---
 - Creates an Issue with a todo-list titled `Todos` with relative links
 - Creates for each todo in the repo an issue
