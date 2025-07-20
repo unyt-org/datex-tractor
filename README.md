@@ -6,6 +6,7 @@ Github action workflow for extraction of things todo from source code and turnin
 
 # Quickstart
 ---
+Check [what it does](#what-it-does?), then
 - Create a `/.github/workflows/` in the root of your github repository - if you haven't already.
 - Create a `/.github/workflows/datex-tractor.yml` configuration file
 - Use one of the configurations described - or create your own
