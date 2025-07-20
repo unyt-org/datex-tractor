@@ -74,7 +74,7 @@ jobs:
 ---
 Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
 - Scans for `TODO` and `FIXME` inline-comments
-  - Scans also lines with `todo!()"`
+  - Scans also lines with `todo!()`
 - Creates an Issue with a todo-list titled `Todos` 
 - Creates individual issues with a permalink to the correlated file, line and commit
     - Writes the corresponding issue ID into the inline comment
@@ -120,11 +120,20 @@ Prototype of github-action-workflow for todo-extraction from repositories source
 ### Requirements
 ---
 In order to work the target repository requires to have
-- `README.md` file in the project root directory
-  - Last header has to be set to `# Datex-tractor` in order to work as intended
+- `/README.md` file in the project root directory
+
+Your `/README.md` file must end as follows
+```
+# Datex-tractor
+---
+some_number 
+```
+
+> [!IMPORTANT]
+> This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit
 
 > [!NOTE]
-> This way the bot can increment a number, to make sure it has in any case a change to commit
+> If `some_number` isn't an integer, bot will replace it with default and count onwards
 
 ### Process
 ---
