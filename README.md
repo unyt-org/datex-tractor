@@ -135,6 +135,9 @@ some_number
 ---
 Workflow to remove every line where something to do was found.
 
+> [!WARNING]
+> Experimental
+
 ```yml
 name: remove-datex-tractor
 
@@ -155,14 +158,11 @@ jobs:
       - name: Checkout own repo
         uses: actions/checkout@v4
 
-      - name: Run datex_tractor
+      - name: Run remove-datex_tractor
         uses: unyt-org/todo-extractor@deinstall
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
-
-> [!WARNING]
-> Experimental
 
 > [!NOTE]
 > This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done
