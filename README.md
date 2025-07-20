@@ -87,6 +87,8 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
+> [!NOTE]
+> Check the [recovery-section](#recovery) in case this workflow did something it shouldn't
 
 ## What this workflow does not?
 ---
@@ -105,7 +107,7 @@ If an already mentioned todo-comment is removed from code it does not close the 
 > It actually edits code in the repo and commits, reviewing the pull request is highly recommended
 
 > [!CAUTION]
-> If the Todo's are already numbered on the initial run mapping goes wild (Check [recovery-section](#recovery)
+> If the Todo's are already numbered on the initial run mapping goes wild 
 
 # Technical design
 ---
@@ -132,6 +134,8 @@ some_number
 ### Recovery
 ---
 *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.* - fake quote.
+
+*Section to be written...*
 
 ### Process
 ---
