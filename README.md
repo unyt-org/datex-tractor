@@ -2,7 +2,7 @@
 ---
 Github action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
-*Early alpha, things might break.*
+*Early alpha.*
 
 # Quickstart
 ---
@@ -133,9 +133,43 @@ some_number
 
 ### Recovery
 ---
-*Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.* - fake quote.
+*Experimental feature*
 
-*Section to be written...*
+> *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
+
+Workflow to remove every line where something todo was found.
+
+```yml
+name: remove-datex-tractor
+
+on:
+  workflow_dispatch:
+    branches:
+      - 'release/*'
+      - 'v/*'
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  Datex-tractor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout own repo
+        uses: actions/checkout@v4
+
+      - name: Run datex_tractor
+        uses: unyt-org/todo-extractor@deinstall
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+```
+
+> [!NOTE]
+> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything is done
+
+> [!CAUTION]
+> If you're running this on a rust-codebase and used todo!() macros it might break your code
 
 ### Process
 ---
