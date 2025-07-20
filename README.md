@@ -133,8 +133,6 @@ some_number
 
 ### Recovery
 ---
-> *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
-
 Workflow to remove every line where something to do was found.
 
 ```yml
@@ -172,6 +170,7 @@ jobs:
 > [!CAUTION]
 > If you're running this on a rust-codebase and used todo!() macros it might break your code
 
+> *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
 ### Process
 ---
 Bot is walking through repositories file system, from root on 
