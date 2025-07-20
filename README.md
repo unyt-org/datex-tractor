@@ -96,13 +96,16 @@ https://github.com/your-org-name/your-repo-name/labels
   - Instead it changes its label to `disappeared-todo`
 
 > [!IMPORTANT]
-> Changing labels or the title of the todo-list-issue results in undefined behaviour
+> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour
 
 ## What to watch out for?
 ---
-- While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping)
-- It actually edits code in the repo and commits, reviewing the pull request is highly recommended
-- If the Todo's are already numbered on the initial run mapping goes wild
+> [!WARNING]
+> While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping)
+> [!TIP]
+> It actually edits code in the repo and commits, reviewing the pull request is highly recommended
+> [!CAUTION]
+> If the Todo's are already numbered on the initial run mapping goes wild
 
 ## What if bot bugs out?
 ---
