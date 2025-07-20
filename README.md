@@ -73,9 +73,9 @@ jobs:
 ## What this workflow does?
 ---
 Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
-- Scans for "TODO" and "FIXME" inline-comments
-  - Scans also lines with "todo!()"
-- Creates an Issue with a todo-list titled "Todos" 
+- Scans for `TODO` and `FIXME` inline-comments
+  - Scans also lines with `todo!()"`
+- Creates an Issue with a todo-list titled `Todos` 
 - Creates individual issues with a permalink to the correlated file, line and commit
     - Writes the corresponding issue ID into the inline comment
     - Is relatively linked to the todo-list issue
@@ -90,8 +90,8 @@ https://github.com/your-org-name/your-repo-name/labels
 
 ## What this workflow does not?
 ---
-- If an already mentioned todo-comment is removed from code it does not close the corresponding issue
-  - Instead it changes its label to `disappeared-todo`
+If an already mentioned todo-comment is removed from code it does not close the corresponding issue
+- Instead it changes its label to `disappeared-todo`
 
 > [!IMPORTANT]
 > Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour
@@ -140,14 +140,14 @@ After acquiring the information
 - Reads in the `README.md` and...
   - Either appends a number below
   - Or increments the number if it's already there
-- Commits the changes made
+- Commits and pushes the changes made
  
 > [!NOTE]
 > This is by design, so the bot has something to commit - even if no changes of the "todos" in the source code have occurred - in turn this allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git.
 
 ## Synchronise with server
 ---
-- Creates an Issue with a todo-list titled "Todos" with relative links
+- Creates an Issue with a todo-list titled `Todos` with relative links
 - Creates for each todo in the repo an issue
   - With a permalink to the correlated file, line and commit
 
@@ -163,11 +163,11 @@ Per default the bot is set to send at peak one request per second
  
 ## Issue Labels
 ---
-By design the bot updates the permalink of the issued todo upon every of it's runs 
+Updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
-  - The default `documentation` label is used for the `Todos` list issue
-- Allows inverse checking of as "todo" labelled issues which didn't receive an update upon the current commit 
-- Changing their label form "todo" to "disappeared-todo"
+  - The default `documentation` label is used for the `Todos` titled issue
+- Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit 
+- Changing their label form `todo` to `disappeared-todo`
 
 > [!CAUTION] 
 > The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly 
