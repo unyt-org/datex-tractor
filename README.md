@@ -119,10 +119,7 @@ Prototype of github-action-workflow for todo-extraction from repositories source
 
 ### Requirements
 ---
-In order to work the target repository requires to have
-- `/README.md` file in the project root directory
-
-Your `/README.md` file must end as follows
+Your projects `/README.md` file should end as follows
 ```
 # Datex-tractor
 ---
