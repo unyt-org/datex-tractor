@@ -6,11 +6,13 @@ Github action workflow for extraction of things todo from source code and turnin
 
 # Quickstart
 ---
-*What is what, and how is why...*
+- Create a `/.github/workflows/` in the root of your github repository - if you haven't already.
+- Create a `/.github/workflows/datex-tractory.yml` configuration file
+- Use one of the configurations described - or create your own
 
 ## Configuration
 ---
-Supported semver are 'v/x.x.x.' and 'release/x.x.x' with following configuration
+Supported semver are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration
 
 ### For 'v/x.x.x' use
 ---
@@ -70,9 +72,11 @@ jobs:
 
 ## What this workflow does?
 ---
-- Checks if it's on latest branch - throws `exit 1` if not
+Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
+- Scans for "TODO" and "FIXME" inline-comments
+  - Scans also lines with "todo!()"
 - Creates an Issue with a todo-list titled "Todos" 
-    - Creates issues with a permalink to the correlated file, line and commit
+- Creates individual issues with a permalink to the correlated file, line and commit
     - Writes the corresponding issue ID into the inline comment
     - Is relatively linked to the todo-list issue
 - In order to work properly the last header of your projects `/README.md` needs to be `# Datex-tractor`
@@ -80,15 +84,19 @@ jobs:
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
 
-Their color's can be adjusted (via the issues web interface of your github repository) which is available at
+> [!TIP] 
+> Label color's can be adjusted (via the issues web interface of your github repository) which is available at
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
 
 ## What this workflow does not?
 ---
-- If an already mentioned todo marker is removed from code it does not close the corresponding issue
+- If an already mentioned todo-comment is removed from code it does not close the corresponding issue
   - Instead it changes its label to `disappeared-todo`
+
+> [!IMPORTANT]
+> Changing labels or the title of the todo-list-issue results in undefined behaviour
 
 ## What to watch out for?
 ---
@@ -137,10 +145,11 @@ After acquiring the information
 ## Synchronise with server
 ---
 - Creates an Issue with a todo-list titled "Todos" with relative links
-  - Creates for each todo in the repo an issue
-    - With a permalink to the correlated file, line and commit
-- If nothing to do is found in the code base
-  - The todo-list-issue get's closed, as well as all issues mentioned in it
+- Creates for each todo in the repo an issue
+  - With a permalink to the correlated file, line and commit
+
+> [!IMPORTANT]
+> If nothing to do is found in the code base the todo-list-issue get's closed, as well as all issues mentioned in it
  
 ### Request timing
 --- 
@@ -160,10 +169,6 @@ By design the bot updates the permalink of the issued todo upon every of it's ru
 
 > [!CAUTION] 
 > The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly 
-
-# License
----
-Currently [MIT](LICENSE.txt).
 
 # Developer Notes
 ---
@@ -282,6 +287,10 @@ If it finds multiple unresolved TODOs in a block, it leaves comments like:
 - Rebrand your project as conceptual art.
 - Push to prod.
 - Go outside.
+
+# License
+---
+Currently [MIT](LICENSE.txt).
 
 # Datex-tractor
 ---
