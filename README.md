@@ -102,8 +102,10 @@ https://github.com/your-org-name/your-repo-name/labels
 ---
 > [!WARNING]
 > While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping)
+
 > [!TIP]
 > It actually edits code in the repo and commits, reviewing the pull request is highly recommended
+
 > [!CAUTION]
 > If the Todo's are already numbered on the initial run mapping goes wild
 
@@ -115,7 +117,7 @@ https://github.com/your-org-name/your-repo-name/labels
 
 # Technical design
 ---
-Prototype of github-action-workflow for todo-extraction from repositories source code (following called `bot`)
+Prototype of github-action-workflow for todo-extraction from repositories source code
 
 ## Data processing
 ---
@@ -268,6 +270,7 @@ An unnecessary guide - because completion is overrated, and ambiguity scales bet
 - Publish a dashboard no one asked for -  but everyone secretly checks - update it only during emotionally vulnerable hours.
 
 **Fifth milestone**
+
 Implement a sarcastic linter. 
 
 If it finds multiple unresolved TODOs in a block, it leaves comments like:
