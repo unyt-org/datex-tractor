@@ -129,11 +129,14 @@ Your `/README.md` file must end as follows
 some_number 
 ```
 
-> [!IMPORTANT]
+> [!NOTE]
 > This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit
 
-> [!NOTE]
+> [!IMPORTANT]
 > If `some_number` isn't an integer, bot will replace it with default and count onwards
+
+> [!CAUTION]
+> If the `# Datex-tractor` header or the `/README.md` can't be found workflow throws an Error
 
 ### Process
 ---
