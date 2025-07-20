@@ -133,11 +133,11 @@ some_number
 
 ### Recovery
 ---
-*Experimental feature*
-
 > *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
 
-Workflow to remove every line where something todo was found.
+*Experimental feature*
+
+Workflow to remove every line where something to do was found.
 
 ```yml
 name: remove-datex-tractor
@@ -166,7 +166,7 @@ jobs:
 ```
 
 > [!NOTE]
-> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything is done
+> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done
 
 > [!CAUTION]
 > If you're running this on a rust-codebase and used todo!() macros it might break your code
@@ -232,6 +232,7 @@ An incomprehensible guide - just for a change - i mean, who wants more issues…
 - Extract block of code around every todo.
 
 **Second milestone**
+
 Prompt your locally running AI code assistant (or unpaid Intern) to:
 - Analyse unfinished code.
 - Elaborate assumptions derived by implications.
