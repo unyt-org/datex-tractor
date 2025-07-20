@@ -105,13 +105,7 @@ If an already mentioned todo-comment is removed from code it does not close the 
 > It actually edits code in the repo and commits, reviewing the pull request is highly recommended
 
 > [!CAUTION]
-> If the Todo's are already numbered on the initial run mapping goes wild
-
-## What if bot bugs out?
----
-*Section yet to be written...*
-
-*Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.* - fake quote.
+> If the Todo's are already numbered on the initial run mapping goes wild (Check [recovery-section](#recovery)
 
 # Technical design
 ---
@@ -134,6 +128,10 @@ some_number
 
 > [!CAUTION]
 > If the `# Datex-tractor` header or the `/README.md` can't be found workflow throws an Error
+
+### Recovery
+---
+*Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.* - fake quote.
 
 ### Process
 ---
