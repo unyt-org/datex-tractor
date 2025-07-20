@@ -7,7 +7,7 @@ Github action workflow for extraction of things todo from source code and turnin
 # Quickstart
 ---
 - Create a `/.github/workflows/` in the root of your github repository - if you haven't already.
-- Create a `/.github/workflows/datex-tractory.yml` configuration file
+- Create a `/.github/workflows/datex-tractor.yml` configuration file
 - Use one of the configurations described - or create your own
 
 ## Configuration
@@ -79,8 +79,6 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
 - Creates individual issues with a permalink to the correlated file, line and commit
     - Writes the corresponding issue ID into the inline comment
     - Is relatively linked to the todo-list issue
-- In order to work properly the last header of your projects `/README.md` needs to be `# Datex-tractor`
-  - This way the bot can increment a number, to make sure it has in any case a change to commit
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
 
@@ -119,15 +117,17 @@ https://github.com/your-org-name/your-repo-name/labels
 ---
 Prototype of github-action-workflow for todo-extraction from repositories source code
 
-## Data processing
----
-
-### Load
+### Requirements
 ---
 In order to work the target repository requires to have
 - `README.md` file in the project root directory
   - Last header has to be set to `# Datex-tractor` in order to work as intended
 
+> [!NOTE]
+> This way the bot can increment a number, to make sure it has in any case a change to commit
+
+### Process
+---
 Bot is walking through repositories file system, from root on 
 - Only checking files with  `[".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]`  extensions
   - Does line wise regular expression matching of each file in question
@@ -135,8 +135,6 @@ Bot is walking through repositories file system, from root on
 > [!NOTE]
 > Patterns are matched hierarchically (`"todo!()" first, "(//|#) TODO" next, "(//|#) FIXME" last`) to prevent unclear classification of the match.
 
-### Process
----
 After acquiring the information 
 - Enumerates matched expressions and inserts issue ID into source code
 - Reads in the `README.md` and...
@@ -162,7 +160,6 @@ Per default the bot is set to send at peak one request per second
 - Tailored towards running on free tier runners 
 - Everything below that one second threshold seemed to hit the secondary rate limit of the github api 
 - While the bot is running it may happen the issues page of your github repository not being available 
-- Wrong mapping might occur if issues are handed in while the bot is creating the placeholder issues
  
 ## Issue Labels
 ---
