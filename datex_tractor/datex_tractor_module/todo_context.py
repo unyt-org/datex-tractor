@@ -206,3 +206,35 @@ class TodoContext():
 
         return 0
 
+    @classmethod
+    def remove_todos(cls, issue_counter: int):
+        # Get paths 
+        todo_paths = list(cls.initialize_paths(".", issue_counter))
+        todo_paths.sort(key=lambda x: x.path)
+
+        if TodoContext.readme_sentinel(issue_counter) != 0:
+            print("README.md either not found, or missing the '# Datex-tractor' header")
+            # Prevent on running on repositories without the Datex-tractor-header readme files
+            return 1
+
+        print("Removing todo comments and makros from files...")
+        # Insert issue numbers into source code
+        for path in todo_paths:
+            with open(path.path) as f:
+                reader = f.readlines()
+                lines = [line for line in reader]
+
+            for i, new_line in enumerate(path.lines):
+                # Instead of insterting issue ID, replace the matched expression...
+                # lines[path.line_numbers[i]] = new_line if new_line.endswith("\n") else new_line + "\n"
+
+                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_makro, "", lines[path.line_numbers[i]], count=1)
+                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_comment, "", lines[path.line_numbers[i]], count=1)
+                lines[path.line_numbers[i]] = re.sub(TodoContext.fixme_comment, "", lines[path.line_numbers[i]], count=1)
+
+            with open(path.path, "w") as f:
+                f.write("".join([line for line in lines]))
+        
+        return 0
+
+

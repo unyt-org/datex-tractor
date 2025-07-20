@@ -2,7 +2,7 @@
 ---
 Github action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
-*Early alpha, things might break*
+*Early alpha, things might break.*
 
 # Quickstart
 ---
@@ -95,6 +95,12 @@ https://github.com/your-org-name/your-repo-name/labels
 - It actually edits code in the repo and commits, reviewing the pull request is highly recommended
 - If the Todo's are already numbered on the initial run mapping goes wild
 
+## What if bot bugs out?
+---
+*Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.* - fake quote.
+
+*Section yet to be written...*
+
 # Technical design
 ---
 - Prototype of github-action-workflow for todo-extraction from repositories source code (following called `bot`)
@@ -147,11 +153,11 @@ Per default the bot is set to send at peak one request per second
 By design the bot updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
-- allows inverse checking of as "todo" labelled issues which didn't receive an update upon the current commit 
-- changing their label form "todo" to "disappeared-todo"
+- Allows inverse checking of as "todo" labelled issues which didn't receive an update upon the current commit 
+- Changing their label form "todo" to "disappeared-todo"
 
 *Note*: The labels are hard coded, their colors are not
-- renaming them prevents the bot from functioning correctly 
+- Renaming them prevents the bot from functioning correctly 
 
 # License
 ---

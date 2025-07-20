@@ -24,7 +24,7 @@ def main():
         issue_counter = max([issue["number"] for issue in issues])
         issue_counter += 1
     else:
-        issue_counter = 2
+        issue_counter = 1
 
     # Returns int(1) if nothing to do
     desc = TodoContext.get_todo_listed_issues(issue_counter)
@@ -61,14 +61,6 @@ def main():
             # If closed list and something to do reopen by updating
             elif issue["state"] == "closed" and desc != 1:
                 update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
-
-    if found_todos == True and desc == 1:
-        # Closing todo list if nothing to do
-        close_issue(repo, token, todos_id)
-
-    if not found_todos or found_todos == False: 
-        # Creating new todo-list issue
-        create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
     # Create issues
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
@@ -118,6 +110,15 @@ def main():
                         "labels": ["todo"],
                     }
                 )
+
+    # Create or close to do list
+    if found_todos == True and desc == 1:
+        # Closing todo list if nothing to do
+        close_issue(repo, token, todos_id)
+
+    if not found_todos or found_todos == False: 
+        # Creating new todo-list issue
+        create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
 
     # After all paths are updated, check back if any todos remain not updated
     # Conclude not updated todo-issues have been removed from source code
