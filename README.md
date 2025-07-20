@@ -135,8 +135,6 @@ some_number
 ---
 > *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
 
-*Experimental feature*
-
 Workflow to remove every line where something to do was found.
 
 ```yml
@@ -164,6 +162,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+> [!WARNING]
+> Experimental
 
 > [!NOTE]
 > This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done
