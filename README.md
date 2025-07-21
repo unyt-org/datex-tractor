@@ -87,8 +87,6 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
-> [!NOTE]
-> Check the [recovery](#recovery)-section in case this workflow did something it shouldn't
 
 ## What it doesn't?
 ---
@@ -133,10 +131,11 @@ some_number
 
 ### Recovery
 ---
-Workflow to remove every line where something to do was found.
 
 > [!WARNING]
 > Experimental
+
+Workflow to remove every line where something to do was found.
 
 ```yml
 name: remove-datex-tractor
