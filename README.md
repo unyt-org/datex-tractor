@@ -83,7 +83,7 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
   - The default `documentation` label is used for the `Todos` list issue
 
 > [!TIP] 
-> Label color's can be adjusted (via the issues web interface of your github repository) which is available at.
+> Label color's can be adjusted (via the issues web interface of your github repository) which is available at
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
@@ -212,7 +212,7 @@ Per default the bot is set to send at peak one request per second
 > Check out [actions limits](https://docs.github.com/en/actions/reference/actions-limits) for more information on this topic.
 
 > [!IMPORTANT]
-> Unservered API requests just print out error states, and are not throwing errors - worst case is around 3 times as many printed error-messages before the workflow stops.
+> Unservered API requests just print out error states - they are not throwing errors.
 
 ## Labels
 ---
