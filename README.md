@@ -83,7 +83,7 @@ Checks if it's on latest branch - throws `exit 1` if not - then it starts creati
   - The default `documentation` label is used for the `Todos` list issue
 
 > [!TIP] 
-> Label color's can be adjusted (via the issues web interface of your github repository) which is available at
+> Label color's can be adjusted (via the issues web interface of your github repository) which is available at.
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
@@ -94,18 +94,18 @@ If an already mentioned todo-comment is removed from code it does not close the 
 - Instead it changes its label to `disappeared-todo`
 
 > [!IMPORTANT]
-> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour
+> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour.
 
 ## What to watch out for?
 ---
 > [!WARNING]
-> While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping)
+> While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping).
 
 > [!TIP]
-> It actually edits code in the repo and commits, reviewing the pull request is highly recommended
+> It actually edits code in the repo and commits, reviewing the pull request is highly recommended.
 
 > [!CAUTION]
-> If the Todo's are already numbered on the initial run mapping goes wild 
+> If the Todo's are already numbered on the initial run mapping goes wild.
 
 # Technical design
 ---
@@ -121,13 +121,13 @@ some_number
 ```
 
 > [!NOTE]
-> This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit
+> This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit.
 
 > [!IMPORTANT]
-> If `some_number` isn't an integer, bot will replace it with default and count onwards
+> If `some_number` isn't an integer, bot will replace it with default and count onwards.
 
 > [!CAUTION]
-> If the `# Datex-tractor` header or the `/README.md` can't be found workflow throws an Error
+> If the `# Datex-tractor` header or the `/README.md` can't be found workflow throws an Error.
 
 ### Recovery
 ---
@@ -164,10 +164,10 @@ jobs:
 ```
 
 > [!NOTE]
-> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done
+> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done.
 
 > [!CAUTION]
-> If you're running this on a rust-codebase and used todo!() macros it might break your code
+> If you're running this on a rust-codebase and used todo!() macros it might break your code.
 
 > *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
 ### Process
@@ -196,7 +196,7 @@ After acquiring the information
   - With a permalink to the correlated file, line and commit
 
 > [!IMPORTANT]
-> If nothing to do is found in the code base the todo-list-issue get's closed, as well as all issues mentioned in it
+> If nothing to do is found in the code base the todo-list-issue get's closed, as well as all issues mentioned in it.
  
 ### Request timing
 --- 
@@ -204,8 +204,17 @@ Per default the bot is set to send at peak one request per second
 - Tailored towards running on free tier runners 
 - Everything below that one second threshold seemed to hit the secondary rate limit of the github api 
 - While the bot is running it may happen the issues page of your github repository not being available 
- 
-## Issue Labels
+
+> [!NOTE]
+> This results in 3,600 requests per hour at maximum rate (should leave at minimum 1,400 API calls for other jobs on a free tier runner). 
+
+> [!TIP] 
+> Check out [actions limits](https://docs.github.com/en/actions/reference/actions-limits) for more information on this topic.
+
+> [!IMPORTANT]
+> Unservered API requests just print out error states, and are not throwing errors - worst case is around 3 times as many printed error-messages before the workflow stops.
+
+## Labels
 ---
 Updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
