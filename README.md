@@ -6,7 +6,7 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 # Quickstart
 ---
-- Create a `/.github/workflows/` in the root of your GitHub repository - if you haven't already.
+- Create a `/.github/workflows/` in the root of your GitHub repository - if you haven't already
 - Create a `/.github/workflows/datex-tractor.yml` configuration file
 - Use one of the configurations described - or create your own
 
@@ -111,66 +111,7 @@ If an already mentioned todo-comment is removed from the code it does not close 
 ---
 Prototype of github-action-workflow for todo-extraction from repositories source code
 
-### Requirements
----
-Your projects `/README.md` file should end as follows
-```
-# Datex-tractor
----
-some_number 
-```
-
-> [!NOTE]
-> This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit.
-
-> [!IMPORTANT]
-> If `some_number` isn't an integer, the bot will replace it with the default integer and count onwards.
-
-> [!CAUTION]
-> If the `# Datex-tractor` header or the `/README.md` can't be found, the workflow throws an error.
-
-### Recovery
----
-
-> [!WARNING]
-> Experimental
-
-Workflow to remove every line where something to do was found.
-
-```yml
-name: remove-datex-tractor
-
-on:
-  workflow_dispatch:
-    branches:
-      - 'release/*'
-      - 'v/*'
-
-permissions:
-  contents: write
-  issues: write
-
-jobs:
-  Datex-tractor:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout own repo
-        uses: actions/checkout@v4
-
-      - name: Run remove-datex_tractor
-        uses: unyt-org/todo-extractor@deinstall
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-```
-
-> [!NOTE]
-> This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done.
-
-> [!CAUTION]
-> If you're running this on a rust-codebase and used `todo!()` macros it might break your code.
-
-> *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
-### Process
+## Process
 ---
 Bot is walking through repositories file system, from root on 
 - Only checking files with  `[".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]` extensions
@@ -181,13 +122,10 @@ Bot is walking through repositories file system, from root on
 
 After acquiring the information 
 - Enumerates matched expressions and inserts issue ID into source code
-- Reads in the `README.md` and...
-  - Either appends a number below
-  - Or increments the number if it's already there
-- Commits and pushes the changes made
+- Commits and pushes the changes made - if any, otherwise it pushes an empty commit
  
 > [!NOTE]
-> This is by design, so the bot has something to commit - even if no changes of the "todos" in the source code have occurred - in turn this allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git.
+> This allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git, even if the action is only updating all todo-issues to the current state.
 
 ## Synchronise 
 ---
