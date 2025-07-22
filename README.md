@@ -1,18 +1,18 @@
 # Todo-extractor
 ---
-Github action workflow for extraction of things todo from source code and turning every one of them into an issue.
+GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
 *Early alpha.*
 
 # Quickstart
 ---
-- Create a `/.github/workflows/` in the root of your github repository - if you haven't already.
+- Create a `/.github/workflows/` in the root of your GitHub repository - if you haven't already.
 - Create a `/.github/workflows/datex-tractor.yml` configuration file
 - Use one of the configurations described - or create your own
 
 ## Configuration
 ---
-Supported semver are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration - be sure you have covered the necessary [requirements](#requirements).
+Supported semantic versions are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration - be sure you have covered the necessary [requirements](#requirements).
 
 ### For 'v/x.x.x' use
 ---
@@ -74,23 +74,23 @@ jobs:
 ---
 Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
 - Scans for `TODO` and `FIXME` inline-comments
-  - Scans also lines with `todo!()` 
-- Creates an Issue with a todo-list titled `Todos` 
-- Creates individual issues with a permalink to the correlated file, line and commit
-    - Writes the corresponding issue ID into the inline comment
-    - Is relatively linked to the todo-list issue
-- Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
+  - Scans also lines with `todo!()` macros
+- Creates an issue with a todo-list titled `Todos` 
+- Creates individual issues with permalinks to the correlated file, line and commit
+    - Writes the associated issue ID into the inline comment of the source code
+    - Links each issue relatively to the main TODO list issue
+- [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
 
 > [!TIP] 
-> Label color's can be adjusted (via the issues web interface of your github repository) which is available at
+> Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
 ```
 https://github.com/your-org-name/your-repo-name/labels
 ```
 
 ## What it doesn't?
 ---
-If an already mentioned todo-comment is removed from code it does not close the corresponding issue
+If an already mentioned todo-comment is removed from the code it does not close the corresponding issue
 - Instead it changes its label to `disappeared-todo`
 
 > [!IMPORTANT]
@@ -124,10 +124,10 @@ some_number
 > This way the bot can increment `some_number` (integer), to make sure it has in any case a change to commit.
 
 > [!IMPORTANT]
-> If `some_number` isn't an integer, bot will replace it with default and count onwards.
+> If `some_number` isn't an integer, the bot will replace it with the default integer and count onwards.
 
 > [!CAUTION]
-> If the `# Datex-tractor` header or the `/README.md` can't be found workflow throws an Error.
+> If the `# Datex-tractor` header or the `/README.md` can't be found, the workflow throws an error.
 
 ### Recovery
 ---
@@ -167,13 +167,13 @@ jobs:
 > This workflow will close the todo-list issue, as well as all issues relatively linked in it, as if everything to do is done.
 
 > [!CAUTION]
-> If you're running this on a rust-codebase and used todo!() macros it might break your code.
+> If you're running this on a rust-codebase and used `todo!()` macros it might break your code.
 
 > *Some mornings i awake from unease dreams, finding myself transformed in my deployment environment into a monstorous bug.*
 ### Process
 ---
 Bot is walking through repositories file system, from root on 
-- Only checking files with  `[".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]`  extensions
+- Only checking files with  `[".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]` extensions
   - Does line wise regular expression matching of each file in question
 
 > [!NOTE]
@@ -191,8 +191,8 @@ After acquiring the information
 
 ## Synchronise 
 ---
-- Creates an Issue with a todo-list titled `Todos` with relative links
-- Creates for each todo in the repo an issue
+- Creates a collection issue that contains a todo-list titled `Todos` with relative links to all other auto-generated issues
+- Creates an issue for each todo in the repo
   - With a permalink to the correlated file, line and commit
 
 > [!IMPORTANT]
@@ -200,10 +200,10 @@ After acquiring the information
  
 ### Request timing
 --- 
-Per default the bot is set to send at peak one request per second
-- Tailored towards running on free tier runners 
-- Everything below that one second threshold seemed to hit the secondary rate limit of the github api 
-- While the bot is running it may happen the issues page of your github repository not being available 
+By default, the bot is configured to send at most one request per second.
+- This rate is optimized for running on free-tier GitHub Actions runners.
+- Sending requests more frequently than once per second tends to trigger GitHub's secondary rate limits.
+- While the bot is running, the Issues page of your GitHub repository may temporarily become unavailable.
 
 > [!NOTE]
 > This results in 3,600 requests per hour at maximum rate (should leave at minimum 1,400 API calls for other jobs on a free tier runner). 
@@ -236,8 +236,8 @@ An incomprehensible guide - just for a change - i mean, who wants more issues…
 **First milestone**
 - Crawl the repo, read in files filtered by name extensions.
 - Check file with regex for todo's.
-- Keep track of files path and line containing todo.
-- Extract block of code around every todo.
+- Keep track of file paths and lines containing todo.
+- Extract blocks of code around every todo.
 
 **Second milestone**
 
@@ -247,8 +247,8 @@ Prompt your locally running AI code assistant (or unpaid Intern) to:
 - If possible suggest a plan to complete unfinished code. 
 
 **Third milestone**
-- Don't unpack and don't index into it, neither you go through getters - just typecast every codeblock including metadata to a str and pass it to the model.
-- generate 100+ complaints about weirdly formatted code and store them as tickets for later.
+- Don't unpack and don't index into it, neither you go through getters - just typecast every codeblock including metadata to a string and pass it to the model.
+- Generate 100+ complaints about weirdly formatted code and store them as tickets for later.
 
 **Three "don't's"**
 - Don't solve any problems - that would kill the vibe.
@@ -272,8 +272,8 @@ A comprehensible guide - because the first one turned out to be confusing…
 - Keep track of files path and line containing todo.
 
 **Second milestone**
-- Get all issues of the repo - via api calls.
-- Continue the primary key pattern github uses for issues -  simply increment the highest "number" you can find in your pile of json responses…
+- Get all issues of the repo - via API calls.
+- Continue the primary key pattern GitHub uses for issues - simply increment the highest "number" you can find in your pile of JSON responses…
 - Insert your a-priori made-up issue-ID's into the code base - commit, push - trust in git and keep the commit hash close.
 
 **Third milestone**
@@ -289,7 +289,7 @@ A comprehensible guide - because the first one turned out to be confusing…
 **Fifth milestone**
 - Automatically create a todo-list-issue with relative links to the real issues - label it as "documentation".
 - Reopen issues in case someone closed it, but left the todo comment in the source code…
-- Automate the entire thing designed within constrains of github workflows.
+- Automate the entire thing designed within constrains of GitHub workflows.
 
 Making todo-inline-comments traceable - it's not as if they're syntax errors - but they *could* be. 
 
@@ -318,7 +318,7 @@ An unnecessary guide - because completion is overrated, and ambiguity scales bet
 **Fourth milestone**
 - Introduce version-controlled optimism: every time a new TODO is found, record the timestamp and the ambient mood (inferred via commit message tone).
 - Make a heatmap of developer regret.
-- Publish a dashboard no one asked for -  but everyone secretly checks - update it only during emotionally vulnerable hours.
+- Publish a dashboard no one asked for - but everyone secretly checks - update it only during emotionally vulnerable hours.
 
 **Fifth milestone**
 
@@ -337,7 +337,7 @@ If it finds multiple unresolved TODOs in a block, it leaves comments like:
 
 **Three new "todo's"**
 - Turn TODOs into fantasy - they're not bugs, they're paradoxical elven artefacts - try searching for "7f 45 4c 46" if you don't believe elf magic is a real thing…
-- Feed your LLM a thousand TODOs - let it write a novel called "Abandoned futures & broken promises" - or did you already?.
+- Feed your LLM a thousand TODOs - let it write a novel called "Abandoned futures & broken promises" - or did you already?
 - When in doubt, just add another TODO - creates the illusion of progress without burdening your soul.
 
 **Final milestone**
