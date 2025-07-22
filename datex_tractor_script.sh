@@ -23,8 +23,8 @@ git config --global user.email "github-actions@github.com"
 
 git add .
 
-echo "Commit changes."
-git commit --allow-empty -m "tod-bot auto-commit"
+echo "Commit changes - if any."
+git commit --allow-empty -m "todo-extractor auto-commit"
 echo "Push to origin."
 git push
 
