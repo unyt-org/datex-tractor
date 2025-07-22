@@ -12,7 +12,7 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
-Supported semantic versions are `'v/x.x.x.'` and `'release/x.x.x'` with following configuration - be sure you have covered the necessary [requirements](#requirements).
+Supported semantic versions are `'v/x.x.x.'` and `'release/x.x.x'` with following suggestions of configuration.
 
 ### For 'v/x.x.x' use
 ---
