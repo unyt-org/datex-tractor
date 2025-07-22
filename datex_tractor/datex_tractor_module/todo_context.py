@@ -95,7 +95,7 @@ class TodoContext():
 
     @classmethod
     def initialize_paths(cls, src_path: str, issue_counter: int):
-        extensions = [".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]
+        extensions = [".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"]
         todo_paths = set()
 
         # Crawling through current work directory

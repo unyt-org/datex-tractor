@@ -114,7 +114,7 @@ Prototype of github-action-workflow for todo-extraction from repositories source
 ## Process
 ---
 Bot is walking through repositories file system, from root on 
-- Only checking files with  `[".rs", ".cpp", ".py", ".sh",".java", ".ts", ".js", ".php"]` extensions
+- Only checking files with  `[".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"]` extensions
   - Does line wise regular expression matching of each file in question
 
 > [!NOTE]
