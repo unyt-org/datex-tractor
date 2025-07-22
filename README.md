@@ -286,7 +286,3 @@ If it finds multiple unresolved TODOs in a block, it leaves comments like:
 # License
 ---
 Currently [MIT](LICENSE.txt).
-
-# Datex-tractor
----
-Something that will be overwritten.
