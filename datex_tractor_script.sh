@@ -23,15 +23,10 @@ git config --global user.email "github-actions@github.com"
 
 git add .
 
-if git diff --cached --quiet; then
-	echo "No changes to commit."
-	exit 0
-else
-	echo "Commit changes."
-	git commit -m "insert issues and auto update readme"
-	echo "Push to origin."
-	git push
-fi
+echo "Commit changes."
+git commit --allow-empty -m "tod-bot auto-commit"
+echo "Push to origin."
+git push
 
 LAST_COMMIT=$(git rev-parse HEAD)
 echo "Commit: $LAST_COMMIT"

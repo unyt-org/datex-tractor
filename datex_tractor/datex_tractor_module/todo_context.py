@@ -159,63 +159,10 @@ class TodoContext():
         return desc
 
     @classmethod
-    def readme_sentinel(cls, issue_counter: int):
-        todo_list_string = cls.get_todo_listed_issues(issue_counter)
-        if todo_list_string == 1:
-            # print("Creation of todo list failed, found nothing to do.")
-            todo_list_string = "Found nothing to do.\n"
-
-        lines = []
-        try:
-            with open("README.md", mode="r", encoding="utf-8") as f:
-                reader = f.readlines()
-                lines = [line for line in reader]
-        except Exception:
-            # print("File named 'README.md' not found in root directory.")
-            return 1
-        
-        # Remember last line and increment it a priori
-        try:
-            last_line = int(lines[-1].strip()) + 1
-        except Exception:
-            # print("Can't find number in last line of readme, using default.")
-            last_line = int(-4057)
-
-        # Match sentinel index
-        todo_sentinel_start = "# Datex-tractor"
-        matches = [(i, line) for i, line in enumerate(lines) if line.startswith(todo_sentinel_start)]
-
-        if len(matches) != 1:
-            # print("Clear resolution of sentinel header failed")
-            return 1
-
-        # Unpack index
-        header_line, _ = matches[0]
-
-        # Cut off after sentinel index
-        lines = lines[:header_line + 2]
-        # Debug
-        # lines.append(todo_list_string)
-
-        # Append incremented remembered last line
-        lines.append(str(last_line))
-
-        # Overwrite old sentinel
-        with open("README.md", mode="w", encoding="utf-8") as f:
-            f.write("".join([str(line) for line in lines]))
-
-        return 0
-
-    @classmethod
     def remove_todos(cls, issue_counter: int):
         # Get paths 
         todo_paths = list(cls.initialize_paths(".", issue_counter))
         todo_paths.sort(key=lambda x: x.path)
-
-        if TodoContext.readme_sentinel(issue_counter) != 0:
-            print("README.md either not found, or missing the '# Datex-tractor' header")
-            # Prevent on running on repositories without the Datex-tractor-header readme files
-            return 1
 
         print("Removing todo comments and makros from files...")
         # Insert issue numbers into source code
@@ -236,5 +183,3 @@ class TodoContext():
                 f.write("".join([line for line in lines]))
         
         return 0
-
-

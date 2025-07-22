@@ -21,13 +21,6 @@ def main():
     todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
-    # Update readme if applicable
-    print(f"Readme_sentinel exit code: {TodoContext.readme_sentinel(issue_counter)}")
-    if TodoContext.readme_sentinel(issue_counter) != 0:
-        print("README.md either not found, or missing the '# Datex-tractor' header")
-        # Prevent on running on repositories without the Datex-tractor-header readme files
-        return 1
-
     print("Editing files...")
     # Insert issue numbers into source code
     for path in todo_paths:
