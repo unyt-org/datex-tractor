@@ -37,14 +37,13 @@ def get_issues(repo, token, per_page=100):
             break
 
         for issue in raw_issues:
-            if "pull_request" not in issue: # Exclude PR's?
-                issues.append({
-                    "number": issue["number"],
-                    "state": issue["state"],
-                    "title": issue["title"],
-                    "body": issue["body"],
-                    "labels": [label["name"] for label in issue["labels"]],
-                })
+            issues.append({
+                "number": issue["number"],
+                "state": issue["state"],
+                "title": issue["title"],
+                "body": issue["body"],
+                "labels": [label["name"] for label in issue["labels"]],
+            })
         page += 1
     return issues
 
