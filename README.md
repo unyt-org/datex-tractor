@@ -25,6 +25,10 @@ on:
     branches:
       - 'v/*'
 
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 permissions:
   contents: write
   issues: write
@@ -52,6 +56,10 @@ on:
   push:
     branches:
       - 'release/*'
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
 
 permissions:
   contents: write
