@@ -175,9 +175,9 @@ class TodoContext():
                 # Instead of insterting issue ID, replace the matched expression...
                 # lines[path.line_numbers[i]] = new_line if new_line.endswith("\n") else new_line + "\n"
 
-                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_makro, "", lines[path.line_numbers[i]], count=1)
-                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_comment, "", lines[path.line_numbers[i]], count=1)
-                lines[path.line_numbers[i]] = re.sub(TodoContext.fixme_comment, "", lines[path.line_numbers[i]], count=1)
+                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_makro, "\n", lines[path.line_numbers[i]], count=1)
+                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_comment, "\n", lines[path.line_numbers[i]], count=1)
+                lines[path.line_numbers[i]] = re.sub(TodoContext.fixme_comment, "\n", lines[path.line_numbers[i]], count=1)
 
             with open(path.path, "w") as f:
                 f.write("".join([line for line in lines]))
