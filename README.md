@@ -1,4 +1,4 @@
-# Todo-extractor
+# datex-tractor
 ---
 GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/todo-extractor@v0.0.1
+        uses: unyt-org/datex-tractor@v0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -73,7 +73,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/todo-extractor@r0.0.1
+        uses: unyt-org/datex-tractor@r0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
