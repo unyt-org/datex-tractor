@@ -2,8 +2,8 @@ import os
 import sys
 import time
 
-from datex_tractor_module import TodoContext
-from datex_tractor_module import get_issues, close_issue, reopen_issue, update_issue, create_issue
+from datex_tractor_module import TodoContext, get_issues, get_discussions
+from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
 def main():
     if len(sys.argv) != 2:
@@ -18,10 +18,11 @@ def main():
 
     # print("Fetching issues...")
     issues = get_issues(repo, token)
+    discussions = get_discussions(repo, token)
 
     # Set initial index for enumerating issues in source code
     if len(issues) > 0:
-        issue_counter = max([issue["number"] for issue in issues])
+        issue_counter = max([issue["number"] for issue in issues] + [disc["number"] for disc in discussions])
         issue_counter += 1
     else:
         issue_counter = 1

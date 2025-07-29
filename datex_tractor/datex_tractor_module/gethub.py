@@ -68,3 +68,27 @@ def close_issue(repo, token, number):
 
 def reopen_issue(repo, token, number):
     return update_issue(repo, token, number, {"state": "open"})
+
+def get_discussions(repo, token, per_page=100):
+    discussions = []
+    page = 1
+
+    while True:
+        url = f"{API_URL}/repos/{repo}/discussions?state=all&per_page={per_page}&page={page}"
+        time.sleep(2)
+        raw_discussions = _make_request(url, token=token)
+        if not raw_discussions:
+            break
+
+        for discussion in raw_discussions:
+            discussions.append({
+                "number": discussion["number"],
+                "state": discussion["state"],
+                "title": discussion["title"],
+                "body": discussion["body"],
+                "labels": [label["name"] for label in discussion["labels"]],
+            })
+        page += 1
+    return discussions 
+
+

@@ -2,7 +2,7 @@ import os
 import sys
 import time
 
-from datex_tractor_module import TodoContext, get_issues
+from datex_tractor_module import TodoContext, get_issues, get_discussions
 
 def main():
     # Get issues
@@ -10,9 +10,10 @@ def main():
     repo = os.environ["GITHUB_REPOSITORY"]
     print("Fetching issues...")
     issues = get_issues(repo, token)
+    discussions = get_discussions(repo, token)
 
     if len(issues) > 0:
-        issue_counter = max([issue["number"] for issue in issues])
+        issue_counter = max([issue["number"] for issue in issues] + [disc["number"] for disc in discussions])
         issue_counter += 1
     else:
         issue_counter = 1
