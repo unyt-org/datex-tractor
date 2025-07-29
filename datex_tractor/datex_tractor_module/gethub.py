@@ -90,5 +90,3 @@ def get_discussions(repo, token, per_page=100):
             })
         page += 1
     return discussions 
-
-
