@@ -2,8 +2,6 @@
 ---
 GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
-*Early alpha.*
-
 # Quickstart
 ---
 - Create a `/.github/workflows/` in the root of your GitHub repository - if you haven't already
@@ -12,41 +10,8 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
-Supported semantic versions are `'v/x.x.x.'` and `'release/x.x.x'` with following suggestions of configuration.
+Supported semantic version is `'release/x.x.x'`.
 
-### For 'v/x.x.x' use
----
-
-```yml
-name: datex-tractor
-
-on:
-  push:
-    branches:
-      - 'v/*'
-
-concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: false
-
-permissions:
-  contents: write
-  issues: write
-
-jobs:
-  Datex-tractor:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout own repo
-        uses: actions/checkout@v4
-
-      - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@v0.0.1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-```
-
-### For 'release/x.x.x' use
 ---
 
 ```yml
@@ -73,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@r0.0.1
+        uses: unyt-org/datex-tractor@v0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
