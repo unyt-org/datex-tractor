@@ -23,7 +23,8 @@ jobs:
           GH_TARGET_PAT: ${{ secrets.GH_TARGET_PAT }}
           TARGET_REPO_OWNER: unyt-org
           TARGET_REPO_NAME: datex-core
-        run: bash python .github/tools/main.py
+        run: |
+          python .github/tools/main.py
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
