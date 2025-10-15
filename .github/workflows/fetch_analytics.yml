@@ -17,17 +17,27 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Run analytics script
+      - name: Python pip requirements...
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r datex_tracker/requirements.txt
+
+      - name: Setup tmp directory...
+        run: |
+          mkdir datex_tracker/tmp/
+
+      - name: Run analytics script...
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_TARGET_PAT: ${{ secrets.GH_TARGET_PAT }}
           TARGET_REPO_OWNER: unyt-org
           TARGET_REPO_NAME: datex-core
         run: |
-          python main.py
+          python datex_tracker/main.py
       
-      - name: Upload artifact
+      - name: Upload artifact...
         uses: actions/upload-artifact@v4
         with:
           name: workflow-data
-          path: workflow_data.csv
+          path: datex_tracker/tmp/
