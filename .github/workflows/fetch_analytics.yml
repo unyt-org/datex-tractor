@@ -17,12 +17,6 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Python pip requirements...
-        run: |
-          python -m venv .venv
-          source .venv/bin/activate
-          pip install -r datex_tracker/requirements.txt
-
       - name: Setup tmp directory...
         run: |
           mkdir datex_tracker/tmp/
@@ -34,6 +28,9 @@ jobs:
           TARGET_REPO_OWNER: unyt-org
           TARGET_REPO_NAME: datex-core
         run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r datex_tracker/requirements.txt
           python datex_tracker/main.py
       
       - name: Upload artifact...
