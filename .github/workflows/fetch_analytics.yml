@@ -24,7 +24,7 @@ jobs:
           TARGET_REPO_OWNER: unyt-org
           TARGET_REPO_NAME: datex-core
         run: |
-          python .github/tools/main.py
+          python main.py
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
