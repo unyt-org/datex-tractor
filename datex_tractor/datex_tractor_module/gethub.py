@@ -4,8 +4,8 @@ import time
 
 API_URL = "https://api.github.com"
 
+
 def _make_request(url, method="GET", token=None, data=None):
-    
     headers = {
         "Authorization": f"Bearer {token}",
         "Accept": "application/vnd.github+json",
@@ -17,13 +17,19 @@ def _make_request(url, method="GET", token=None, data=None):
         data = json.dumps(data).encode("utf-8")
         # headers["Content-Type"] = "application/json"
 
-    req = urllib.request.Request(url, method=method, headers=headers, data=data)
+    req = urllib.request.Request(
+        url,
+        method=method,
+        headers=headers,
+        data=data
+    )
 
     try:
         with urllib.request.urlopen(req) as resp:
             return json.loads(resp.read().decode())
     except urllib.error.HTTPError as e:
         print("Error response body:", e.read().decode())
+
 
 def get_issues(repo, token, per_page=100):
     issues = []
@@ -47,15 +53,17 @@ def get_issues(repo, token, per_page=100):
         page += 1
     return issues
 
+
 def create_issue(repo, token, title, body="", labels=["placeholder"]):
     url = f"{API_URL}/repos/{repo}/issues"
     data = {
-        "title": title, 
-        "body": body, 
+        "title": title,
+        "body": body,
         "labels": labels,
     }
     return _make_request(url, method="POST", token=token, data=data)
-    
+
+
 def update_issue(repo, token, number, fields):
     """
     Example fields: {"title":"New title", "body": "Updated body"}
@@ -63,11 +71,14 @@ def update_issue(repo, token, number, fields):
     url = f"{API_URL}/repos/{repo}/issues/{number}"
     return _make_request(url, method="PATCH", token=token, data=fields)
 
+
 def close_issue(repo, token, number):
     return update_issue(repo, token, number, {"state": "closed"})
 
+
 def reopen_issue(repo, token, number):
     return update_issue(repo, token, number, {"state": "open"})
+
 
 def get_discussions(repo, token, per_page=100):
     discussions = []
@@ -89,4 +100,4 @@ def get_discussions(repo, token, per_page=100):
                 "labels": [label["name"] for label in discussion["labels"]],
             })
         page += 1
-    return discussions 
+    return discussions

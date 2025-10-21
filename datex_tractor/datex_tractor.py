@@ -5,6 +5,7 @@ import time
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
+
 def main():
     if len(sys.argv) != 2:
         sys.exit("Unresolved commit hash - only one CLA allowed")
@@ -22,7 +23,9 @@ def main():
 
     # Set initial index for enumerating issues in source code
     if len(issues) > 0:
-        issue_counter = max([issue["number"] for issue in issues] + [disc["number"] for disc in discussions])
+        issue_counter = max(
+            [issue["number"] for issue in issues] + [disc["number"] for disc in discussions]
+        )
         issue_counter += 1
     else:
         issue_counter = 1
@@ -48,7 +51,12 @@ def main():
 
             # If open list and something to do update
             if issue["state"] == "open" and desc != 1:
-                update_issue(repo, token, issue["number"], fields={"body": desc})
+                update_issue(
+                    repo,
+                    token,
+                    issue["number"],
+                    fields={"body": desc}
+                )
 
             # If open list but nothing to do close existing listed issues
             elif issue["state"] == "open" and desc == 1:
@@ -61,7 +69,12 @@ def main():
 
             # If closed list and something to do reopen by updating
             elif issue["state"] == "closed" and desc != 1:
-                update_issue(repo, token, issue["number"], fields={"state": "open", "body": desc})
+                update_issue(
+                    repo,
+                    token,
+                    issue["number"],
+                    fields={"state": "open", "body": desc}
+                )
 
     # Create issues
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
@@ -73,7 +86,12 @@ def main():
             if int(path.issue_numbers[i]) not in issue_numbers:
                 # print(f"Create placeholder issue: {path.issue_numbers[i]}")
                 time.sleep(1)
-                create_issue(repo, token, f"[TODO] Placeholder", f"To be replaced (Rerun datex-tractor workflow for update).")
+                create_issue(
+                    repo,
+                    token,
+                    f"[TODO] Placeholder",
+                    f"To be replaced (Rerun datex-tractor workflow for update)."
+                )
 
     # Checking issues after creation
     time.sleep(1)
@@ -87,7 +105,7 @@ def main():
 
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
-            # Set permalink to specific commit, filepath and line number 
+            # Set permalink to specific commit, filepath and line number
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
             if int(path.issue_numbers[i]) in all_issue_numbers:
@@ -101,9 +119,9 @@ def main():
                 # Update anyways, in case pathing or line number have changed
                 time.sleep(1)
                 update_issue(
-                    repo, 
-                    token, 
-                    path.issue_numbers[i], 
+                    repo,
+                    token,
+                    path.issue_numbers[i],
                     {
                         "title": f"[TODO] '{path.path.removeprefix("./")}'",
                         "body": f"- {link}\n",
@@ -117,9 +135,15 @@ def main():
         # Closing todo list if nothing to do
         close_issue(repo, token, todos_id)
 
-    if not found_todos or found_todos == False: 
+    if not found_todos or found_todos == False:
         # Creating new todo-list issue
-        create_issue(repo, token, title="Todos", body=desc, labels=["documentation"])
+        create_issue(
+            repo,
+            token,
+            title="Todos",
+            body=desc,
+            labels=["documentation"]
+        )
 
     # After all paths are updated, check back if any todos remain not updated
     # Conclude not updated todo-issues have been removed from source code
@@ -141,6 +165,7 @@ def main():
 
     # print("Done labeling disappeared todos")
     return 0
+
 
 if __name__ == "__main__":
     main()

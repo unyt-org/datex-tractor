@@ -1,8 +1,9 @@
 import os
 import sys
-import time
+
 
 from datex_tractor_module import TodoContext, get_issues, get_discussions
+
 
 def main():
     # Get issues
@@ -13,12 +14,14 @@ def main():
     discussions = get_discussions(repo, token)
 
     if len(issues) > 0:
-        issue_counter = max([issue["number"] for issue in issues] + [disc["number"] for disc in discussions])
+        issue_counter = max(
+            [issue["number"] for issue in issues] + [disc["number"] for disc in discussions]
+        )
         issue_counter += 1
     else:
         issue_counter = 1
 
-    # Get paths 
+    # Get paths
     todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
@@ -36,6 +39,7 @@ def main():
             f.write("".join([line for line in lines]))
 
     return 0
+
 
 def finish_project():
     """Removes todo-comments including rusts todo-makros"""
@@ -57,6 +61,7 @@ def finish_project():
     else:
         # print("Failed to remove issue ID's")
         return 1
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

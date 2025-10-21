@@ -1,17 +1,18 @@
 import re
 import os
 
+
 class TodoContext():
     # Definition of regexes
     todo_comment = re.compile(
-        r"(?:#|//)\s*(TODO)(?:\s+#(?P<number>\d+))?\s*(?P<comment>.*)?", 
+        r"(?:#|//)\s*(TODO)(?:\s+#(?P<number>\d+))?\s*(?P<comment>.*)?",
         re.IGNORECASE
     )
     fixme_comment = re.compile(
         r"(?:#|//)\s*(FIXME)(?:\s+#(?P<number>\d+))?\s*(?P<comment>.*)?",
         re.IGNORECASE
     )
-    todo_makro = re.compile(r'\b(todo!)\("?#?(?P<number>\d+)?"?:?(?P<comment>.*)\)(?P<tail>.*)') 
+    todo_makro = re.compile(r'\b(todo!)\("?#?(?P<number>\d+)?"?:?(?P<comment>.*)\)(?P<tail>.*)')
 
     def __init__(self, path: str):
         self.path = path
@@ -37,7 +38,7 @@ class TodoContext():
 
             if match := cls.todo_makro.search(line):
                 if not match.group("number"):
-                    
+
                     # Place default description if uncommented
                     if not match.group("comment"):
                         counter_string = f'"#{issue_counter} {new_comment}")'
@@ -54,7 +55,7 @@ class TodoContext():
                     "line_number": i,
                     "extracted_match": str(match.group()).rstrip("\n"),
                     "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
-                    "issue_number": match.group("number") if match.group("number") else issue_counter- 1,
+                    "issue_number": match.group("number") if match.group("number") else issue_counter - 1,
                     "comment": match.group("comment").rstrip('"') if match.group("comment") else new_comment
                 })
 
@@ -71,7 +72,7 @@ class TodoContext():
                     "line_number": i,
                     "extracted_match": str(match.group()).rstrip("\n"),
                     "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
-                    "issue_number": match.group("number").lstrip("#") if match.group("number") else issue_counter- 1,
+                    "issue_number": match.group("number").lstrip("#") if match.group("number") else issue_counter - 1,
                     "comment": match.group("comment") if match.group("comment") else new_comment
                 })
 
@@ -82,12 +83,12 @@ class TodoContext():
                     new_line = line[:match.start(1) + 5] + f" #{issue_counter}" + line[match.start(1) + 5:]
                     new_line = new_line.rstrip("\n")
                     issue_counter += 1
-                
+
                 findings.append({
                     "line_number": i,
                     "extracted_match": str(match.group()).rstrip("\n"),
                     "line": new_line.rstrip("\n") if not match.group("number") else line.rstrip("\n"),
-                    "issue_number": match.group("number") if match.group("number") else issue_counter- 1,
+                    "issue_number": match.group("number") if match.group("number") else issue_counter - 1,
                     "comment": match.group("comment") if match.group("comment") else new_comment
                 })
 
@@ -95,19 +96,24 @@ class TodoContext():
 
     @classmethod
     def initialize_paths(cls, src_path: str, issue_counter: int):
-        extensions = [".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"]
+        extensions = [
+            ".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"
+        ]
         todo_paths = set()
 
         # Crawling through current work directory
         for root, _, files in os.walk(src_path):
             for file in files:
 
-                # Checking python files 
-                if any([file.endswith(ext) for ext in extensions]): 
+                # Checking python files
+                if any([file.endswith(ext) for ext in extensions]):
                     path = os.path.join(root, file)
 
-                    # Checking regexes 
-                    findings, issue_counter = cls.scan_for_issues(path, issue_counter)
+                    # Checking regexes
+                    findings, issue_counter = cls.scan_for_issues(
+                        path,
+                        issue_counter
+                    )
                     if findings:
                         tempTodoPath = TodoContext(path)
 
@@ -141,7 +147,7 @@ class TodoContext():
             1
             for todo_path in todo_paths
             for line_number in todo_path.line_numbers
-            ])
+        ])
 
         # Create descrtiption
         desc = f"- {len(todo_paths)} files to do.\n"
@@ -160,7 +166,7 @@ class TodoContext():
 
     @classmethod
     def remove_todos(cls, issue_counter: int):
-        # Get paths 
+        # Get paths
         todo_paths = list(cls.initialize_paths(".", issue_counter))
         todo_paths.sort(key=lambda x: x.path)
 
@@ -181,5 +187,5 @@ class TodoContext():
 
             with open(path.path, "w") as f:
                 f.write("".join([line for line in lines]))
-        
+
         return 0
