@@ -10,7 +10,7 @@ runs:
   steps:
     - name: Run datex_tractor_script.sh
       run: |
-        source $HOME/cs/ai/dpsk/dpsk/.venv/bin/activate
+        source ${{ inputs.source_path }}
         "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
       env:
