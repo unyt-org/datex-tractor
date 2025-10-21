@@ -40,11 +40,15 @@ def main():
             n_ctx=4096,
             verbose=False,
         )
+    except Exception:
+        sys.exit("Unresolved model path")
+
+    try:
         with open("system.txt") as f:
             instruction = f.read().strip()
-
     except Exception:
-        sys.exit("Unresolved model or prompt path")
+        sys.exit("Unresolved prompt path")
+
 
     # Get auth
     try:
