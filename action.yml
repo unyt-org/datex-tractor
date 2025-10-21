@@ -8,11 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with: 
-        python-version: 3.13
-
     - name: Run datex_tractor_script.sh
       run: bash "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
