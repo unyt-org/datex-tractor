@@ -187,7 +187,7 @@ class TodoContext():
                     try:
                         context_block = lines[context_start: context_end]
                     except Exception:
-                        context_block = lines[context_start: line_number]
+                        context_block = lines[context_start:]
 
                     # Memorize code_block and metadata
                     path.code_blocks.append((context_start, context_end, context_block))
