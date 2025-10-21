@@ -5,6 +5,8 @@ import time
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
+from llama_cpp import Llama
+
 
 class Prompt():
     def __init__(self, instruction):
@@ -31,6 +33,8 @@ def main():
 
     # Try loading model
     try:
+        home = os.getenv("HOME")
+        model_path = home + "/cs/ai/dpsk/dpsk/llama.cpp/models/deepseek-llm-7b-chat.Q4_K_M.gguf"
         llm = Llama(
             model_path=model_path,
             n_ctx=4096,
