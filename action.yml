@@ -8,10 +8,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Check if is latest version
-      run: bash "${{ github.action_path }}/check_latest.sh"
-      shell: bash
-
     - name: Set up Python
       uses: actions/setup-python@v5
       with: 
