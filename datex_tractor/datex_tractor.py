@@ -169,9 +169,9 @@ def main():
                     print("Generating answer...")
                     output = llm(
                         prompt,
-                        max_tokens=1_024,
-                        temperature=0.5,
-                        top_p=0.95,
+                        max_tokens=512,
+                        temperature=0.4,
+                        top_p=0.92,
                         top_k=50,
                         repeat_penalty=1.1,
                         stop=["<|user|>", "<|system|>"],
