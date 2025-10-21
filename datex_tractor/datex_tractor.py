@@ -162,7 +162,7 @@ def main():
                     print()
                     print("Init new prompt...")
                     sysprom = Prompt(instruction)
-                    user_input = "```rust\n" + "".join(block[2]) + "```"
+                    user_input = "```rust\n" + "".join(path.code_blocks[i][2]) + "```"
 
                     sysprom.from_user(user_input)
                     prompt = sysprom.get_prompt()
