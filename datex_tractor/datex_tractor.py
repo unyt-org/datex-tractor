@@ -32,9 +32,9 @@ def main():
         sys.exit("Unresolved commit hash - only one CLA allowed")
 
     # Try loading model
-    home = os.getenv("HOME")
+    model_path = os.getenv("MODEL_PATH")
+    prompt_path = os.getenv("PROMPT_PATH")
     try:
-        model_path = home + "/cs/ai/dpsk/dpsk/llama.cpp/models/deepseek-llm-7b-chat.Q4_K_M.gguf"
         llm = Llama(
             model_path=model_path,
             n_ctx=4096,
@@ -44,7 +44,7 @@ def main():
         sys.exit("Unresolved model path")
 
     try:
-        with open(home + "/cs/ai/dpsk/dpsk/system.txt") as f:
+        with open(prompt_path) as f:
             instruction = f.read().strip()
     except Exception:
         sys.exit("Unresolved prompt path")
