@@ -13,10 +13,10 @@ def main():
     # Load in model
     try:
         from datex_tractor_module import Prompt
-        llm, instruction = Prompt.load_model()
     except Exception:
         Prompt = None
-        sys.exit("Unresolved model or prompt")
+    else:
+        llm, instruction = Prompt.load_model()
 
     # Get auth
     try:
