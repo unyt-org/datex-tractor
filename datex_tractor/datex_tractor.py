@@ -27,10 +27,7 @@ class Prompt():
         return prompt
 
 
-def main():
-    if len(sys.argv) != 2:
-        sys.exit("Unresolved commit hash - only one CLA allowed")
-
+def load_model():
     # Try loading model
     home_path = os.getenv("HOME")
     model_path = home_path + os.getenv("MODEL_PATH")
@@ -42,21 +39,58 @@ def main():
             verbose=False,
         )
     except Exception:
-        sys.exit("Unresolved model path")
+        print("Model not found.")
+        raise FileNotFoundError("Unresolved model path")
 
     try:
         with open(prompt_path) as f:
             instruction = f.read().strip()
     except Exception:
-        sys.exit("Unresolved prompt path")
+        print("Prompt not found.")
+        raise FileNotFoundError("Unresolved prompt path")
 
+    return llm, instruction
+
+
+def gen_advice(llm, instruction: str, code_block: str):
+    user_input = "```rust\n" + code_block + "\n```"
+
+    print("Init new prompt...")
+    sysprom = Prompt(instruction)
+    sysprom.from_user(user_input)
+    prompt = sysprom.get_prompt()
+
+    print("Generating answer...")
+    output = llm(
+        prompt,
+        max_tokens=512,
+        temperature=0.4,
+        top_p=0.92,
+        top_k=50,
+        repeat_penalty=1.1,
+        stop=["<|user|>", "<|system|>"],
+     )
+
+    text_output = output["choices"][0]["text"]
+    return text_output
+
+
+def main():
+    if len(sys.argv) != 2:
+        sys.exit("Unresolved commit hash - only one CLA allowed")
+
+    # Load in model
+    try:
+        llm, instruction = load_model()
+    except Exception:
+        sys.exit("Unresolved model or prompt")
 
     # Get auth
     try:
         token = os.environ["GITHUB_TOKEN"]
         repo = os.environ["GITHUB_REPOSITORY"]
     except Exception:
-        sys.exit("Unresolved environment variables for repo and token")
+        sys.exit("Unresolved environment variables for repo or token")
 
     # print("Fetching issues...")
     issues = get_issues(repo, token)
@@ -156,26 +190,9 @@ def main():
                 except ValueError:
                     pass
 
-                print("Init new prompt...")
-                sysprom = Prompt(instruction)
+                # Generate advice
                 code_block = "".join(path.code_blocks[i][2])
-                user_input = "```rust\n" + code_block + "\n```"
-
-                sysprom.from_user(user_input)
-                prompt = sysprom.get_prompt()
-
-                print("Generating answer...")
-                output = llm(
-                    prompt,
-                    max_tokens=512,
-                    temperature=0.4,
-                    top_p=0.92,
-                    top_k=50,
-                    repeat_penalty=1.1,
-                    stop=["<|user|>", "<|system|>"],
-                 )
-
-                text_output = output["choices"][0]["text"]
+                text_output = gen_advice(llm, instruction, code_block)
 
                 # Prepare body...
                 # Finnally update
