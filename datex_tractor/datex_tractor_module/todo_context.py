@@ -196,9 +196,9 @@ class TodoContext():
         return todo_paths
 
     @classmethod
-    def remove_todos(cls, issue_counter: int):
+    def remove_todos(cls, src_path: str, issue_counter: int):
         # Get paths
-        todo_paths = list(cls.initialize_paths(".", issue_counter))
+        todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)
 
         print("Removing todo comments and makros from files...")
@@ -217,27 +217,29 @@ class TodoContext():
                         # replace macro
                         lines[path.line_numbers[i]] = re.sub(
                             match.group("number"),
-                            "",
+                            "0",
                             path.lines[i],
                             count=1
-                        ) + "\n"
+                        ).replace("#0 ", "", count=1) + "\n"
+
                 elif match := cls.todo_comment.search(path.matched_lines[i]):
                     if match.group("number"):
                         # replace comments
                         lines[path.line_numbers[i]] = re.sub(
                             match.group("number"),
-                            "",
+                            "0",
                             path.lines[i],
                             count=1
-                        )
+                        ).replace(" #0", "", count=1) + "\n"
+
                 elif match := cls.fixme_comment.search(path.matched_lines[i]):
                     if match.group("number"):
                         lines[path.line_numbers[i]] = re.sub(
-                            TodoContext.fixme_comment,
-                            "\n",
+                            match.group("number"),
+                            "0",
                             lines[path.line_numbers[i]],
                             count=1
-                        )
+                        ).replace(" #0", "", count=1) + "\n"
 
             with open(path.path, "w") as f:
                 f.write("".join([line for line in lines]))
