@@ -6,7 +6,7 @@ inputs:
     description: "GitHub token"
   source_path:
     required: false
-    default: ".venv/bin/activate"
+    default: ""
   model_path:
     required: false
     default: ""
@@ -19,8 +19,9 @@ runs:
   steps:
     - name: Run datex_tractor_script.sh
       run: |
-        python -m venv .venv
-        source ${{ inputs.source_path }}
+        if ${{ inputs.source_path }}" != "" ]; then
+          source ${{ inputs.source_path }}
+        fi
         "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
       env:
