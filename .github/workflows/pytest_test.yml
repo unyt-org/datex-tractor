@@ -20,6 +20,7 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install pytest
+        mkdir tests/samples_out
     - name: Run tests...
       run: |
         pytest
