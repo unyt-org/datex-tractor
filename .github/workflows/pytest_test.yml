@@ -7,7 +7,7 @@ on:
       - "feat/local"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   pytest-tests:
@@ -16,6 +16,12 @@ jobs:
     steps:
     - name: Check Repo...
       uses: actions/checkout@v5
+
+    - name: Set up Python...
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.13"
+
     - name: Setup pytest...
       run: |
         pip install --upgrade pip
