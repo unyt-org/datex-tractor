@@ -1,5 +1,6 @@
 __pycache__/
 .venv
 .ipynb_checkpoints
+.pytest_cache/
 datex_tracker/tmp/
 notes.ipynb
