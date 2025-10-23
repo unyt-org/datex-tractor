@@ -6,12 +6,19 @@ inputs:
     description: "GitHub token"
   source_path:
     required: false
+    description: "Path to virtual envrionment"
+    default: ""
+  model:
+    required: false
+    description: "Either 'dpsk' or 'hrms'"
     default: ""
   model_path:
     required: false
+    description: "Path to llm"
     default: ""
   prompt_path:
     required: false
+    description: "Path to systemprompt of llm"
     default: ""
 
 runs:
@@ -19,10 +26,12 @@ runs:
   steps:
     - name: Run datex_tractor_script.sh
       run: |
-        if [[ "${{ inputs.source_path }}" != "" ]]; then
+        if [[ "${{ inputs.source_path }}" != "" && "${{ inputs.model }}" != "" ]]; then
           source ${{ inputs.source_path }}
+          "${{ github.action_path }}/datex_tractor_script.sh" "${{ inputs.model }}"
+        else
+          "${{ github.action_path }}/datex_tractor_script.sh"
         fi
-        "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
       env:
         MODEL_PATH: ${{ inputs.model_path }}

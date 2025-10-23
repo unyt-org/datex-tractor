@@ -2,10 +2,6 @@
 set -e
 echo "Datex-tractor Start."
 
-if [[ "$#" != 0 ]]; then
-	echo "No CLA please."
-	exit 1
-fi
 echo "Python check..."
 python --version
 pip list
@@ -32,6 +28,10 @@ LAST_COMMIT=$(git rev-parse HEAD)
 echo "Commit: $LAST_COMMIT"
 
 echo "Run tractor.py..."
-python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT
+if [[ "$#" == 1 ]]; then
+    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT $1
+else
+    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT
+fi
 
 echo "Datex-tractor End."
