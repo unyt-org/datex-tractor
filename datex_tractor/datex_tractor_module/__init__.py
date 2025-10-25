@@ -16,7 +16,7 @@ else:
     match sys.argv[2]:
         case "hrms":
             try:
-                from .hermes import Prompt
+                from .hrms import Prompt
 
             except Exception:
                 raise NotImplementedError("Missing dependency")
