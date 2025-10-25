@@ -173,13 +173,10 @@ fn key_expansion(key: [u8; 32], round_keys: &mut [u32; 60]) {
     }
 }
 
-// XOR each byte of state with a round key
+// TODO: Find a way to XOR each byte of state with a round key
 fn add_round_key(state: &mut [[u8; 4]; 4], round_key: [u32; 4]) {
     for c in 0..4 {
-        state[0][c] = state[0][c] ^ (((round_key[c] >> 24) as u8) & 0xFF as u8);
-        state[1][c] = state[1][c] ^ (((round_key[c] >> 16) as u8) & 0xFF as u8);
-        state[2][c] = state[2][c] ^ (((round_key[c] >> 8) as u8) & 0xFF as u8);
-        state[3][c] = state[3][c] ^ ((round_key[c] as u8) & 0xFF as u8);
+        todo!()
     }
 }
 
@@ -269,11 +266,12 @@ fn aes_decrypt(state: &mut [[u8; 4]; 4], round_keys: &[u32; 60]) {
     );
 }
 
+// FIXME
 fn block_to_state(block: &[u8; 16]) -> [[u8; 4]; 4] {
     let mut state = [[0u8; 4]; 4];
     for i in 0..4 {
         for j in 0..4 {
-            state[j][i] =  block[i * 4 + j];
+            state[i][j] =  block[i * 4 + j];
         }
     }
     state
