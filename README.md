@@ -38,7 +38,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@v0.0.1
+        uses: unyt-org/datex-tractor@r0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
