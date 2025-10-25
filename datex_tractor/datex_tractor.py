@@ -44,7 +44,7 @@ def main():
         sys.exit("Unresolved model path")
 
     try:
-        with open("system.txt") as f:
+        with open("datex_tractor/system.txt") as f:
             instruction = f.read().strip()
     except Exception:
         sys.exit("Unresolved prompt path")
