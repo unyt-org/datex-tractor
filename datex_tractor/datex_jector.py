@@ -1,7 +1,5 @@
 import os
 import sys
-
-
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 
 
