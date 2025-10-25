@@ -31,6 +31,7 @@ class TodoContext():
 
     @classmethod
     def scan_for_issues(cls, filepath: str, issue_counter: int):
+        """Reads lines of a file. Matches for regex and creates a list of findings including metadata."""
 
         with open(filepath, errors="ignore") as f:
             lines = f.readlines()
@@ -99,6 +100,7 @@ class TodoContext():
 
     @classmethod
     def initialize_paths(cls, src_path: str, issue_counter: int):
+        """Returns a set of todo-path objects."""
         extensions = [
             ".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"
         ]
@@ -137,8 +139,8 @@ class TodoContext():
         return todo_paths
 
     @classmethod
-    def get_todo_listed_issues(cls, issue_counter: int):
-        src_path = "."
+    def get_todo_listed_issues(cls, src_path, issue_counter: int):
+        """Creates a todo-list."""
         todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)
 
@@ -169,6 +171,7 @@ class TodoContext():
 
     @classmethod
     def extract_codeblocks(cls, src_path, issue_counter: int):
+        """Like initialize_paths - but additionally extracts code block surrounding target expressions."""
         upper_margin = 25
         lower_margin = 25
 
@@ -197,6 +200,7 @@ class TodoContext():
 
     @classmethod
     def remove_todos(cls, src_path: str, issue_counter: int):
+        """Removes inserted issue ids from codebase."""
         # Get paths
         todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)

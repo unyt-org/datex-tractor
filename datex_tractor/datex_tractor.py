@@ -39,7 +39,7 @@ def main():
         issue_counter = 1
 
     # Returns int(1) if nothing to do
-    desc = TodoContext.get_todo_listed_issues(issue_counter)
+    desc = TodoContext.get_todo_listed_issues(".", issue_counter)
     if desc != 1:
         desc = "# Checking todos...\n" + desc
 

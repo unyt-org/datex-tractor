@@ -4,6 +4,7 @@ from datex_tractor_module import TodoContext, get_issues, get_discussions
 
 
 def main():
+    """Inserts numbers into codebase as primary key for the corresponding issue"""
     # Get issues
     token = os.environ["GITHUB_TOKEN"]
     repo = os.environ["GITHUB_REPOSITORY"]
