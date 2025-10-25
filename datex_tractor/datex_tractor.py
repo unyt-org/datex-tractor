@@ -156,56 +156,40 @@ def main():
                 except ValueError:
                     pass
 
-                # Generate text in case of todo makro...
-                if match := TodoContext.todo_makro.search(path.matched_lines[i]):
-                    print("Init new prompt...")
-                    sysprom = Prompt(instruction)
-                    code_block = "".join(path.code_blocks[i][2])
-                    user_input = "```rust\n" + code_block + "\n```"
+                print("Init new prompt...")
+                sysprom = Prompt(instruction)
+                code_block = "".join(path.code_blocks[i][2])
+                user_input = "```rust\n" + code_block + "\n```"
 
-                    sysprom.from_user(user_input)
-                    prompt = sysprom.get_prompt()
+                sysprom.from_user(user_input)
+                prompt = sysprom.get_prompt()
 
-                    print("Generating answer...")
-                    output = llm(
-                        prompt,
-                        max_tokens=512,
-                        temperature=0.4,
-                        top_p=0.92,
-                        top_k=50,
-                        repeat_penalty=1.1,
-                        stop=["<|user|>", "<|system|>"],
-                     )
+                print("Generating answer...")
+                output = llm(
+                    prompt,
+                    max_tokens=512,
+                    temperature=0.4,
+                    top_p=0.92,
+                    top_k=50,
+                    repeat_penalty=1.1,
+                    stop=["<|user|>", "<|system|>"],
+                 )
 
-                    text_output = output["choices"][0]["text"]
+                text_output = output["choices"][0]["text"]
 
-                    # Prepare body...
-                    # Finnally update
-                    update_issue(
-                        repo,
-                        token,
-                        path.issue_numbers[i],
-                        {
-                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n{str(text_output)}\n",
-                            "state": "open",
-                            "labels": ["todo"],
-                        }
-                    )
-                else:
-                    # Update anyways, in case pathing or line number have changed
-                    time.sleep(1)
-                    update_issue(
-                        repo,
-                        token,
-                        path.issue_numbers[i],
-                        {
-                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n",
-                            "state": "open",
-                            "labels": ["todo"],
-                        }
-                    )
+                # Prepare body...
+                # Finnally update
+                update_issue(
+                    repo,
+                    token,
+                    path.issue_numbers[i],
+                    {
+                        "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                        "body": f"- {link}\n{str(text_output)}\n",
+                        "state": "open",
+                        "labels": ["todo"],
+                    }
+                )
 
     # Create or close to do list
     if found_todos == True and desc == 1:
