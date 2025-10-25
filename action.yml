@@ -9,7 +9,9 @@ runs:
   using: "composite"
   steps:
     - name: Run datex_tractor_script.sh
-      run: bash "${{ github.action_path }}/datex_tractor_script.sh"
+      run: |
+        source $HOME/cs/ai/dpsk/dpsk/.venv/bin/activate
+        "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
