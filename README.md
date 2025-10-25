@@ -35,10 +35,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout own repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
+      - name: Set up Python...
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
       - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@r0.0.1
+        uses: unyt-org/datex-tractor@r0.0.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

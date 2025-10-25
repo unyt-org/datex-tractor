@@ -142,6 +142,7 @@ def main():
                     )
                 else:
                     # Update without text_outupt if model not loaded
+                    time.sleep(1)
                     update_issue(
                         repo,
                         token,
