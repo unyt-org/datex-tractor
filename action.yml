@@ -4,18 +4,28 @@ inputs:
   github_token:
     required: true
     description: "GitHub token"
+  source_path:
+    required: false
+    default: ".venv/bin/activate"
+  model_path:
+    required: false
+    default: ""
+  prompt_path:
+    required: false
+    default: ""
 
 runs:
   using: "composite"
   steps:
     - name: Run datex_tractor_script.sh
       run: |
+        python -m venv .venv
         source ${{ inputs.source_path }}
         "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
+      with:
+        MODEL_PATH: ${{ inputs.model_path }}
+        PROMPT_PATH: ${{ inputs.prompt_path }}
       env:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
-        MODEL_PATH: ${{ inputs.model_path }}
-        PROMPT_PATH: ${{ inputs.prompt_path }}
-
