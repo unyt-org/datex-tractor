@@ -212,9 +212,32 @@ class TodoContext():
                 # Instead of insterting issue ID, replace the matched expression...
                 # lines[path.line_numbers[i]] = new_line if new_line.endswith("\n") else new_line + "\n"
 
-                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_makro, "\n", lines[path.line_numbers[i]], count=1)
-                lines[path.line_numbers[i]] = re.sub(TodoContext.todo_comment, "\n", lines[path.line_numbers[i]], count=1)
-                lines[path.line_numbers[i]] = re.sub(TodoContext.fixme_comment, "\n", lines[path.line_numbers[i]], count=1)
+                if match := cls.todo_makro.search(path.matched_lines[i]):
+                    if match.group("number"):
+                        # replace macro
+                        lines[path.line_numbers[i]] = re.sub(
+                            match.group("number"),
+                            "",
+                            path.lines[i],
+                            count=1
+                        ) + "\n"
+                elif match := cls.todo_comment.search(path.matched_lines[i]):
+                    if match.group("number"):
+                        # replace comments
+                        lines[path.line_numbers[i]] = re.sub(
+                            match.group("number"),
+                            "",
+                            path.lines[i],
+                            count=1
+                        )
+                elif match := cls.fixme_comment.search(path.matched_lines[i]):
+                    if match.group("number"):
+                        lines[path.line_numbers[i]] = re.sub(
+                            TodoContext.fixme_comment,
+                            "\n",
+                            lines[path.line_numbers[i]],
+                            count=1
+                        )
 
             with open(path.path, "w") as f:
                 f.write("".join([line for line in lines]))
