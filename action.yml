@@ -19,7 +19,7 @@ runs:
   steps:
     - name: Run datex_tractor_script.sh
       run: |
-        if ${{ inputs.source_path }}" != "" ]; then
+        if "${{ inputs.source_path }}" != "" ]; then
           source ${{ inputs.source_path }}
         fi
         "${{ github.action_path }}/datex_tractor_script.sh"
