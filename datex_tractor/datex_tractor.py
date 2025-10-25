@@ -7,8 +7,8 @@ from datex_tractor_module import close_issue, reopen_issue, update_issue, create
 
 
 def main():
-    if len(sys.argv) != 2:
-        sys.exit("Unresolved commit hash - only one CLA allowed")
+    if len(sys.argv) != 2 or len(sys.argv) != 3:
+        sys.exit("Unresolved CLA. (commit hash, model shorthand)")
 
     # Load in model
     try:
