@@ -26,6 +26,9 @@ class TodoContext():
         self.issue_numbers = []
         self.author_comments = []
 
+        # Code context - list[tuple(start_line, end_line, code_block)]
+        self.code_blocks = []
+
     @classmethod
     def scan_for_issues(cls, filepath: str, issue_counter: int):
 
@@ -163,6 +166,35 @@ class TodoContext():
 
         desc += "\n"
         return desc
+
+    @classmethod
+    def extract_codeblocks(cls, issue_counter: int):
+        upper_margin = 20
+        lower_margin = 20
+        src_path = "."
+
+        todo_paths = list(cls.initialize_paths(src_path, issue_counter))
+        todo_paths.sort(key=lambda x: x.path)
+        # Exctract code blocks
+        for path in todo_paths:
+            for i, line_number in enumerate(path.line_numbers):
+                # Circumvent naively indexing out of bounds
+                context_start = 0 if line_number - upper_margin < 0 else line_number - upper_margin
+                context_end = line_number + lower_margin
+
+                with open(path.path) as f:
+                    lines = f.readlines()
+                    # Try to apply upper margin or fall back to line where todo was detected
+                    try:
+                        context_block = lines[context_start: context_end]
+                    except Exception:
+                        context_block = lines[context_start: line_number]
+
+                    # Memorize code_block and metadata
+                    path.code_blocks.append((context_start, context_end, context_block))
+
+        # Return list of instances of this class
+        return todo_paths
 
     @classmethod
     def remove_todos(cls, issue_counter: int):

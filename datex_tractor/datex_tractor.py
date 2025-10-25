@@ -6,9 +6,41 @@ from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
 
+class Prompt():
+    def __init__(self, instruction):
+        self.system_instruction = instruction
+        self.chat = [instruction]
+
+    def from_user(self, text: str):
+        self.chat.append("<|user|>" + text)
+        self.chat.append("<|assistant|>")
+
+    def from_assistant(self, text: str):
+        self.chat[-1] += text
+
+    def get_prompt(self):
+        prompt = ""
+        for line in self.chat:
+            prompt += line
+        return prompt
+
+
 def main():
     if len(sys.argv) != 2:
         sys.exit("Unresolved commit hash - only one CLA allowed")
+
+    # Try loading model
+    try:
+        llm = Llama(
+            model_path=model_path,
+            n_ctx=4096,
+            verbose=False,
+        )
+        with open("system.txt") as f:
+            instruction = f.read().strip()
+
+    except Exception:
+        sys.exit("Unresolved model or prompt path")
 
     # Get auth
     try:
@@ -35,7 +67,7 @@ def main():
     if desc != 1:
         desc = "# Checking todos...\n" + desc
 
-    todo_paths = list(TodoContext.initialize_paths(".", issue_counter))
+    todo_paths = list(TodoContext.extract_codeblocks(".", issue_counter))
     todo_paths.sort(key=lambda x: x.path)
 
     # Logic for todos list Filter by title, check state, set to open, and update either way
@@ -102,7 +134,6 @@ def main():
     new_issues = [int(issue["number"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
     all_issue_numbers = issue_numbers + new_issues
 
-
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             # Set permalink to specific commit, filepath and line number
@@ -116,19 +147,58 @@ def main():
                 except ValueError:
                     pass
 
-                # Update anyways, in case pathing or line number have changed
-                time.sleep(1)
-                update_issue(
-                    repo,
-                    token,
-                    path.issue_numbers[i],
-                    {
-                        "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                        "body": f"- {link}\n",
-                        "state": "open",
-                        "labels": ["todo"],
-                    }
-                )
+                # Generate text in case of todo makro...
+                if match := TodoContext.todo_makro.search(path.matched_lines[i]):
+                    print("Makro")
+                    print("".join(path.code_blocks[i][2]))
+                    print()
+                    print("Init new prompt...")
+                    sysprom = Prompt(instruction)
+                    user_input = "```rust\n" + "".join(block[2]) + "```"
+
+                    sysprom.from_user(user_input)
+                    prompt = sysprom.get_prompt()
+
+                    print("Generating answer...")
+                    output = llm(
+                        prompt,
+                        max_tokens=512,
+                        temperature=0.4,
+                        top_p=0.95,
+                        top_k=50,
+                        repeat_penalty=1.1,
+                        stop=["<|user|>", "<|system|>"],
+                     )
+
+                    text_output = output["choices"][0]["text"]
+
+                    # Prepare body...
+                    # Finnally update
+                    update_issue(
+                        repo,
+                        token,
+                        path.issue_numbers[i],
+                        {
+                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                            "body": f"- {link}\n" + text_output,
+                            "state": "open",
+                            "labels": ["todo"],
+                        }
+                    )
+                else:
+                    # Update anyways, in case pathing or line number have changed
+                    time.sleep(1)
+                    update_issue(
+                        repo,
+                        token,
+                        path.issue_numbers[i],
+                        {
+                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                            "body": f"- {link}\n",
+                            "state": "open",
+                            "labels": ["todo"],
+                        }
+                    )
 
     # Create or close to do list
     if found_todos == True and desc == 1:
