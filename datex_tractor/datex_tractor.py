@@ -160,7 +160,8 @@ def main():
                 if match := TodoContext.todo_makro.search(path.matched_lines[i]):
                     print("Init new prompt...")
                     sysprom = Prompt(instruction)
-                    user_input = "```rust\n" + "".join(path.code_blocks[i][2]) + "\n```"
+                    code_block = "".join(path.code_blocks[i][2])
+                    user_input = "```rust\n" + code_block + "\n```"
 
                     sysprom.from_user(user_input)
                     prompt = sysprom.get_prompt()
@@ -169,7 +170,7 @@ def main():
                     output = llm(
                         prompt,
                         max_tokens=1_024,
-                        temperature=0.4,
+                        temperature=0.5,
                         top_p=0.95,
                         top_k=50,
                         repeat_penalty=1.1,
@@ -186,7 +187,7 @@ def main():
                         path.issue_numbers[i],
                         {
                             "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n" + str(text_output),
+                            "body": f"- {link}\n```{str(text_output)}\n```",
                             "state": "open",
                             "labels": ["todo"],
                         }
