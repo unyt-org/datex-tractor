@@ -158,12 +158,9 @@ def main():
 
                 # Generate text in case of todo makro...
                 if match := TodoContext.todo_makro.search(path.matched_lines[i]):
-                    print("Makro")
-                    print("".join(path.code_blocks[i][2]))
-                    print()
                     print("Init new prompt...")
                     sysprom = Prompt(instruction)
-                    user_input = "```rust\n" + "".join(path.code_blocks[i][2]) + "```"
+                    user_input = "```rust\n" + "".join(path.code_blocks[i][2]) + "\n```"
 
                     sysprom.from_user(user_input)
                     prompt = sysprom.get_prompt()
@@ -171,7 +168,7 @@ def main():
                     print("Generating answer...")
                     output = llm(
                         prompt,
-                        max_tokens=512,
+                        max_tokens=1_024,
                         temperature=0.4,
                         top_p=0.95,
                         top_k=50,
@@ -189,7 +186,7 @@ def main():
                         path.issue_numbers[i],
                         {
                             "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n" + text_output,
+                            "body": f"- {link}\n" + str(text_output),
                             "state": "open",
                             "labels": ["todo"],
                         }
