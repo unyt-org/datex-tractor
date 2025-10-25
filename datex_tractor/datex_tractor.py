@@ -5,75 +5,6 @@ import time
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
-from llama_cpp import Llama
-
-
-class Prompt():
-    def __init__(self, instruction):
-        self.system_instruction = instruction
-        self.chat = [instruction]
-
-    def from_user(self, text: str):
-        self.chat.append("<|user|>" + text)
-        self.chat.append("<|assistant|>")
-
-    def from_assistant(self, text: str):
-        self.chat[-1] += text
-
-    def get_prompt(self):
-        prompt = ""
-        for line in self.chat:
-            prompt += line
-        return prompt
-
-
-def load_model():
-    # Try loading model
-    home_path = os.getenv("HOME")
-    model_path = home_path + os.getenv("MODEL_PATH")
-    prompt_path = home_path + os.getenv("PROMPT_PATH")
-    try:
-        llm = Llama(
-            model_path=model_path,
-            n_ctx=4096,
-            verbose=False,
-        )
-    except Exception:
-        print("Model not found.")
-        raise FileNotFoundError("Unresolved model path")
-
-    try:
-        with open(prompt_path) as f:
-            instruction = f.read().strip()
-    except Exception:
-        print("Prompt not found.")
-        raise FileNotFoundError("Unresolved prompt path")
-
-    return llm, instruction
-
-
-def gen_advice(llm, instruction: str, code_block: str):
-    user_input = "```rust\n" + code_block + "\n```"
-
-    print("Init new prompt...")
-    sysprom = Prompt(instruction)
-    sysprom.from_user(user_input)
-    prompt = sysprom.get_prompt()
-
-    print("Generating answer...")
-    output = llm(
-        prompt,
-        max_tokens=512,
-        temperature=0.4,
-        top_p=0.92,
-        top_k=50,
-        repeat_penalty=1.1,
-        stop=["<|user|>", "<|system|>"],
-     )
-
-    text_output = output["choices"][0]["text"]
-    return text_output
-
 
 def main():
     if len(sys.argv) != 2:
@@ -81,8 +12,10 @@ def main():
 
     # Load in model
     try:
-        llm, instruction = load_model()
+        from datex_tractor_module import Prompt
+        llm, instruction = Prompt.load_model()
     except Exception:
+        Prompt = None
         sys.exit("Unresolved model or prompt")
 
     # Get auth
@@ -191,22 +124,35 @@ def main():
                     pass
 
                 # Generate advice
-                code_block = "".join(path.code_blocks[i][2])
-                text_output = gen_advice(llm, instruction, code_block)
+                if Prompt:
+                    code_block = "".join(path.code_blocks[i][2])
+                    text_output = Prompt.gen_advice(llm, instruction, code_block)
 
-                # Prepare body...
-                # Finnally update
-                update_issue(
-                    repo,
-                    token,
-                    path.issue_numbers[i],
-                    {
-                        "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                        "body": f"- {link}\n{str(text_output)}\n",
-                        "state": "open",
-                        "labels": ["todo"],
-                    }
-                )
+                    # Prepare body...
+                    update_issue(
+                        repo,
+                        token,
+                        path.issue_numbers[i],
+                        {
+                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                            "body": f"- {link}\n{str(text_output)}\n",
+                            "state": "open",
+                            "labels": ["todo"],
+                        }
+                    )
+                else:
+                    # Update without text_outupt if model not loaded
+                    update_issue(
+                        repo,
+                        token,
+                        path.issue_numbers[i],
+                        {
+                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
+                            "body": f"- {link}\n",
+                            "state": "open",
+                            "labels": ["todo"],
+                        }
+                    )
 
     # Create or close to do list
     if found_todos == True and desc == 1:
