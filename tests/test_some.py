@@ -32,5 +32,5 @@ def test_todo_extraction():
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             sum += 1
-    # 5 (rust, 3 macros, 1 fixme, 1 todo) + 2 (python, 1 fixme, 1 todo)
+    # 6 (rust, 4 macros, 1 fixme, 1 todo) + 1 (python, 1 todo)
     assert sum == 7
