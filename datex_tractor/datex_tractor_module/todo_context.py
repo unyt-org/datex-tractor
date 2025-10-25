@@ -168,10 +168,9 @@ class TodoContext():
         return desc
 
     @classmethod
-    def extract_codeblocks(cls, issue_counter: int):
+    def extract_codeblocks(cls, src_path, issue_counter: int):
         upper_margin = 20
         lower_margin = 20
-        src_path = "."
 
         todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)
