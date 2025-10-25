@@ -4,6 +4,7 @@ inputs:
   github_token:
     required: true
     description: "GitHub token"
+  # Optional, leave empty for default
   source_path:
     required: false
     description: "Path to virtual envrionment"
@@ -34,7 +35,8 @@ runs:
         fi
       shell: bash
       env:
+        GITHUB_TOKEN: ${{ inputs.github_token }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+        # Optional, leave empty for default
         MODEL_PATH: ${{ inputs.model_path }}
         PROMPT_PATH: ${{ inputs.prompt_path }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-        GITHUB_TOKEN: ${{ inputs.github_token }}
