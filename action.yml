@@ -23,9 +23,8 @@ runs:
         source ${{ inputs.source_path }}
         "${{ github.action_path }}/datex_tractor_script.sh"
       shell: bash
-      with:
+      env:
         MODEL_PATH: ${{ inputs.model_path }}
         PROMPT_PATH: ${{ inputs.prompt_path }}
-      env:
         GITHUB_REPOSITORY: ${{ github.repository }}
         GITHUB_TOKEN: ${{ inputs.github_token }}
