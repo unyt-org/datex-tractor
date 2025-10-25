@@ -40,21 +40,9 @@ class ECPoint:
         if other.y is None:
             return self
 
-        # If points are inverse return point at inf
-        if self == -other:
-            return ECPoint(self.curve, None, None)
+        # TODO: Define addition for points on elliptic Cruves
+        raise NotImplementedError
 
-        if self == other:
-            return self.double()
-
-        # Calculate slope: m = (y2 - y1) / (x2 - x1) mod p
-        m = ((other.y - self.y) * pow(other.x - self.x, -1, self.curve.p)) % self.curve.p
-
-        # Calculate new x and y
-        x3 = (m**2 - self.x -other.x) % self.curve.p
-        y3 = (m * (self.x - x3) - self.y) % self.curve.p
-
-        return ECPoint(self.curve, x3, y3)
 
     def double(self):
         """Point doubling: P + P = 2P"""
