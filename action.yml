@@ -16,6 +16,6 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
-        MODEL_PATH: $HOME/cs/ai/dpsk/dpsk/llama.cpp/models/deepseek-llm-7b-chat.Q4_K_M.gguf
-        PROMPT_PATH: $HOME/cs/ai/dpsk/dpsk/system.txt
+        MODEL_PATH: /cs/ai/dpsk/dpsk/llama.cpp/models/deepseek-llm-7b-chat.Q4_K_M.gguf
+        PROMPT_PATH: /cs/ai/dpsk/dpsk/system.txt
 

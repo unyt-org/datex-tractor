@@ -32,8 +32,10 @@ def main():
         sys.exit("Unresolved commit hash - only one CLA allowed")
 
     # Try loading model
-    model_path = os.environ["MODEL_PATH"]
-    prompt_path = os.environ["PROMPT_PATH"]
+    model_path = os.getenv("MODEL_PATH")
+    print(model_path)
+    prompt_path = os.getenv("PROMPT_PATH")
+    print(prompt_path)
     try:
         llm = Llama(
             model_path=model_path,
