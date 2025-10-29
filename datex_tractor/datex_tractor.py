@@ -20,7 +20,7 @@ def main():
     else:
         llm, instruction = Prompt.load_model()
         db = DBcrud()
-        if not db.create():
+        if db.create() is False:
             sys.exit("Unresolved model or database.")
 
     # Get auth
