@@ -1,5 +1,6 @@
 from .db import Base, ngin, SessionLocal
 from .models import Issue, Codeblock
+from sqlalchemy import update
 
 
 class DBcrud():
@@ -32,12 +33,12 @@ class DBcrud():
         self.session.commit()
 
     def enter_advice(self, i_number, advice):
-        block = self.session.query(
-            Codeblock
-        ).filter().where(
-            Codeblock.parent_id == i_number
-        ).first()
-        block.response = advice
+        stmt = (
+            update(Codeblock)
+            .where(Codeblock.parent_id == i_number)
+            .values(response=advice)
+        )
+        self.session.execute(stmt)
         self.session.commit()
 
     def delete(self, i_number):
