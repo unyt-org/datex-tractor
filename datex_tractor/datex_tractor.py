@@ -5,6 +5,7 @@ import time
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
+def pre_main():
 
 def main():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
@@ -13,10 +14,15 @@ def main():
     # Load in model
     try:
         from datex_tractor_module import Prompt
+        from datex_tractor_module.datab import DBcrud
     except Exception:
         Prompt = None
+        DBcrud = None
     else:
         llm, instruction = Prompt.load_model()
+        db = DBcrud()
+        if not db:
+            sys.exit("Unresolved database.")
 
     # Get auth
     try:
@@ -100,7 +106,17 @@ def main():
                     f"[TODO] Placeholder",
                     f"To be replaced (Rerun datex-tractor workflow for update)."
                 )
+                # Insert into database...
+                if Prompt:
+                    code_block = "".join(path.code_blocks[i][2])
+                    db.enter(
+                        path.issue_numbers[i],
+                        path.path,
+                        code_block,
+                    )
 
+
+    # WIP: Generate answers here
     # Checking issues after creation
     time.sleep(1)
     made_issues = get_issues(repo, token)
@@ -124,6 +140,7 @@ def main():
                     pass
 
                 # Generate advice
+                # WIP: replace with retrieval from db
                 if Prompt:
                     code_block = "".join(path.code_blocks[i][2])
                     text_output = Prompt.gen_advice(llm, instruction, code_block)
