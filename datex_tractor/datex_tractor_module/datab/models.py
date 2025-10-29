@@ -20,6 +20,7 @@ class Codeblock(Base):
     id = Column(Integer, primary_key=True, index=True)
     parent_id = Column(Integer, ForeignKey("issue.i_number"))
     content = Column(String)
+    response = Column(String)
 
     def __repr__(self):
         return f"<Codeblock(parent_id={self.parent_id}, content={self.content[:32]})>"
