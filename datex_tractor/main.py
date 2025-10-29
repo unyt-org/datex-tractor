@@ -28,6 +28,14 @@ def main():
                 code_block,
             )
 
+    for path in todo_paths:
+        for i, line_number in enumerate(path.line_numbers):
+            text_output = "Some_text"
+            db.enter_advice(
+                path.issue_numbers[i],
+                text_output,
+            )
+
     print("\n\n\n")
     db.print_self()
     print("\n\n\n")

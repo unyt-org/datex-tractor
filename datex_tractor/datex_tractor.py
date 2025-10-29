@@ -20,7 +20,10 @@ def main():
     else:
         llm, instruction = Prompt.load_model()
         db = DBcrud()
-        db.create()
+        if db.create():
+            print("Database created")
+        else:
+            sys.exit("DB creation failed")
 
     # Get auth
     try:
