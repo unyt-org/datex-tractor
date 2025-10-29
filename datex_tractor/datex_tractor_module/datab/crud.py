@@ -6,6 +6,9 @@ class DBcrud():
     def __init__(self):
         self.session = SessionLocal()
 
+    def close(self):
+        self.session.close()
+
     def create(self):
         try:
             Base.metadata.create_all(bind=ngin)
@@ -28,6 +31,15 @@ class DBcrud():
         self.session.add(new_block)
         self.session.commit()
 
+    def enter_advice(self, i_number, advice):
+        block = self.session.query(
+            Codeblock
+        ).filter().where(
+            Codeblock.parent_id == i_number
+        ).first()
+        block.response = advice
+        self.session.commit()
+
     def delete(self, i_number):
         issues = self.session.query(
             Issue
@@ -39,12 +51,12 @@ class DBcrud():
         self.session.commit()
 
     def get_block(self, i_number):
-        blocks = self.session.query(
+        block = self.session.query(
             Codeblock
         ).filter().where(
             Codeblock.parent_id == i_number
-        ).all()
-        return blocks[0]
+        ).first()
+        return block
 
     def print_self(self):
         issues = self.session.query(Issue).all()

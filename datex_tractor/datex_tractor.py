@@ -5,7 +5,6 @@ import time
 from datex_tractor_module import TodoContext, get_issues, get_discussions
 from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
 
-def pre_main():
 
 def main():
     if len(sys.argv) < 2 or len(sys.argv) > 3:
@@ -21,8 +20,8 @@ def main():
     else:
         llm, instruction = Prompt.load_model()
         db = DBcrud()
-        if not db:
-            sys.exit("Unresolved database.")
+        if not db.create():
+            sys.exit("Unresolved model or database.")
 
     # Get auth
     try:
@@ -115,8 +114,17 @@ def main():
                         code_block,
                     )
 
-
     # WIP: Generate answers here
+    if Prompt:
+        for path in todo_paths:
+            for i, line_number in enumerate(path.line_numbers):
+                code_block = "".join(path.code_blocks[i][2])
+                text_output = Prompt.gen_advice(llm, instruction, code_block)
+                db.enter_advice(
+                    path.issue_numbers[i],
+                    text_output,
+                )
+
     # Checking issues after creation
     time.sleep(1)
     made_issues = get_issues(repo, token)
@@ -142,8 +150,7 @@ def main():
                 # Generate advice
                 # WIP: replace with retrieval from db
                 if Prompt:
-                    code_block = "".join(path.code_blocks[i][2])
-                    text_output = Prompt.gen_advice(llm, instruction, code_block)
+                    text_output = db.get_block(path.issue_numbers[i])
 
                     # Prepare body...
                     update_issue(
@@ -152,7 +159,7 @@ def main():
                         path.issue_numbers[i],
                         {
                             "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n{str(text_output)}\n",
+                            "body": f"- {link}\n{str(text_output.response)}\n",
                             "state": "open",
                             "labels": ["todo"],
                         }
