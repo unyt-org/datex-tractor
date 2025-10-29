@@ -16,7 +16,7 @@ else:
     match sys.argv[2]:
         case "hrms":
             try:
-                from .hrms import Prompt
+                from .prompts.hrms import Prompt
 
             except Exception:
                 raise NotImplementedError("Missing dependency")
@@ -34,7 +34,7 @@ else:
                 ]
         case "dpsk":
             try:
-                from .dpsk import Prompt
+                from .prompts.dpsk import Prompt
 
             except Exception:
                 raise NotImplementedError("Missing dependency")
@@ -51,4 +51,4 @@ else:
                     "Prompt",
                 ]
         case _:
-            sys.exit()
+            sys.exit("Error starting tractor.")
