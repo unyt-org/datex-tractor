@@ -27,6 +27,17 @@ def main():
                 path.path,
                 code_block,
             )
+            db.enter_advice(
+                path.issue_numbers[i],
+                "SomeAdvice"
+            )
+
+    for path in todo_paths:
+        for i, line_number in enumerate(path.line_numbers):
+            block = db.get_block(path.issue_numbers[i])
+            print("===<>===")
+            print(block)
+            print("===<>===")
 
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):

@@ -23,4 +23,4 @@ class Codeblock(Base):
     response = Column(String)
 
     def __repr__(self):
-        return f"<Codeblock(parent_id={self.parent_id}, content={self.content[:32]})>"
+        return f"<Codeblock(parent_id={self.parent_id}, content={self.content[:32]}, response={self.response[:32]})>"

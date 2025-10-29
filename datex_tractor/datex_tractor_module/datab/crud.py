@@ -57,7 +57,7 @@ class DBcrud():
         ).filter().where(
             Codeblock.parent_id == i_number
         ).first()
-        return block
+        return block.response
 
     def print_self(self):
         issues = self.session.query(Issue).all()
