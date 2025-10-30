@@ -72,3 +72,4 @@ class DBcrud():
         blocks = self.session.query(Codeblock).all()
         for block in blocks:
             print(block)
+            print(f"Blocktype: {type(block)}")
