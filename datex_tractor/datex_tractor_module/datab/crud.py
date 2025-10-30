@@ -54,10 +54,15 @@ class DBcrud():
     def get_block(self, i_number):
         block = self.session.query(
             Codeblock
-        ).filter().where(
+        ).filter(
             Codeblock.parent_id == i_number
         ).first()
-        return block.response
+        print("Block:")
+        print(block)
+        print("Blocktype:")
+        print(type(block))
+        if block:
+            return block.response
 
     def print_self(self):
         issues = self.session.query(Issue).all()

@@ -35,9 +35,7 @@ def main():
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             block = db.get_block(path.issue_numbers[i])
-            print("===<>===")
-            print(block)
-            print("===<>===")
+            print(f"Blocktype: {type(block)}")
 
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
