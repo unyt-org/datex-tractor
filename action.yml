@@ -13,14 +13,6 @@ runs:
       uses: actions/setup-python@v5
       with:
         python-version: '3.13'
-      
-    - name: Install requirements...
-      shell: bash
-      run: |
-        python -m venv .venv
-        source /tmp/.venv/bin/activate
-        pip install --upgrade pip
-        pip install -r requirements.txt
 
     - name: Cache model...
       id: cache-model
@@ -35,6 +27,14 @@ runs:
       run: |
         mkdir -p /tmp/models
         curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
+      
+    - name: Install requirements...
+      shell: bash
+      run: |
+        python -m venv /tmp/.venv
+        source /tmp/.venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
 
     - name: Run datex_tractor_script.sh...
       run: |
