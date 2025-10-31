@@ -18,7 +18,7 @@ runs:
       shell: bash
       run: |
         python -m venv .venv
-        source .venv/bin/activate
+        source /tmp/.venv/bin/activate
         pip install --upgrade pip
         pip install -r requirements.txt
 
@@ -38,7 +38,7 @@ runs:
 
     - name: Run datex_tractor_script.sh...
       run: |
-        source .venv/bin/activate
+        source /tmp/.venv/bin/activate
         "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
       shell: bash
       env:
