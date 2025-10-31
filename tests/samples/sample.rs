@@ -73,7 +73,7 @@ fn shift_rows(state: &mut [[u8; 4]; 4]) {
 
 // Inverse shift rows
 fn inv_shift_rows(state: &mut [[u8; 4]; 4]) {
-    todo!("Undescribed by author.");
+    todo!("#222 Undescribed by author.");
 }
 
 // MixColumns
@@ -173,10 +173,10 @@ fn key_expansion(key: [u8; 32], round_keys: &mut [u32; 60]) {
     }
 }
 
-// TODO: Find a way to XOR each byte of state with a round key
+// TODO #223: Find a way to XOR each byte of state with a round key
 fn add_round_key(state: &mut [[u8; 4]; 4], round_key: [u32; 4]) {
     for c in 0..4 {
-        todo!("Undescribed by author.")
+        todo!("#224 Undescribed by author.")
     }
 }
 
@@ -266,7 +266,7 @@ fn aes_decrypt(state: &mut [[u8; 4]; 4], round_keys: &[u32; 60]) {
     );
 }
 
-// FIXME
+// FIXME #225
 fn block_to_state(block: &[u8; 16]) -> [[u8; 4]; 4] {
     let mut state = [[0u8; 4]; 4];
     for i in 0..4 {
@@ -306,7 +306,7 @@ fn print_hex(data: &[u8]) {
 }
 
 fn print_state(state: &[[u8; 4]; 4]) {
-    todo!("Undescribed by author.");
+    todo!("#226 Undescribed by author.");
 }
 
 // AES-CTR
@@ -391,7 +391,7 @@ impl AesCtrSecret {
     }
 
     pub fn encrypt<'py>(&self, py: Python<'py>, data: &PyByteArray) -> PyResult<&'py PyBytes> {
-        todo!("Undescribed by author."); // With inline comment...
+        todo!("#227 Undescribed by author."); // With inline comment...
     }
 }
 
