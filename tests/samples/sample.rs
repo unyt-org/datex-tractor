@@ -176,7 +176,7 @@ fn key_expansion(key: [u8; 32], round_keys: &mut [u32; 60]) {
 // TODO: Find a way to XOR each byte of state with a round key
 fn add_round_key(state: &mut [[u8; 4]; 4], round_key: [u32; 4]) {
     for c in 0..4 {
-        todo!(Undescribed by author.")
+        todo!("Undescribed by author.")
     }
 }
 
