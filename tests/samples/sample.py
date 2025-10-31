@@ -40,7 +40,7 @@ class ECPoint:
         if other.y is None:
             return self
 
-        # TODO: Define addition for points on elliptic Cruves
+        # TODO #221: Define addition for points on elliptic Cruves
         raise NotImplementedError
 
 
