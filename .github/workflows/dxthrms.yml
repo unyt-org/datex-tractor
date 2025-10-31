@@ -1,0 +1,26 @@
+name: dxt
+
+on:
+  workflow_dispatch:
+    branches:
+      - "main"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  Datex-tractor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout own repo
+        uses: actions/checkout@v5
+
+      - name: Run datex_tractor
+        uses: unyt-org/datex-tractor@local
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

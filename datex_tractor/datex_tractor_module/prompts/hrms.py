@@ -23,9 +23,8 @@ class Prompt():
     @staticmethod
     def load_model():
         # Try loading model
-        home_path = os.getenv("HOME")
-        model_path = home_path + os.getenv("MODEL_PATH")
-        prompt_path = home_path + os.getenv("PROMPT_PATH")
+        model_path = os.getenv("MODEL_PATH")
+        prompt_path = os.getenv("PROMPT_PATH")
         try:
             llm = Llama(
                 model_path=model_path,

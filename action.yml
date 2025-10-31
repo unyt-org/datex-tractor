@@ -1,42 +1,48 @@
-name: "Datex-tractor"
-description: "Automated issues"
+name: 'Datex-tractor'
+description: 'Automated issues'
 inputs:
   github_token:
     required: true
-    description: "GitHub token"
-  # Optional, leave empty for default
-  source_path:
-    required: false
-    description: "Path to virtual envrionment"
-    default: ""
-  model:
-    required: false
-    description: "Either 'dpsk' or 'hrms'"
-    default: ""
-  model_path:
-    required: false
-    description: "Path to llm"
-    default: ""
-  prompt_path:
-    required: false
-    description: "Path to systemprompt of llm"
-    default: ""
+    description: 'GitHub token'
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
-    - name: Run datex_tractor_script.sh
+        
+    - name: Setup python...
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.13'
+      
+    - name: Install requirements...
       run: |
-        if [[ "${{ inputs.source_path }}" != "" && "${{ inputs.model }}" != "" ]]; then
-          source ${{ inputs.source_path }}
-          "${{ github.action_path }}/datex_tractor_script.sh" "${{ inputs.model }}"
-        else
-          "${{ github.action_path }}/datex_tractor_script.sh"
-        fi
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Cache model...
+      id: cache-model
+      uses: actions/cache@v4
+      with:
+        path: /tmp/models
+        key: hrms
+
+    - name: Download giant brain blob...
+      if: steps.cache-model.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        mkdir -p /tmp/models
+        curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
+
+    - name: Run datex_tractor_script.sh...
+      run: |
+        source .venv/bin/activate
+        "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         GITHUB_REPOSITORY: ${{ github.repository }}
         # Optional, leave empty for default
-        MODEL_PATH: ${{ inputs.model_path }}
-        PROMPT_PATH: ${{ inputs.prompt_path }}
+        MODEL_PATH: /tmp/models/model.gguf
+        PROMPT_PATH: ${{ github.action_path }}/prompt.txt
