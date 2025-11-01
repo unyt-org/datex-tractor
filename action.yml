@@ -17,7 +17,7 @@ runs:
       run: |
         if [[ "${GITHUB_ACTOR}" == "datextractor[bot]" ]]; then
           echo "Triggered by self, escaping loop..."
-          exit 0
+          exit 1
         fi
         
     - name: Setup python...

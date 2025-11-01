@@ -7,7 +7,7 @@ outpath = "tests/samples_out/"
 
 def test_id_removal():
     # Get paths
-    issue_counter = 1
+    issue_counter = 221
     in_todo_paths = list(TodoContext.initialize_paths(inpath, issue_counter))
     in_todo_paths.sort(key=lambda x: x.path)
 
