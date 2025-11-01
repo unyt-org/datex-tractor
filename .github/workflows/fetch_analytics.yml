@@ -2,8 +2,6 @@ name: Fetch analytics
 
 on:
   workflow_dispatch:
-    branches:
-      - 'main'
 
 jobs:
   fetch-data:
