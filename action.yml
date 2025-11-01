@@ -12,6 +12,13 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Try to escape infinite loop...
+      shell: bash
+      run: |
+        if [ "${GITHUB_ACTOR}" = "github-actions" ]; then
+          echo "Triggered by self, escaping loop..."
+          exit 0
+        fi
         
     - name: Setup python...
       uses: actions/setup-python@v5
