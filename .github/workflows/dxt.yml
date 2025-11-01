@@ -2,6 +2,7 @@ name: dxt
 
 on:
   workflow_dispatch:
+  push:
     branches:
       - "main"
 

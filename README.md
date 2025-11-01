@@ -10,9 +10,8 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
-Supported semantic version is `'release/x.x.x'`.
 
----
+> Basic configuration
 
 ```yml
 name: datex-tractor
@@ -20,7 +19,7 @@ name: datex-tractor
 on:
   push:
     branches:
-      - 'release/*'
+      - "main"
 
 concurrency:
   group: ${{ github.workflow }}
@@ -29,6 +28,7 @@ concurrency:
 permissions:
   contents: write
   issues: write
+  pull-requests: read
 
 jobs:
   Datex-tractor:
@@ -37,20 +37,56 @@ jobs:
       - name: Checkout own repo
         uses: actions/checkout@v5
 
-      - name: Set up Python...
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
       - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@r0.0.3
+        uses: unyt-org/datex-tractor@v0.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+> For protected branches an app can be given permissions, and corresponding secrets added to the repo the action belongs to.
+
+```yml
+name: datex-tractor
+
+on:
+  workflow_dispatch:
+    branches:
+      - "main"
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: read
+
+jobs:
+  Datex-tractor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Gen app token...
+        id: app-token
+        uses: tibdex/github-app-token@v2
+        with:
+          app_id: ${{ secrets.DATEX_TRACTOR_ID }}
+          private_key: ${{ secrets.DATEX_TRACTOR_PRI_KEY }}
+
+      - name: Checkout own repo...
+        uses: actions/checkout@v5
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Run datex_tractor...
+        uses: unyt-org/datex-tractor@v0.1.0
+        with:
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ steps.app-token.outputs.token }}
+```
+
 ## What it does?
 ---
-Checks if it's on latest branch - throws `exit 1` if not - then it starts creating issues.
 - Scans for `TODO` and `FIXME` inline-comments
   - Scans also lines with `todo!()` macros
 - Creates an issue with a todo-list titled `Todos` 
@@ -116,13 +152,7 @@ After acquiring the information
  
 ### Request timing
 --- 
-By default, the bot is configured to send at most one request per second.
-- This rate is optimized for running on free-tier GitHub Actions runners.
-- Sending requests more frequently than once per second tends to trigger GitHub's secondary rate limits.
 - While the bot is running, the Issues page of your GitHub repository may temporarily become unavailable.
-
-> [!NOTE]
-> This results in 3,600 requests per hour at maximum rate (should leave at minimum 1,400 API calls for other jobs on a free tier runner). 
 
 > [!TIP] 
 > Check out [actions limits](https://docs.github.com/en/actions/reference/actions-limits) for more information on this topic.
