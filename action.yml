@@ -4,6 +4,10 @@ inputs:
   github_token:
     required: true
     description: 'GitHub token'
+  use_model:
+    required: false
+    description: 'Use giant brain blob'
+    default: ''
 
 runs:
   using: 'composite'
@@ -15,6 +19,7 @@ runs:
         python-version: '3.13'
 
     - name: Cache model...
+      if: ${{ inputs.use_model }} != ''
       id: cache-model
       uses: actions/cache@v4
       with:
@@ -22,13 +27,14 @@ runs:
         key: hrms
 
     - name: Download giant brain blob...
-      if: steps.cache-model.outputs.cache-hit != 'true'
+      if: ${{ inputs.use_model != '' && steps.cache-model.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
         mkdir -p /tmp/models
         curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
       
     - name: Install requirements...
+      if: ${{ inputs.use_model }} != ''
       shell: bash
       run: |
         python -m venv /tmp/.venv
@@ -37,10 +43,14 @@ runs:
         pip install -r requirements.txt
 
     - name: Run datex_tractor_script.sh...
-      run: |
-        source /tmp/.venv/bin/activate
-        "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
       shell: bash
+      run: |
+        if [[ ${{ inputs.use_model }} != '' ]]; then
+          source /tmp/.venv/bin/activate
+          "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
+        else
+          "${{ github.action_path }}/datex_tractor_script.sh"
+        fi
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
         GITHUB_REPOSITORY: ${{ github.repository }}

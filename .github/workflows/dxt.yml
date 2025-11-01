@@ -1,4 +1,4 @@
-name: dxthrms
+name: dxt
 
 on:
   workflow_dispatch:
@@ -35,4 +35,3 @@ jobs:
         with:
           # github_token: ${{ secrets.GITHUB_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
-          use_model: 'true'
