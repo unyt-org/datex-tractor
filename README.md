@@ -175,6 +175,22 @@ Updates the permalink of the issued todo upon every of it's runs
 > [!CAUTION] 
 > The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly 
 
+## Experimental features...
+---
+
+Optional [llm](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF) integration.
+
+Caches dependencies. Comments on todo's in code base. 
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      use_model: 'true'
+```
+
+
 # Developer Notes
 ---
 ### How to create issues
