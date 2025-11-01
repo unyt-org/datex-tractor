@@ -19,7 +19,7 @@ runs:
         python-version: '3.13'
 
     - name: Cache model...
-      if: ${{ inputs.use_model }} != ''
+      if: ${{ inputs.use_model != '' }}
       id: cache-model
       uses: actions/cache@v4
       with:
@@ -34,7 +34,7 @@ runs:
         curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
       
     - name: Install requirements...
-      if: ${{ inputs.use_model }} != ''
+      if: ${{ inputs.use_model != '' }}
       shell: bash
       run: |
         python -m venv /tmp/.venv
@@ -45,7 +45,7 @@ runs:
     - name: Run datex_tractor_script.sh...
       shell: bash
       run: |
-        if [[ ${{ inputs.use_model }} != '' ]]; then
+        if [[ '${{ inputs.use_model }}' != '' ]]; then
           source /tmp/.venv/bin/activate
           "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
         else
