@@ -15,8 +15,7 @@ runs:
     - name: Try to escape infinite loop...
       shell: bash
       run: |
-        echo "$GITHUB_ACTOR"
-        if [[ "${GITHUB_ACTOR}" == "github-actions" ]]; then
+        if [[ "${GITHUB_ACTOR}" == "datextractor[bot]" ]]; then
           echo "Triggered by self, escaping loop..."
           exit 0
         fi
