@@ -10,6 +10,8 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
+> [!CAUTION]
+> If configured to run on push, the bot will trigger itself, possibly resulting in an infinite update loop. Using manual trigger highly recommended.
 
 > Basic configuration
 
@@ -17,7 +19,7 @@ GitHub action workflow for extraction of things todo from source code and turnin
 name: datex-tractor
 
 on:
-  push:
+  workflow_dispatch:
     branches:
       - "main"
 
@@ -38,12 +40,15 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Run datex_tractor
-        uses: unyt-org/datex-tractor@v0.1.0
+        uses: unyt-org/datex-tractor@v0.0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 > For protected branches an app can be given permissions, and corresponding secrets added to the repo the action belongs to.
+
+> [!TIP]
+> The bot's ID can be used to error out if self-triggered.
 
 ```yml
 name: datex-tractor
@@ -79,9 +84,8 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Run datex_tractor...
-        uses: unyt-org/datex-tractor@v0.1.0
+        uses: unyt-org/datex-tractor@v0.0.1
         with:
-          # github_token: ${{ secrets.GITHUB_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
 ```
 
