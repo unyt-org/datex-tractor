@@ -39,13 +39,21 @@ runs:
       run: |
         mkdir -p /tmp/models
         curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
-      
-    - name: Install requirements...
+
+    - name: Cache python virtual environment...
       if: ${{ inputs.use_model != '' }}
+      id: cache-pip
+      uses: actions/cache@v4
+      with:
+        path: /tmp/venv
+        key: venv
+     
+    - name: Install requirements...
+      if: ${{ inputs.use_model != '' && steps.cache-pip.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
-        python -m venv /tmp/.venv
-        source /tmp/.venv/bin/activate
+        python -m venv /tmp/venv
+        source /tmp/venv/bin/activate
         pip install --upgrade pip
         pip install -r requirements.txt
 
@@ -53,7 +61,7 @@ runs:
       shell: bash
       run: |
         if [[ '${{ inputs.use_model }}' != '' ]]; then
-          source /tmp/.venv/bin/activate
+          source /tmp/venv/bin/activate
           "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
         else
           "${{ github.action_path }}/datex_tractor_script.sh"
