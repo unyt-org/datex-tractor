@@ -40,30 +40,14 @@ def main():
     return 0
 
 
-def finish_project():
-    """Removes todo-comments including rusts todo-makros"""
+def remove_issue_ids():
+    """Removes issue id's from the codebase."""
     # Get issues
-    token = os.environ["GITHUB_TOKEN"]
-    repo = os.environ["GITHUB_REPOSITORY"]
-    print("Fetching issues...")
-    issues = get_issues(repo, token)
-
-    if len(issues) > 0:
-        issue_counter = max([issue["number"] for issue in issues])
-        issue_counter += 1
-    else:
-        # If no issues yet, leave first one for todo-list-issue
-        issue_counter = 1
-
-    if 0 == TodoContext.remove_todos(issue_counter):
-        return 0
-    else:
-        # print("Failed to remove issue ID's")
-        return 1
+    TodoContext.remove_todos(".", 1)
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         main()
     elif len(sys.argv) == 2:
-        finish_project()
+        remove_issue_ids()
