@@ -32,23 +32,6 @@ else:
                     "create_issue",
                     "Prompt",
                 ]
-        case "dpsk":
-            try:
-                from .prompts.dpsk import Prompt
 
-            except Exception:
-                raise NotImplementedError("Missing dependency")
-
-            else:
-                __all__ = [
-                    "TodoContext",
-                    "get_discussions",
-                    "get_issues",
-                    "close_issue",
-                    "reopen_issue",
-                    "update_issue",
-                    "create_issue",
-                    "Prompt",
-                ]
         case _:
             sys.exit("Error starting tractor.")
