@@ -9,7 +9,7 @@ samples = "tests/samples/"
 def test_sample_rs():
     with open(samples + "sample.rs") as f:
         lines = f.readlines()
-    assert len(lines) == 411
+    assert len(lines) == 412
 
 
 # Try loading python file
