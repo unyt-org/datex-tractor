@@ -68,7 +68,7 @@ runs:
 
     - name: Run datex_tractor_script.sh...
       shell: bash
-      if: ${{ inputs.remove_issue_ids != '' }}
+      if: ${{ inputs.remove_issue_ids == '' }}
       run: |
         if [[ '${{ inputs.use_model }}' != '' ]]; then
           source /tmp/venv/bin/activate
