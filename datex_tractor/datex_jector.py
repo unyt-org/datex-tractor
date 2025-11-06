@@ -41,7 +41,7 @@ def main():
 
 
 def finish_project():
-    """Removes todo-comments including rusts todo-makros"""
+    """Removes issue id's from the codebase."""
     # Get issues
     token = os.environ["GITHUB_TOKEN"]
     repo = os.environ["GITHUB_REPOSITORY"]
