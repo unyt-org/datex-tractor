@@ -40,7 +40,7 @@ def main():
     return 0
 
 
-def finish_project():
+def remove_issue_ids():
     """Removes issue id's from the codebase."""
     # Get issues
     token = os.environ["GITHUB_TOKEN"]
@@ -66,4 +66,4 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         main()
     elif len(sys.argv) == 2:
-        finish_project()
+        remove_issue_ids()
