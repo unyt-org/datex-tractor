@@ -2,9 +2,9 @@ name: Pytest
 
 on:
   workflow_dispatch:
+  push:
     branches:
       - "main"
-      - "feat/local"
 
 permissions:
   contents: write
