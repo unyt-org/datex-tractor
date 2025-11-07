@@ -46,7 +46,7 @@ class Prompt():
 
     @staticmethod
     def gen_advice(llm, instruction: str, code_block: str):
-        user_input = "```rust\n" + code_block + "\n```"
+        user_input = "```\n" + code_block + "\n```"
 
         # print("Init new prompt...")
         sysprom = Prompt(instruction)
@@ -58,8 +58,8 @@ class Prompt():
 
             prompt,
             max_tokens=1024,
-            temperature=0.4,
-            top_p=0.92,
+            temperature=0.48,
+            top_p=0.91,
             top_k=50,
             repeat_penalty=1.1,
             stop=["<|im_end|>"],
