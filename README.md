@@ -178,6 +178,19 @@ Updates the permalink of the issued todo upon every of it's runs
 ## Experimental features...
 ---
 
+### Remove inserted issue-ids from codebase...
+---
+
+To remove all the inserted issue ids from code base, like an uninstall.
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      remove_issue_ids: 'true'
+```
+
 ### LLM integration...
 ---
 
@@ -191,19 +204,6 @@ Caches dependencies. Comments on todo's from code base.
     with:
       github_token: ${{ steps.app-token.outputs.token }}
       use_model: 'true'
-```
-
-### Remove inserted issue-ids from codebase...
----
-
-To remove all the inserted issue ids from code base, like an uninstall.
-
-```yml
-  - name: Run datex_tractor...
-    uses: unyt-org/datex-tractor@v0.0.1
-    with:
-      github_token: ${{ steps.app-token.outputs.token }}
-      remove_issue_ids: 'true'
 ```
 
 # Developer Notes
