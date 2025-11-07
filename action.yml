@@ -37,7 +37,7 @@ runs:
         path: /tmp/models
         key: hrms
 
-    - name: Download giant brain blob...
+    - name: Download llm...
       if: ${{ inputs.use_model != '' && steps.cache-model.outputs.cache-hit != 'true' }}
       shell: bash
       run: |
