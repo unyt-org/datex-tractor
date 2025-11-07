@@ -1,5 +1,5 @@
 import pytest
-from datex_tractor.datex_tractor_module import TodoContext
+from src.datex_tractor import TodoContext
 
 
 samples = "tests/samples/"

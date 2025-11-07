@@ -1,6 +1,6 @@
 import os
 import sys
-from datex_tractor_module import TodoContext, get_issues, get_discussions
+from datex_tractor import TodoContext, get_issues, get_discussions
 
 
 def main():

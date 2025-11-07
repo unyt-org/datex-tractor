@@ -8,9 +8,9 @@ pip list
 
 echo "Running jector.py..."
 if [[ "$#" == 2 ]]; then
-    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_jector.py" "remove"
+    python "${GITHUB_ACTION_PATH}/src/datex_jector.py" "remove"
 else
-    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_jector.py"
+    python "${GITHUB_ACTION_PATH}/src/datex_jector.py"
 fi
 
 git config --global user.name "github-actions"
@@ -28,9 +28,9 @@ echo "Commit: $LAST_COMMIT"
 
 echo "Run tractor.py..."
 if [[ "$#" == 1 ]]; then
-    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT $1
+    python "${GITHUB_ACTION_PATH}/src/datex_tractor.py" $LAST_COMMIT $1
 elif [[ "$#" != 2 ]]; then
-    python "${GITHUB_ACTION_PATH}/datex_tractor/datex_tractor.py" $LAST_COMMIT
+    python "${GITHUB_ACTION_PATH}/src/datex_tractor.py" $LAST_COMMIT
 else
     echo "Removed ids - nothing to do..."
 fi

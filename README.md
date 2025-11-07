@@ -194,6 +194,7 @@ Caches dependencies. Comments on todo's from code base.
 ```
 
 ### Remove inserted issue-ids from codebase...
+---
 
 To remove all the inserted issue ids from code base, like an uninstall.
 

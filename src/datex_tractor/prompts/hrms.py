@@ -48,18 +48,18 @@ class Prompt():
     def gen_advice(llm, instruction: str, code_block: str):
         user_input = "```rust\n" + code_block + "\n```"
 
-        print("Init new prompt...")
+        # print("Init new prompt...")
         sysprom = Prompt(instruction)
         sysprom.from_user(user_input)
         prompt = sysprom.get_prompt()
 
-        print("Generating answer...")
+        # print("Generating answer...")
         output = llm(
 
             prompt,
             max_tokens=1024,
-            temperature=0.5,
-            top_p=0.9,
+            temperature=0.4,
+            top_p=0.92,
             top_k=50,
             repeat_penalty=1.1,
             stop=["<|im_end|>"],
