@@ -1,5 +1,5 @@
 import sys
-from datex_tractor_module import TodoContext
+from datex_tractor import TodoContext
 
 
 def main():

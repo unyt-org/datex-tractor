@@ -59,7 +59,7 @@ runs:
         python -m venv /tmp/venv
         source /tmp/venv/bin/activate
         pip install --upgrade pip
-        pip install -r datex_tractor/datex_tractor_module/prompts/requirements.txt
+        pip install -r src/datex_tractor/prompts/requirements.txt
 
     - name: Run datex_tractor_script.sh...
       if: ${{ inputs.remove_issue_ids != '' }}
@@ -82,4 +82,4 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         # Optional, leave empty for default
         MODEL_PATH: /tmp/models/model.gguf
-        PROMPT_PATH: ${{ github.action_path }}/datex_tractor/datex_tractor_module/prompts/prompt.txt
+        PROMPT_PATH: ${{ github.action_path }}/src/datex_tractor/prompts/hrms.txt

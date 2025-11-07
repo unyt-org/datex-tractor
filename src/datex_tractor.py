@@ -2,8 +2,8 @@ import os
 import sys
 import time
 
-from datex_tractor_module import TodoContext, get_issues, get_discussions
-from datex_tractor_module import close_issue, reopen_issue, update_issue, create_issue
+from datex_tractor import TodoContext, get_issues, get_discussions
+from datex_tractor import close_issue, update_issue, create_issue
 
 
 def main():
@@ -12,7 +12,7 @@ def main():
 
     # Load in model
     try:
-        from datex_tractor_module import Prompt
+        from datex_tractor import Prompt
     except Exception:
         Prompt = None
     else:
