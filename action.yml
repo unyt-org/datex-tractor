@@ -6,10 +6,11 @@ inputs:
     description: 'GitHub token'
   use_model:
     required: false
-    description: 'Use giant brain blob'
+    description: 'Use llm for issue-body generation'
     default: ''
   remove_issue_ids:
     required: false
+    description: 'Remove inserted issue ids'
     default: ''
 
 runs:
@@ -58,7 +59,7 @@ runs:
         python -m venv /tmp/venv
         source /tmp/venv/bin/activate
         pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r datex_tractor/datex_tractor_module/prompts/requirements.txt
 
     - name: Run datex_tractor_script.sh...
       if: ${{ inputs.remove_issue_ids != '' }}
@@ -81,4 +82,4 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         # Optional, leave empty for default
         MODEL_PATH: /tmp/models/model.gguf
-        PROMPT_PATH: ${{ github.action_path }}/prompt.txt
+        PROMPT_PATH: ${{ github.action_path }}/datex_tractor/datex_tractor_module/prompts/prompt.txt
