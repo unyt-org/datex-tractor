@@ -178,9 +178,12 @@ Updates the permalink of the issued todo upon every of it's runs
 ## Experimental features...
 ---
 
+### LLM integration...
+---
+
 Optional [llm](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF) integration.
 
-Caches dependencies. Comments on todo's in code base. 
+Caches dependencies. Comments on todo's from code base.
 
 ```yml
   - name: Run datex_tractor...
@@ -190,6 +193,17 @@ Caches dependencies. Comments on todo's in code base.
       use_model: 'true'
 ```
 
+### Remove inserted issue-ids from codebase...
+
+To remove all the inserted issue ids from code base, like an uninstall.
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      remove_issue_ids: 'true'
+```
 
 # Developer Notes
 ---

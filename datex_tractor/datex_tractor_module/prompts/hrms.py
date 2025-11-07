@@ -46,7 +46,7 @@ class Prompt():
 
     @staticmethod
     def gen_advice(llm, instruction: str, code_block: str):
-        user_input = "```rust\n" + code_block + "\n```"
+        user_input = "```\n" + code_block + "\n```"
 
         print("Init new prompt...")
         sysprom = Prompt(instruction)
