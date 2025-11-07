@@ -58,8 +58,8 @@ class Prompt():
 
             prompt,
             max_tokens=1024,
-            temperature=0.4,
-            top_p=0.92,
+            temperature=0.5,
+            top_p=0.90,
             top_k=50,
             repeat_penalty=1.1,
             stop=["<|im_end|>"],
