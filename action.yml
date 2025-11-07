@@ -61,21 +61,21 @@ runs:
         pip install --upgrade pip
         pip install -r src/datex_tractor/prompts/requirements.txt
 
-    - name: Run datex_tractor_script.sh...
+    - name: Run datex_tractor.sh...
       if: ${{ inputs.remove_issue_ids != '' }}
       shell: bash
       run: |
-        "${{ github.action_path }}/datex_tractor_script.sh" "remove" "issue_ids"
+        "${{ github.action_path }}/datex_tractor.sh" "remove" "issue_ids"
 
-    - name: Run datex_tractor_script.sh...
+    - name: Run datex_tractor.sh...
       shell: bash
       if: ${{ inputs.remove_issue_ids == '' }}
       run: |
         if [[ '${{ inputs.use_model }}' != '' ]]; then
           source /tmp/venv/bin/activate
-          "${{ github.action_path }}/datex_tractor_script.sh" "hrms"
+          "${{ github.action_path }}/datex_tractor.sh" "hrms"
         else
-          "${{ github.action_path }}/datex_tractor_script.sh"
+          "${{ github.action_path }}/datex_tractor.sh"
         fi
       env:
         GITHUB_TOKEN: ${{ inputs.github_token }}
