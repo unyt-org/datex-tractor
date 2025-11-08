@@ -1,6 +1,17 @@
 # datex-tractor
 ---
-GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
+> GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
+
+## What it does?
+---
+- Scans for `TODO` and `FIXME` inline-comments
+  - Scans also lines with `todo!()` macros
+- Creates an issue with a todo-list titled `Todos` ([Link to example](https://github.com/unyt-org/datex-tractor/issues/75))
+- Creates individual issues with permalinks to the correlated file, line and commit
+    - Writes the associated issue ID into the inline comment of the source code
+    - Links each issue relatively to the main TODO list issue 
+- [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
+  - The default `documentation` label is used for the `Todos` list issue
 
 # Quickstart
 ---
@@ -10,10 +21,10 @@ GitHub action workflow for extraction of things todo from source code and turnin
 
 ## Configuration
 ---
+> Basic configuration
+
 > [!CAUTION]
 > If configured to run on push, the bot will trigger itself, possibly resulting in an infinite update loop. Using manual trigger highly recommended.
-
-> Basic configuration
 
 ```yml
 name: datex-tractor
@@ -45,10 +56,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> For protected branches an app can be given permissions, and corresponding secrets added to the repo the action belongs to.
+> Configuration using datextractor app
 
 > [!TIP]
-> The bot's ID can be used to error out if self-triggered.
+> For protected branches the datextractor app from the github marketplace can be installed to serve as non human identity, and given bypass permissions.
+> The bot's actor ID is then used to error out if the action is self-triggered.
 
 ```yml
 name: datex-tractor
@@ -89,30 +101,38 @@ jobs:
           github_token: ${{ steps.app-token.outputs.token }}
 ```
 
-## What it does?
+## Experimental features...
 ---
-- Scans for `TODO` and `FIXME` inline-comments
-  - Scans also lines with `todo!()` macros
-- Creates an issue with a todo-list titled `Todos` 
-- Creates individual issues with permalinks to the correlated file, line and commit
-    - Writes the associated issue ID into the inline comment of the source code
-    - Links each issue relatively to the main TODO list issue
-- [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
-  - The default `documentation` label is used for the `Todos` list issue
 
-> [!TIP] 
-> Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
-```
-https://github.com/your-org-name/your-repo-name/labels
-```
-
-## What it doesn't?
+### Remove inserted issue-ids from codebase...
 ---
-If an already mentioned todo-comment is removed from the code it does not close the corresponding issue
-- Instead it changes its label to `disappeared-todo`
 
-> [!IMPORTANT]
-> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour.
+To remove all the inserted issue ids from code base, like an uninstall. 
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      remove_issue_ids: 'true'
+```
+
+### LLM integration...
+---
+
+Optional [Mistral OpenHermes](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/blob/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf) integration.
+
+Additional features
+- Caches dependencies (requires around 4.2GB cache storage). 
+- Tries to give advice upon the issue extracted from codebase.
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      use_model: 'true'
+```
 
 ## What to watch out for?
 ---
@@ -125,6 +145,7 @@ If an already mentioned todo-comment is removed from the code it does not close 
 > [!CAUTION]
 > If the Todo's are already numbered on the initial run mapping goes wild.
 
+
 # Technical design
 ---
 Prototype of github-action-workflow for todo-extraction from repositories source code
@@ -135,15 +156,12 @@ Bot is walking through repositories file system, from root on
 - Only checking files with  `[".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"]` extensions
   - Does line wise regular expression matching of each file in question
 
-> [!NOTE]
-> Patterns are matched hierarchically (`"todo!()" first, "(//|#) TODO" next, "(//|#) FIXME" last`) to prevent unclear classification of the match.
-
 After acquiring the information 
 - Enumerates matched expressions and inserts issue ID into source code
 - Commits and pushes the changes made - if any, otherwise it pushes an empty commit
- 
+
 > [!NOTE]
-> This allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git, even if the action is only updating all todo-issues to the current state.
+> Patterns are matched hierarchically (`"todo!()" first, "(//|#) TODO" next, "(//|#) FIXME" last`) to prevent unclear classification of the match.
 
 ## Synchronise 
 ---
@@ -169,42 +187,15 @@ After acquiring the information
 Updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` titled issue
-- Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit 
-- Changing their label form `todo` to `disappeared-todo`
+- Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit, changing their label form `todo` to `disappeared-todo`
 
-> [!CAUTION] 
-> The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly 
-
-## Experimental features...
----
-
-### Remove inserted issue-ids from codebase...
----
-
-To remove all the inserted issue ids from code base, like an uninstall.
-
-```yml
-  - name: Run datex_tractor...
-    uses: unyt-org/datex-tractor@v0.0.1
-    with:
-      github_token: ${{ steps.app-token.outputs.token }}
-      remove_issue_ids: 'true'
+> [!TIP] 
+> Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
 ```
-
-### LLM integration...
----
-
-Optional [llm](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF) integration.
-
-Caches dependencies. Comments on todo's from code base.
-
-```yml
-  - name: Run datex_tractor...
-    uses: unyt-org/datex-tractor@v0.0.1
-    with:
-      github_token: ${{ steps.app-token.outputs.token }}
-      use_model: 'true'
+https://github.com/your-org-name/your-repo-name/labels
 ```
+> [!IMPORTANT] 
+> The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly, recoloring doesn't.
 
 # Developer Notes
 ---
