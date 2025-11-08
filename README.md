@@ -10,7 +10,7 @@
 - Creates an issue with a todo-list titled `Todos` 
 - Creates individual issues with permalinks to the correlated file, line and commit
     - Writes the associated issue ID into the inline comment of the source code
-    - Links each issue relatively to the main TODO list issue
+    - Links each issue relatively to the main TODO list issue ([Link to example](https://github.com/unyt-org/datex-tractor/issues/75))
 - [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
 
