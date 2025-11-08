@@ -167,15 +167,12 @@ Bot is walking through repositories file system, from root on
 - Only checking files with  `[".rs", ".cpp", ".py", ".sh", ".s", ".java", ".ts", ".js", ".php"]` extensions
   - Does line wise regular expression matching of each file in question
 
-> [!NOTE]
-> Patterns are matched hierarchically (`"todo!()" first, "(//|#) TODO" next, "(//|#) FIXME" last`) to prevent unclear classification of the match.
-
 After acquiring the information 
 - Enumerates matched expressions and inserts issue ID into source code
 - Commits and pushes the changes made - if any, otherwise it pushes an empty commit
- 
+
 > [!NOTE]
-> This allows to track the state of todos precisely via commit hashes submitted by the bot - making its actions transparent via git, even if the action is only updating all todo-issues to the current state.
+> Patterns are matched hierarchically (`"todo!()" first, "(//|#) TODO" next, "(//|#) FIXME" last`) to prevent unclear classification of the match.
 
 ## Synchronise 
 ---
