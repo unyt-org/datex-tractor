@@ -2,6 +2,28 @@
 ---
 > GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
+
+## What it does?
+---
+- Scans for `TODO` and `FIXME` inline-comments
+  - Scans also lines with `todo!()` macros
+- Creates an issue with a todo-list titled `Todos` 
+- Creates individual issues with permalinks to the correlated file, line and commit
+    - Writes the associated issue ID into the inline comment of the source code
+    - Links each issue relatively to the main TODO list issue
+- [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
+  - The default `documentation` label is used for the `Todos` list issue
+
+
+## What it doesn't?
+---
+If an already mentioned todo-comment is removed from the code it does not close the corresponding issue
+- Instead it changes its label to `disappeared-todo`
+
+> [!IMPORTANT]
+> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour.
+
+
 # Quickstart
 ---
 - Create a `/.github/workflows/` in the root of your GitHub repository - if you haven't already
@@ -10,10 +32,10 @@
 
 ## Configuration
 ---
+> Basic configuration
+
 > [!CAUTION]
 > If configured to run on push, the bot will trigger itself, possibly resulting in an infinite update loop. Using manual trigger highly recommended.
-
-> Basic configuration
 
 ```yml
 name: datex-tractor
@@ -45,11 +67,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
+> Configuration using datextractor app
+
 > [!TIP]
 > For protected branches the datextractor app from the github marketplace can be installed to serve as non human identity, and given bypass permissions.
-> The bot's ID is then used to error out if the action is self-triggered.
-
-> Configuration using datextractor app
+> The bot's actor ID is then used to error out if the action is self-triggered.
 
 ```yml
 name: datex-tractor
@@ -90,42 +112,6 @@ jobs:
           github_token: ${{ steps.app-token.outputs.token }}
 ```
 
-## What it does?
----
-- Scans for `TODO` and `FIXME` inline-comments
-  - Scans also lines with `todo!()` macros
-- Creates an issue with a todo-list titled `Todos` 
-- Creates individual issues with permalinks to the correlated file, line and commit
-    - Writes the associated issue ID into the inline comment of the source code
-    - Links each issue relatively to the main TODO list issue
-- [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
-  - The default `documentation` label is used for the `Todos` list issue
-
-> [!TIP] 
-> Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
-```
-https://github.com/your-org-name/your-repo-name/labels
-```
-
-## What it doesn't?
----
-If an already mentioned todo-comment is removed from the code it does not close the corresponding issue
-- Instead it changes its label to `disappeared-todo`
-
-> [!IMPORTANT]
-> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour.
-
-## What to watch out for?
----
-> [!WARNING]
-> While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping).
-
-> [!TIP]
-> It actually edits code in the repo and commits, reviewing the pull request is highly recommended.
-
-> [!CAUTION]
-> If the Todo's are already numbered on the initial run mapping goes wild.
-
 ## Experimental features...
 ---
 
@@ -158,6 +144,18 @@ Additional features
       github_token: ${{ steps.app-token.outputs.token }}
       use_model: 'true'
 ```
+
+## What to watch out for?
+---
+> [!WARNING]
+> While the bot is running and creating issues it's recommended to not create any issues (data-races caused by users might cause wrong mapping).
+
+> [!TIP]
+> It actually edits code in the repo and commits, reviewing the pull request is highly recommended.
+
+> [!CAUTION]
+> If the Todo's are already numbered on the initial run mapping goes wild.
+
 
 # Technical design
 ---
@@ -206,7 +204,12 @@ Updates the permalink of the issued todo upon every of it's runs
 - Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit 
 - Changing their label form `todo` to `disappeared-todo`
 
-> [!CAUTION] 
+> [!TIP] 
+> Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
+```
+https://github.com/your-org-name/your-repo-name/labels
+```
+> [!IMPORTANT] 
 > The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly, recoloring doesn't.
 
 # Developer Notes
