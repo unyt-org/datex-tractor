@@ -1,6 +1,6 @@
 # datex-tractor
 ---
-GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
+> GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
 # Quickstart
 ---
@@ -126,6 +126,39 @@ If an already mentioned todo-comment is removed from the code it does not close 
 > [!CAUTION]
 > If the Todo's are already numbered on the initial run mapping goes wild.
 
+## Experimental features...
+---
+
+### Remove inserted issue-ids from codebase...
+---
+
+To remove all the inserted issue ids from code base, like an uninstall. 
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      remove_issue_ids: 'true'
+```
+
+### LLM integration...
+---
+
+Optional [Mistral OpenHermes](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/blob/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf) integration.
+
+Additional features
+- Caches dependencies (requires around 4.2GB cache storage). 
+- Tries to give advice upon the issue extracted from codebase.
+
+```yml
+  - name: Run datex_tractor...
+    uses: unyt-org/datex-tractor@v0.0.1
+    with:
+      github_token: ${{ steps.app-token.outputs.token }}
+      use_model: 'true'
+```
+
 # Technical design
 ---
 Prototype of github-action-workflow for todo-extraction from repositories source code
@@ -175,39 +208,6 @@ Updates the permalink of the issued todo upon every of it's runs
 
 > [!CAUTION] 
 > The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly, recoloring doesn't.
-
-## Experimental features...
----
-
-### Remove inserted issue-ids from codebase...
----
-
-To remove all the inserted issue ids from code base, like an uninstall. 
-
-```yml
-  - name: Run datex_tractor...
-    uses: unyt-org/datex-tractor@v0.0.1
-    with:
-      github_token: ${{ steps.app-token.outputs.token }}
-      remove_issue_ids: 'true'
-```
-
-### LLM integration...
----
-
-Optional [Mistral OpenHermes](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/blob/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf) integration.
-
-Additional features
-- Caches dependencies (requires around 4.2GB cache storage). 
-- Tries to give advice upon the issue extracted from codebase.
-
-```yml
-  - name: Run datex_tractor...
-    uses: unyt-org/datex-tractor@v0.0.1
-    with:
-      github_token: ${{ steps.app-token.outputs.token }}
-      use_model: 'true'
-```
 
 # Developer Notes
 ---
