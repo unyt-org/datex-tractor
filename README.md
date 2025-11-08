@@ -45,10 +45,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-> For protected branches an app can be given permissions, and corresponding secrets added to the repo the action belongs to.
-
 > [!TIP]
-> The bot's ID can be used to error out if self-triggered.
+> For protected branches the datextractor app from the github marketplace can be installed to serve as non human identity, and given bypass permissions.
+> The bot's ID is then used to error out if the action is self-triggered.
+
+> Configuration using datextractor app
 
 ```yml
 name: datex-tractor
@@ -173,7 +174,7 @@ Updates the permalink of the issued todo upon every of it's runs
 - Changing their label form `todo` to `disappeared-todo`
 
 > [!CAUTION] 
-> The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly 
+> The labels are hard coded, their colors are not - renaming them prevents the bot from functioning correctly, recoloring doesn't.
 
 ## Experimental features...
 ---
@@ -181,7 +182,7 @@ Updates the permalink of the issued todo upon every of it's runs
 ### Remove inserted issue-ids from codebase...
 ---
 
-To remove all the inserted issue ids from code base, like an uninstall.
+To remove all the inserted issue ids from code base, like an uninstall. 
 
 ```yml
   - name: Run datex_tractor...
@@ -194,9 +195,11 @@ To remove all the inserted issue ids from code base, like an uninstall.
 ### LLM integration...
 ---
 
-Optional [llm](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF) integration.
+Optional [Mistral OpenHermes](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/blob/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf) integration.
 
-Caches dependencies. Comments on todo's from code base.
+Additional features
+- Caches dependencies (requires around 4.2GB cache storage). 
+- Tries to give advice upon the issue extracted from codebase.
 
 ```yml
   - name: Run datex_tractor...
