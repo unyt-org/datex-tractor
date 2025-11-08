@@ -2,7 +2,6 @@
 ---
 > GitHub action workflow for extraction of things todo from source code and turning every one of them into an issue.
 
-
 ## What it does?
 ---
 - Scans for `TODO` and `FIXME` inline-comments
@@ -13,16 +12,6 @@
     - Links each issue relatively to the main TODO list issue 
 - [Labels](https://docs.github.com/en/issues/using-labels-and-milestones-to-track-work/managing-labels) for the auto-generated issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` list issue
-
-
-## What it doesn't?
----
-If an already mentioned todo-comment is removed from the code it does not close the corresponding issue
-- Instead it changes its label to `disappeared-todo`
-
-> [!IMPORTANT]
-> Changing labels of the issues created by the bot, or the title of the todo-list-issue, results in undefined behaviour.
-
 
 # Quickstart
 ---
@@ -198,8 +187,7 @@ After acquiring the information
 Updates the permalink of the issued todo upon every of it's runs 
 - Labels for the created issues are `placeholder`, `todo` and `disappeared-todo`
   - The default `documentation` label is used for the `Todos` titled issue
-- Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit 
-- Changing their label form `todo` to `disappeared-todo`
+- Allows inverse checking of as `todo` labelled issues which didn't receive an update upon the current commit, changing their label form `todo` to `disappeared-todo`
 
 > [!TIP] 
 > Label colors can be adjusted (via the labels section of your GitHub repository) which is available at
