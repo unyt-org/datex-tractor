@@ -243,7 +243,7 @@ class TodoContext():
                             "0",
                             lines[path.line_numbers[i]],
                             count=1
-                        ).replace(" #0", "", count=1) + "\n"
+                        ).replace(" #0", "", count=1)
 
             with open(path.path, "w") as f:
                 f.write("".join([line for line in lines]))

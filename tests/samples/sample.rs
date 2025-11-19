@@ -267,7 +267,6 @@ fn aes_decrypt(state: &mut [[u8; 4]; 4], round_keys: &[u32; 60]) {
 }
 
 // FIXME
-
 fn block_to_state(block: &[u8; 16]) -> [[u8; 4]; 4] {
     let mut state = [[0u8; 4]; 4];
     for i in 0..4 {
