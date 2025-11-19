@@ -185,6 +185,7 @@ def main():
                 disappeared_todo,
                 {
                     "labels": ["disappeared-todo"],
+                    "state": "closed",
                 }
             )
 
