@@ -27,7 +27,7 @@ runs:
     - name: Setup python...
       uses: actions/setup-python@v5
       with:
-        python-version: '3.13'
+        python-version: '3.14'
 
     - name: Cache model...
       if: ${{ inputs.use_model != '' }}
@@ -42,7 +42,7 @@ runs:
       shell: bash
       run: |
         mkdir -p /tmp/models
-        curl -L https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF/resolve/main/openhermes-2.5-mistral-7b.Q4_K_M.gguf -o /tmp/models/model.gguf
+        curl -L https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf -o /tmp/models/model.gguf
 
     - name: Cache python virtual environment...
       if: ${{ inputs.use_model != '' }}
@@ -73,7 +73,7 @@ runs:
       run: |
         if [[ '${{ inputs.use_model }}' != '' ]]; then
           source /tmp/venv/bin/activate
-          "${{ github.action_path }}/datex_tractor.sh" "hrms"
+          "${{ github.action_path }}/datex_tractor.sh" "tiny"
         else
           "${{ github.action_path }}/datex_tractor.sh"
         fi
@@ -82,4 +82,4 @@ runs:
         GITHUB_REPOSITORY: ${{ github.repository }}
         # Optional, leave empty for default
         MODEL_PATH: /tmp/models/model.gguf
-        PROMPT_PATH: ${{ github.action_path }}/src/datex_tractor/prompts/hrms.txt
+        PROMPT_PATH: ${{ github.action_path }}/src/datex_tractor/prompts/tiny.txt

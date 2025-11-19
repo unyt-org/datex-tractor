@@ -172,8 +172,8 @@ class TodoContext():
     @classmethod
     def extract_codeblocks(cls, src_path, issue_counter: int):
         """Like initialize_paths - but additionally extracts code block surrounding target expressions."""
-        upper_margin = 10
-        lower_margin = 10
+        upper_margin = 5
+        lower_margin = 5
 
         todo_paths = list(cls.initialize_paths(src_path, issue_counter))
         todo_paths.sort(key=lambda x: x.path)

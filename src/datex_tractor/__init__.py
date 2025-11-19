@@ -14,6 +14,25 @@ if len(sys.argv) == 2 or len(sys.argv) != 3:
     ]
 else:
     match sys.argv[2]:
+        case "tiny":
+            try:
+                from .prompts.tiny import Prompt
+
+            except Exception:
+                raise NotImplementedError("Missing dependency")
+
+            else:
+                __all__ = [
+                    "TodoContext",
+                    "get_discussions",
+                    "get_issues",
+                    "close_issue",
+                    "reopen_issue",
+                    "update_issue",
+                    "create_issue",
+                    "Prompt",
+                ]
+
         case "hrms":
             try:
                 from .prompts.hrms import Prompt
