@@ -1,4 +1,4 @@
-name: Fetch analytics
+name: fetch-analytics
 
 on:
   workflow_dispatch:
