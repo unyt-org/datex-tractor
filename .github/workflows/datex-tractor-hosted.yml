@@ -1,4 +1,4 @@
-name: Remove-issue-ids
+name: datex-tractor-hosted
 
 on:
   workflow_dispatch:
@@ -13,7 +13,7 @@ permissions:
   pull-requests: read
 
 jobs:
-  remove-issue-ids:
+  Datex-tractor:
     runs-on: ubuntu-latest
     steps:
       - name: Gen app token...
@@ -33,4 +33,4 @@ jobs:
         with:
           # github_token: ${{ secrets.GITHUB_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
-          remove_issue_ids: 'true'
+          use_model: 'true'
