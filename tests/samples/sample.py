@@ -63,6 +63,7 @@ class ECPoint:
         result = ECPoint(self.curve, None, None)
         temp = self  # Current power of P
 
+        # TODO: Check while loop
         while k > 0:
             if k & 1:
                 result += temp
