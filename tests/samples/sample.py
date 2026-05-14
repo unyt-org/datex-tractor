@@ -40,7 +40,7 @@ class ECPoint:
         if other.y is None:
             return self
 
-        # TODO #302: Define addition for points on elliptic Cruves
+        # TODO #296: Define addition for points on elliptic Cruves
         raise NotImplementedError
 
 
@@ -70,6 +70,6 @@ class ECPoint:
 
             # Shift right
             k >>= 1
-        # TODO #303: Check while loop
+        # TODO #297: Check while loop
 
         return result
