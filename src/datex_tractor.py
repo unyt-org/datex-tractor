@@ -156,7 +156,6 @@ def main():
                         token,
                         path.issue_numbers[i],
                         {
-                            "title": f"[TODO] '{path.path.removeprefix("./")}'",
                             "body": f"- {link}\n{str(old_body_without_link)}",
                             "state": "open",
                             "labels": ["todo"],
