@@ -121,13 +121,14 @@ def main():
                 old_body = [x[1] for x in all_issue_numbers if int(x[0]) == int(path.issue_numbers[i])]
                 print(f"old_body: {old_body[0]}")
                 if old_body[0].startswith(f"- https://github.com/{repo}/blob/"):
-                    old_body_without_link = old_body[0][old_body[0].find("\n") + 1:]
+                    old_body_without_link = old_body[0][old_body[0].find("\n"):]
                 else:
                     old_body_without_link = old_body[0]
                 print(f"old_body_without_link: {old_body_without_link}")
 
                 try:
-                    todo_ids.remove(int(path.issue_numbers[i]))
+                    # todo_ids.remove(int(path.issue_numbers[i]))
+                    todo_ids = [x for x in todo_ids if x[0] != int(path.issue_numbers[i])]
                 except ValueError:
                     pass
 
