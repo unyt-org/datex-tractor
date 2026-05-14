@@ -123,6 +123,8 @@ def main():
                     old_body = findings[0]["body"]
                     if old_body.startswith(f"- {base_url}"):
                         old_body_without_link = old_body[old_body.find("\n") + 1:]
+                    else:
+                        old_body_without_link = ""
 
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
