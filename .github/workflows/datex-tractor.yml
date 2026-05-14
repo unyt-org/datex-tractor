@@ -29,7 +29,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Run datex_tractor...
-        uses: unyt-org/datex-tractor@hosted
+        uses: unyt-org/datex-tractor@hotfix
         with:
           # github_token: ${{ secrets.GITHUB_TOKEN }}
           github_token: ${{ steps.app-token.outputs.token }}
