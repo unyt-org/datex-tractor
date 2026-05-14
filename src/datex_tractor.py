@@ -98,7 +98,7 @@ def main():
                     repo,
                     token,
                     f"[TODO] Placeholder",
-                    f"To be replaced (Rerun datex-tractor workflow for update)."
+                    f"To be replaced."
                 )
 
     # Checking issues after creation
@@ -117,6 +117,12 @@ def main():
 
             if int(path.issue_numbers[i]) in all_issue_numbers:
                 # print(f"Update issue: {path.issue_numbers[i]}")
+                # Check for body in made_issues
+                findings = [made_issue for made_issue in made_issues if made_issue["number"] == path.issue_numbers[i]]
+                if len(findings) > 0:
+                    old_body = findings[0]["body"]
+                    if old_body.startswith(f"- {base_url}"):
+                        old_body_without_link = old_body[old_body.find("\n") + 1:]
 
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
@@ -149,7 +155,7 @@ def main():
                         path.issue_numbers[i],
                         {
                             "title": f"[TODO] '{path.path.removeprefix("./")}'",
-                            "body": f"- {link}\n",
+                            "body": f"- {link}\n{str(old_body_without_link)}",
                             "state": "open",
                             "labels": ["todo"],
                         }
