@@ -127,7 +127,7 @@ def main():
                 print(f"old_body_without_link: {old_body_without_link}")
 
                 try:
-                    # todo_ids.remove(int(path.issue_numbers[i]))
+                    # todo #291_ids.remove(int(path.issue_numbers[i]))
                     todo_ids = [x for x in todo_ids if x[0] != int(path.issue_numbers[i])]
                 except ValueError:
                     pass
