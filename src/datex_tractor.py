@@ -86,12 +86,12 @@ def main():
 
     # Create issues
     base_url = f"https://github.com/{repo}/blob/{sys.argv[1]}"
-    issue_numbers = [int(issue["number"]) for issue in issues]
+    issue_numbers = [(int(issue["number"]), issue["body"]) for issue in issues]
 
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
 
-            if int(path.issue_numbers[i]) not in issue_numbers:
+            if int(path.issue_numbers[i]) not in [x[0] for x in issue_numbers]:
                 # print(f"Create placeholder issue: {path.issue_numbers[i]}")
                 time.sleep(1)
                 create_issue(
@@ -107,7 +107,7 @@ def main():
 
     # Preprocssing before updating
     todo_ids = [(int(issue["number"]), issue["body"]) for issue in made_issues if "todo" in issue["labels"]]
-    new_issues = [(int(issue["number"]), issue["body"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
+    new_issues = [(int(issue["number"]), issue["body"]) for issue in made_issues if int(issue["number"]) not in [x[0] for x in issue_numbers]]
     all_issue_numbers = issue_numbers + new_issues
 
     for path in todo_paths:
