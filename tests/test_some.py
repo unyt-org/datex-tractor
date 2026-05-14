@@ -16,7 +16,7 @@ def test_sample_rs():
 def test_sample_py():
     with open(samples + "sample.py") as f:
         lines = f.readlines()
-    assert len(lines) == 74
+    assert len(lines) == 75
 
 
 # Naive check of pathing
@@ -32,5 +32,5 @@ def test_todo_extraction():
     for path in todo_paths:
         for i, line_number in enumerate(path.line_numbers):
             sum += 1
-    # 6 (rust, 4 macros, 1 fixme, 1 todo) + 1 (python, 1 todo)
-    assert sum == 7
+    # 6 (rust, 4 macros, 1 fixme, 1 todo) + 1 (python, 2 todo)
+    assert sum == 8
