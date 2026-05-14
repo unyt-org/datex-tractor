@@ -97,7 +97,7 @@ def main():
                 create_issue(
                     repo,
                     token,
-                    f"[TODO] Placeholder",
+                    f"[TODO] '{path.path.removeprefix("./")}'",
                     f"To be replaced."
                 )
 
