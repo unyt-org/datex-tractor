@@ -106,8 +106,8 @@ def main():
     made_issues = get_issues(repo, token)
 
     # Preprocssing before updating
-    todo_ids = [int(issue["number"]) for issue in made_issues if "todo" in issue["labels"]]
-    new_issues = [int(issue["number"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
+    todo_ids = [(int(issue["number"]), issue["body"]) for issue in made_issues if "todo" in issue["labels"]]
+    new_issues = [(int(issue["number"]), issue["body"]) for issue in made_issues if int(issue["number"]) not in issue_numbers]
     all_issue_numbers = issue_numbers + new_issues
 
     for path in todo_paths:
@@ -115,17 +115,13 @@ def main():
             # Set permalink to specific commit, filepath and line number
             link = f"{base_url}/{path.path.removeprefix("./")}#L{line_number + 1}"
 
-            if int(path.issue_numbers[i]) in all_issue_numbers:
+            if int(path.issue_numbers[i]) in [x[0] for x in all_issue_numbers]:
                 # print(f"Update issue: {path.issue_numbers[i]}")
                 # Check for body in made_issues
-                findings = [made_issue for made_issue in made_issues if made_issue["number"] == path.issue_numbers[i]]
-                print(findings)
-                if len(findings) > 0:
-                    old_body = findings[0]["body"]
-                    if old_body.startswith(f"- {base_url}"):
-                        old_body_without_link = old_body[old_body.find("\n") + 1:]
-                else:
-                    old_body_without_link = ""
+                old_body = [x[1] for x in all_issue_numbers if int(x[0]) == int(path.issue_numbers[i])]
+                print(f"old_body: {old_body[0]}")
+                if old_body.startswith(f"- {base_url}":
+                    old_body_without_link = old_body[0]
 
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
