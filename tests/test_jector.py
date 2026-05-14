@@ -4,12 +4,12 @@ from src.datex_tractor import TodoContext
 inpath = "tests/samples/"
 outpath = "tests/samples_out/"
 
-"""
 def test_id_removal():
     # Get paths
-    issue_counter = 270
+    issue_counter = 295
     in_todo_paths = list(TodoContext.initialize_paths(inpath, issue_counter))
     in_todo_paths.sort(key=lambda x: x.path)
+    print(issue_counter)
 
     print("Editing files...")
     # Insert issue numbers into source code
@@ -29,8 +29,10 @@ def test_id_removal():
     TodoContext.remove_todos(outpath, issue_counter)
     out_todo_paths = list(TodoContext.initialize_paths(outpath, issue_counter))
     out_todo_paths.sort(key=lambda x: x.path)
+    print(issue_counter)
 
     for in_path, out_path in zip(in_todo_paths, out_todo_paths):
         for i, line_number in enumerate(in_path.line_numbers):
+            print(in_path.lines[i])
+            print(out_path.lines[i])
             assert in_path.lines[i] == out_path.lines[i]
-"""
