@@ -124,6 +124,7 @@ def main():
                     old_body_without_link = old_body[0][old_body[0].find("\n") + 1:]
                 else:
                     old_body_without_link = old_body[0]
+                print(f"old_body_without_link: {old_body_without_link}")
 
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
