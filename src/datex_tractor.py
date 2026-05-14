@@ -120,8 +120,8 @@ def main():
                 # Check for body in made_issues
                 old_body = [x[1] for x in all_issue_numbers if int(x[0]) == int(path.issue_numbers[i])]
                 print(f"old_body: {old_body[0]}")
-                if old_body.startswith(f"- {base_url}"):
-                    old_body_without_link = old_body[0]
+                if old_body[0].startswith(f"- {base_url}"):
+                    old_body_without_link = old_body[0][old_body[0].find("\n") + 1:]
 
                 try:
                     todo_ids.remove(int(path.issue_numbers[i]))
