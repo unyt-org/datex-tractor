@@ -40,7 +40,7 @@ class ECPoint:
         if other.y is None:
             return self
 
-        # TODO: Define addition for points on elliptic Cruves
+        # TODO #302: Define addition for points on elliptic Cruves
         raise NotImplementedError
 
 
@@ -63,7 +63,7 @@ class ECPoint:
         result = ECPoint(self.curve, None, None)
         temp = self  # Current power of P
 
-        # TODO: Check while loop
+        # TODO #303: Check while loop
         while k > 0:
             if k & 1:
                 result += temp
