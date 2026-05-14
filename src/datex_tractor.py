@@ -189,7 +189,7 @@ def main():
             update_issue(
                 repo,
                 token,
-                disappeared_todo,
+                disappeared_todo[0],
                 {
                     "labels": ["disappeared-todo"],
                     "state": "closed",
