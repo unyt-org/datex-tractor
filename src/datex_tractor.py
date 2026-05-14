@@ -119,6 +119,7 @@ def main():
                 # print(f"Update issue: {path.issue_numbers[i]}")
                 # Check for body in made_issues
                 findings = [made_issue for made_issue in made_issues if made_issue["number"] == path.issue_numbers[i]]
+                print(findings)
                 if len(findings) > 0:
                     old_body = findings[0]["body"]
                     if old_body.startswith(f"- {base_url}"):
